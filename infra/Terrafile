@@ -1,0 +1,14 @@
+# https://registry.terraform.io/modules/cloudposse/label/null/latest
+cloudposse/terraform-null-label:
+    source:  "https://github.com/cloudposse/terraform-null-label.git"
+    version: "0.25.0"
+
+# https://registry.terraform.io/modules/terraform-aws-modules/lambda/aws/latest
+terraform-aws-lambda:
+  source: "https://github.com/terraform-aws-modules/terraform-aws-lambda.git"
+  version: "v5.0.0"
+
+# https://registry.terraform.io/modules/cloudposse/dynamodb/aws/latest
+terraform-aws-dynamodb:
+  source: "https://github.com/cloudposse/terraform-aws-dynamodb.git"
+  version: "0.33.0"

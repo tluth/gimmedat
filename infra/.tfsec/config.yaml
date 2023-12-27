@@ -1,0 +1,10 @@
+---
+exclude:
+  - aws-ssm-secret-use-customer-key # most secrets are low grade infra and don't warrent their own KMS
+  - aws-ecr-repository-customer-key # most ECS shouldn't contain secrets and so dont need their own KMS
+  - aws-ecr-enforce-immutable-repository # reserve the option to mutate our tags
+  - aws-vpc-no-public-egress-sgr # a little hardcore for our stage of infra
+  - aws-ec2-no-public-egress-sgr # a little hardcore for our stage of infra
+  - aws-cloudwatch-log-group-customer-key # we shouldn't store confidential info in CW as a rule
+  - aws-sns-enable-topic-encryption # not needed
+  - aws-sns-topic-encryption-use-cmk # not needed
