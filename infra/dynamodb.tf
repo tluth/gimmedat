@@ -1,5 +1,5 @@
-module "dynamodb_config_table" {
-  source = "./vendor/modules/terraform-aws-dynamodb"
+module "dynamodb_table" {
+  source = "cloudposse/dynamodb/aws"
 
   context    = module.this.context
   attributes = ["config"]

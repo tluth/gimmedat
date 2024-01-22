@@ -3,11 +3,6 @@ variable "name_suffix" {
   type        = string
 }
 
-variable "domain_prefix" {
-  description = "Domain prefix for API gateway"
-  type        = string
-}
-
 variable "cw_log_group_prefix" {
   description = "Prefix for Cloudwatch log groups"
   type        = string

@@ -1,5 +1,6 @@
 module "api_gateway" {
-  source = "../../vendor/modules/terraform-aws-apigateway-v2"
+  source  = "terraform-aws-modules/apigateway-v2/aws"
+  version = "2.2.2"
 
   name          = "${module.this.id}-${var.name_suffix}"
   description   = "${module.this.id}-${var.name_suffix} HTTP API Gateway"

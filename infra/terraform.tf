@@ -3,6 +3,8 @@ terraform {
 
   backend "s3" {
     encrypt = "true"
+    bucket = "gimmedat-terraform"
+    key = "tfstate"
   }
 
   required_providers {

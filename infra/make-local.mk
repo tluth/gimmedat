@@ -15,8 +15,8 @@ endif
 
 # Useful variables
 export TOOLS_ACCOUNT        ?= 372865390843
-export TOOLS_ACCOUNT_REGION ?= eu-west-1
-export AWS_DEFAULT_REGION   ?= eu-west-1
+export TOOLS_ACCOUNT_REGION ?= eu-central-1
+export AWS_DEFAULT_REGION   ?= eu-central-1
 BUILD_SOURCEVERSION         ?= abcd
 
 USE_COMPOSE_FILE ?= false

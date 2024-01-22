@@ -10,4 +10,6 @@ locals {
     "prod"    = var.default_region
   }
   aws_region = local.aws_regions[local.environment]
+
+  product_domain = "gimmedat"
 }

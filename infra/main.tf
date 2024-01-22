@@ -1,6 +1,6 @@
 # setup our namespacing
 module "this" {
-  source = "./vendor/modules/cloudposse/terraform-null-label"
+  source = "cloudposse/label/null"
 
   environment = local.environment
   name        = var.product

@@ -20,7 +20,7 @@ endif
 # ----------
 
 # Useful variables
-export AWS_REGION  ?= eu-west-1
+export AWS_REGION  ?= eu-central-1
 export ENVIRONMENT ?= dev
 CONFIG             ?= "${ENVIRONMENT}"
 

@@ -1,5 +1,6 @@
 module "certificate" {
-  source = "../../vendor/modules/terraform-aws-modules/acm"
+  source  = "terraform-aws-modules/acm/aws"
+  version = "5.0.0"
 
   domain_name         = local.product_domain
   zone_id             = data.aws_ssm_parameter.r53_public_zone_id.value

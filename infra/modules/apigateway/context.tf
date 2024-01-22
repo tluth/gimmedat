@@ -21,7 +21,7 @@
 #
 
 module "this" {
-  source = "../../vendor/modules/terraform-null-label"
+  source = "cloudposse/label/null"
 
   enabled             = var.enabled
   namespace           = var.namespace
