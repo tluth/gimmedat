@@ -1,0 +1,25 @@
+parameters:
+  - name: aws_environment
+    type: string
+
+  - name: build_role
+    type: string
+
+steps:
+  - task: Bash@3
+    name: accountlookup
+    displayName: Account Lookup
+    inputs:
+      targetType: 'filePath'
+      filePath: build/scripts/accountid.sh
+      arguments: '${{ parameters.aws_environment}}'
+
+  - task: Bash@3
+    name: assume
+    displayName: Assume Role
+    env:
+      BUILDROLE: ${{ parameters.build_role}}
+      ACCOUNT_ID: $(accountlookup.ACCOUNT_ID)
+    inputs:
+      targetType: 'filePath'
+      filePath: build/scripts/assume-role.sh

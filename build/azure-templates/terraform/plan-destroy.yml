@@ -1,0 +1,30 @@
+parameters:
+  - name: directory
+    type: string
+    default: deployment
+
+  - name: aws_environment
+    type: string
+
+  - name: tf_environment
+    type: object
+    default: 
+      DUMMY_ENV_VAR: true
+
+steps:
+  - task: Bash@3
+    name: tfdestroyplan
+    displayName: Terraform Plan Destroy
+    env:
+      AWS_ACCESS_KEY_ID: $(assume.AWS_ACCESS_KEY_ID)
+      AWS_SECRET_ACCESS_KEY: $(assume.AWS_SECRET_ACCESS_KEY)
+      AWS_SESSION_TOKEN: $(assume.AWS_SESSION_TOKEN)
+      TF_IN_AUTOMATION: true
+      ENVIRONMENT: '${{ parameters.aws_environment}}'
+      ${{ each pair in parameters.tf_environment }}:
+        ${{ pair.key }}: ${{ pair.value }}
+
+    inputs:
+      targetType: 'inline'
+      workingDirectory: $(System.DefaultWorkingDirectory)/${{ parameters.directory }}
+      script: 'make terraform/plan/destroy'
