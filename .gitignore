@@ -40,3 +40,6 @@ terraform.rc
 
 # Private makefile 
 ./infra/make-private.mk
+
+# ignore mac users 
+*.DS_Store
