@@ -1,0 +1,22 @@
+parameters:
+  - name: directory
+    type: string
+    default: deployment
+
+  - name: aws_environment
+    type: string
+
+steps:
+  - task: Bash@3
+    name: tfinit
+    displayName: Terraform Init
+    env:
+      AWS_ACCESS_KEY_ID: $(assume.AWS_ACCESS_KEY_ID)
+      AWS_SECRET_ACCESS_KEY: $(assume.AWS_SECRET_ACCESS_KEY)
+      AWS_SESSION_TOKEN: $(assume.AWS_SESSION_TOKEN)
+      TF_IN_AUTOMATION: true
+      ENVIRONMENT: '${{ parameters.aws_environment}}'
+    inputs:
+      targetType: 'inline'
+      workingDirectory: $(System.DefaultWorkingDirectory)/${{ parameters.directory }}
+      script: 'make terraform/init'

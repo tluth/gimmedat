@@ -37,3 +37,14 @@ variable "api_lambda_timeout" {
   default     = 30
   description = "Timeout for the internal api lambda (in seconds)"
 }
+
+variable "ghaction_role_conditions" {
+  type = list(object({ test = string, variable = string, values = list(string) }))
+
+  default = [{
+    test     = "StringLike"
+    variable = "token.actions.githubusercontent.com:sub"
+    values   = ["repo:tluth/gimmedat:*"]
+  }]
+  description = "list of conditions to apply to the ghaction role"
+}
