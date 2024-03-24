@@ -51,7 +51,7 @@ function CustomDropzone(props) {
         <span className={classes.dropZoneText}>{dropzoneText}</span>
         <ul>
           {fileNames.map((fileName) => (
-            <li key={fileName}>{fileName}</li>
+            <span style={styles.filename}>{fileName}</span>
           ))}
         </ul>
       </div>

@@ -8,8 +8,10 @@ export const styles = {
   container: {
     margin: "auto",
     maxWidth: "70%",
+    minWidth: "50%",
     alignContent: "center",
-    marginTop: "20%",
+    paddingTop: "10%",
+    display: "inline-block",
   },
   //classes for drop-zone
   dropZone: {
@@ -20,8 +22,9 @@ export const styles = {
     minHeight: 250,
   },
   dropZoneText: {
-    fontSize: `1rem`,
-    opacity: `0.6`,
+    fontSize: `1.9rem`,
+    opacity: `1`,
+    color: "rgb(73, 247, 4)"
   },
   previewGrid: {
     display: "flex",
@@ -42,6 +45,7 @@ export const styles = {
     textAlign: "center",
     display: "inline-block",
     float: "left",
+    colour: "rgb(73, 247, 4)"
   },
   content: {
     padding: "16px 0px",
@@ -58,6 +62,7 @@ export const styles = {
   pb: {
     paddingBottom: "24px",
     maxWidth: "70%",
-    minWidth: "50%"
+    minWidth: "50%",
+    colour: "rgb(73, 247, 4)" 
   },
 }

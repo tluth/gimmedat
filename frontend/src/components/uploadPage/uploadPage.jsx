@@ -46,7 +46,6 @@ const UploadPage = (props) => {
             "progress",
             function (evt) {
               if (evt.lengthComputable) {
-                console.log("yeeeeeee")
                 setProgressVal((evt.loaded / evt.total) * 100);
               }
             },
@@ -85,7 +84,8 @@ const UploadPage = (props) => {
           >
             <div className="progress">
               <div
-                className="progress-bar progress-bar-success progress-bar-striped"
+                className="progress-bar progress-bar-success progres
+                s-bar-striped"
                 role="progressbar"
                 aria-valuenow={progressVal}
                 aria-valuemin="0"
