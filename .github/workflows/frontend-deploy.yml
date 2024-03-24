@@ -56,7 +56,7 @@ jobs:
         run: make frontend__build
         env:
           ENVIRONMENT: ${{ steps.environment.outputs.DEPLOY_ENVIRONMENT }}
-          REACT_APP_API_URL: https://6jfgrf9054.execute-api.eu-central-1.amazonaws.com/dev #temp hardcoded API URL
+          REACT_APP_API_URL: https://ce8gryt0wj.execute-api.eu-central-1.amazonaws.com/dev #temp hardcoded API URL
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@master
         with:
