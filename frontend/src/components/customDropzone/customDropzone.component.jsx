@@ -6,7 +6,7 @@ import Dropzone from "react-dropzone";
 function CustomDropzone(props) {
   const [fileNames, setFileNames] = useState([]);
   const { onDrop, dropzoneText } = props;
-  const classes = styles
+  const classes = styles;
 
   const handleDrop = (acceptedFiles) => {
     setFileNames(acceptedFiles.map((file) => file.name));
@@ -28,16 +28,21 @@ function CustomDropzone(props) {
           isDragAccept,
           isDragReject,
         }) => {
-          const additionalClass = isDragAccept
-            ? classes.accept
-            : isDragReject
-            ? classes.reject
-            : "";
+          let dynamicStyle = styles.dropzone;
+          if (isDragActive) {
+            dynamicStyle = { ...dynamicStyle, ...styles.active };
+          }
+          if (isDragAccept) {
+            dynamicStyle = { ...dynamicStyle, ...styles.accept };
+          }
+          if (isDragReject) {
+            dynamicStyle = { ...dynamicStyle, ...styles.reject };
+          }
 
           return (
             <div
               {...getRootProps({
-                style: classes.dropzone,
+                style: isDragActive ? dynamicStyle : classes.dropzone,
               })}
             >
               <input {...getInputProps()} />
