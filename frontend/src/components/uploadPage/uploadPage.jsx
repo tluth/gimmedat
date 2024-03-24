@@ -46,6 +46,7 @@ const UploadPage = (props) => {
             "progress",
             function (evt) {
               if (evt.lengthComputable) {
+                console.log("yeeeeeee")
                 setProgressVal((evt.loaded / evt.total) * 100);
               }
             },
@@ -76,7 +77,7 @@ const UploadPage = (props) => {
       </div>
       <button onClick={handleSubmit}>Submit</button>
       {progressVal ? (
-        <div item sm={12} md={12} lg={12} style={classes.pb}>
+        <div style={classes.pb}>
           <Expire
             trigger={"programmatical"}
             delay={null}
@@ -98,7 +99,7 @@ const UploadPage = (props) => {
         </div>
       ) : null}
       {progressVal === 100 && (
-        <div item sm={12} md={12} lg={12} style={classes.pb}>
+        <div style={classes.pb}>
           <Expire trigger={"time"} delay={3000} isVisible={null}>
             <div style={classes.uploadComplete} role="img" aria-label="ok">
               👌 Upload complete

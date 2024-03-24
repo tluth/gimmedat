@@ -1,5 +1,5 @@
 # gimmedat-infra
-terraform code for file sharing platform
+Basically a poor copy of WeTransfer 
 
 
 

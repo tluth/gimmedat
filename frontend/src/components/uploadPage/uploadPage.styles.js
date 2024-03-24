@@ -57,5 +57,7 @@ export const styles = {
   },
   pb: {
     paddingBottom: "24px",
+    maxWidth: "70%",
+    minWidth: "50%"
   },
 }
