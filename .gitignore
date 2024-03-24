@@ -43,3 +43,5 @@ terraform.rc
 
 # ignore mac users 
 *.DS_Store
+
+infra/builds
