@@ -26,7 +26,7 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
             {...getRootProps()}
-            className={`p-7 bg-white text-black cursor-pointer transition-border ease-in-out border-4 rounded-md ${
+            className={`p-7 bg-white text-black cursor-pointer transition-border ease-in-out border-4 rounded-sm border-dashed ${
               isDragActive ? "border-green-500 bg-gray-100" : "border-gray-300"
             }`}
           >

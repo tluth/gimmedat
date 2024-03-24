@@ -1,4 +1,4 @@
-export const API = process.env.REACT_APP_API_URL || "http://localhost:5000";
+export const API = import.meta.env.VITE_APP_API_URL || "http://localhost:5000";
 export const headerText = String.raw`
             _____                    _____                    _____                    _____                    _____                    _____                    _____                _____          
            /\    \                  /\    \                  /\    \                  /\    \                  /\    \                  /\    \                  /\    \              /\    \         
