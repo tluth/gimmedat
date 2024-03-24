@@ -1,0 +1,8 @@
+# Terraform stuff 
+*.tfvars
+!config/*.tfvars
+*.tfstate
+*.tfstate.*
+terraform-provider*
+.terraform
+*/vendor/

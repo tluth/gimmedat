@@ -16,7 +16,7 @@ variable "default_region" {
 #
 variable "lambda_log_retention" {
   type        = number
-  default     = 30
+  default     = 7
   description = "number of days to store lambda logs"
 }
 

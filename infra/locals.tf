@@ -11,5 +11,9 @@ locals {
   }
   aws_region = local.aws_regions[local.environment]
 
-  product_domain = "gimmedat"
+  site       = "${var.product}-${local.environment}"
+  file_storage_table_name = "${var.product}-${local.environment}-files"
+
+  product_domain     = "${var.product}.${data.aws_route53_zone.zone.name}"
+  product_domain_api = "${var.product}-api.${data.aws_route53_zone.zone.name}"
 }

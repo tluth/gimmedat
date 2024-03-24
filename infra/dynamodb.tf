@@ -1,27 +1,31 @@
-module "dynamodb_table" {
-  source = "cloudposse/dynamodb/aws"
+resource "aws_dynamodb_table" "state_dynamodb_table" {
+  name         = local.file_storage_table_name
+  hash_key     = "file_id"
+  range_key    = "s3_path" 
+  billing_mode = "PAY_PER_REQUEST"
 
-  context    = module.this.context
-  attributes = ["config"]
+  stream_enabled   = true
+  stream_view_type = "NEW_AND_OLD_IMAGES"
 
-  hash_key      = "PK"
-  hash_key_type = "S"
+  ttl {
+    attribute_name = "expire_at"
+    enabled        = true
+  }
 
-  range_key      = "SK"
-  range_key_type = "N"
+  point_in_time_recovery {
+    enabled = true
+  }
 
-  global_secondary_index_map = [
-    {
-      name               = "LatestVersionIndex"
-      hash_key           = "SK"
-      range_key          = "PK"
-      projection_type    = "ALL"
-      write_capacity     = null
-      read_capacity      = null
-      non_key_attributes = null
-    }
-  ]
+  server_side_encryption {
+    enabled = true
+  }
 
-  billing_mode                  = "PAY_PER_REQUEST"
-  enable_point_in_time_recovery = true
+  attribute {
+    name = "file_id"
+    type = "S"
+  }
+  attribute {
+    name = "s3_path"
+    type = "S"
+  }
 }

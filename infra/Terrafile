@@ -1,33 +1,23 @@
-# https://registry.terraform.io/modules/cloudposse/label/null/latest
-
 cloudposse/terraform-null-label:
-source: "https://github.com/cloudposse/terraform-null-label.git"
-version: "0.25.0"
+    source: "https://github.com/cloudposse/terraform-null-label.git"
+    version: "0.25.0"
 
-# https://registry.terraform.io/modules/terraform-aws-modules/lambda/aws/latest
-
-terraform-aws-lambda:
-source: "https://github.com/terraform-aws-modules/terraform-aws-lambda.git"
-version: "v5.0.0"
-
-# https://registry.terraform.io/modules/cloudposse/dynamodb/aws/latest
-
-terraform-aws-dynamodb:
-source: "https://github.com/cloudposse/terraform-aws-dynamodb.git"
-version: "0.33.0"
-
-# https://registry.terraform.io/modules/terraform-aws-modules/apigateway-v2/aws/latest
-
-terraform-aws-apigateway-v2:
-source: "https://github.com/terraform-aws-modules/terraform-aws-apigateway-v2.git"
-version: "v2.2.0"
-
-# https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn.git
+cloudposse/terraform-aws-s3-log-storage:
+    source:  "https://github.com/cloudposse/terraform-aws-s3-log-storage.git"
+    version: "1.4.3"
 
 terraform-aws-cloudfront-s3-cdn:
-source: "https://github.com/NixM0nk3y/terraform-aws-cloudfront-s3-cdn.git"
-version: "0.87.0+fix"
+    source: "https://github.com/cloudposse/terraform-aws-cloudfront-s3-cdn.git"
+    version: "0.93.1"
 
-terraform-aws-acm-request-certificate:
-source: "https://github.com/cloudposse/terraform-aws-acm-request-certificate.git"
-version: "0.16.0"
+cloudposse/terraform-aws-acm-request-certificate:
+    source: "https://github.com/cloudposse/terraform-aws-acm-request-certificate.git"
+    version: "0.16.0"
+
+terraform-aws-lambda:
+    source: "https://github.com/terraform-aws-modules/terraform-aws-lambda.git"
+    version: "v5.0.0"
+
+squidfunk/terraform-aws-api-gateway-enable-cors :
+    source: https://github.com/squidfunk/terraform-aws-api-gateway-enable-cors.git
+    version: 0.3.3

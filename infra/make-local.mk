@@ -14,7 +14,7 @@ ifneq ("$(wildcard make-private.mk)","")
 endif
 
 # Useful variables
-export TOOLS_ACCOUNT        ?= 372865390843
+export TOOLS_ACCOUNT        ?= 577284652785
 export TOOLS_ACCOUNT_REGION ?= eu-central-1
 export AWS_DEFAULT_REGION   ?= eu-central-1
 BUILD_SOURCEVERSION         ?= abcd
