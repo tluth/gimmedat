@@ -2,13 +2,11 @@
 export const styles = {
   dropzone: {
     textAlign: "center",
-    padding: "20px",
-    border: "3px dashed #eeeeee",
+    padding: "7%",
     backgroundColor: "white",
     color: "black",
-    marginRight: "50px",
     cursor: "pointer",
-    paddingLeft: "8px",
+    // paddingLeft: "8px",
   },
   dropZoneText: {
     fontSize: `0.8rem`,
