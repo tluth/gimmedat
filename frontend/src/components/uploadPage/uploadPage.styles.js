@@ -9,7 +9,7 @@ export const styles = {
     margin: "auto",
     maxWidth: "70%",
     alignContent: "center",
-    marginTop: "20%"
+    marginTop: "20%",
   },
   //classes for drop-zone
   dropZone: {
@@ -17,7 +17,7 @@ export const styles = {
     flexDirection: `column`,
     maxWidth: `100%`,
     minWidth: 200,
-    minHeight: 130,
+    minHeight: 250,
   },
   dropZoneText: {
     fontSize: `1rem`,
