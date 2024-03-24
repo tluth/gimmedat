@@ -1,4 +1,4 @@
-# gimmedat-infra
+# gimmedat
 Basically a poor copy of WeTransfer 
 
 
