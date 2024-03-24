@@ -10,7 +10,7 @@ export const styles = {
     maxWidth: "70%",
     minWidth: "50%",
     alignContent: "center",
-    paddingTop: "10%",
+    paddingTop: "5%",
     display: "inline-block",
   },
   //classes for drop-zone
