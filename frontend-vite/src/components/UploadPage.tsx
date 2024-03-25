@@ -108,19 +108,6 @@ const UploadPage = () => {
           </Expire>
         </div>
       ) : null}
-      {progressVal === 100 && (
-        <div className="pb-6 max-w-[70%] min-w-[50%] text-custom-green">
-          <Expire trigger={"time"} delay={3000} isVisible={false}>
-            <div
-              className="w-[20px] text-[1.4em] pl-[1%] text-center inline-block float-left text-custom-green"
-              role="img"
-              aria-label="ok"
-            >
-              👌 Upload complete
-            </div>
-          </Expire>
-        </div>
-      )}
       {fileId && (
         <FileLink sharingLink={`${window.location.origin}/sharing/${fileId}`} />
       )}
