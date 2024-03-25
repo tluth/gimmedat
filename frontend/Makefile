@@ -7,7 +7,7 @@ CONTENTBUCKET ?= ${PRODUCT}-${ENVIRONMENT}-origin
 all: help
 
 clean: ## cleanup the node install.
-	rm -rf node_modules build
+	rm -rf node_modules dist
 
 deps: clean
 	@echo "installing deps"
@@ -19,7 +19,7 @@ build: deps
 
 deploy: ## deploy our ui.
 	@echo "deploying site"
-	aws s3 sync --delete ./build/ s3://${CONTENTBUCKET}
+	aws s3 sync --delete ./dist/ s3://${CONTENTBUCKET}
 
 lint: ## run our lint
 	npm run lint
