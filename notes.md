@@ -14,3 +14,9 @@
 ** 23.03.24 TODOS: **
 - set storage bucket expiration 
 - set dynamoTTL 
+
+
+* API DNS:
+  - https://stackoverflow.com/questions/36737313/how-to-cname-to-amazon-api-gateway-endpoint/45849093#45849093
+  - https://stackoverflow.com/questions/36466092/custom-domain-for-api-gateway-returning-403
+
