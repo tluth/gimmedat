@@ -1,6 +1,5 @@
-import React from "react";
-import { styles } from "./header.styles.js";
-const headerText = String.raw`
+export const API = import.meta.env.VITE_APP_API_URL || "http://localhost:5000";
+export const headerText = String.raw`
             _____                    _____                    _____                    _____                    _____                    _____                    _____                _____          
            /\    \                  /\    \                  /\    \                  /\    \                  /\    \                  /\    \                  /\    \              /\    \         
           /::\    \                /::\    \                /::\____\                /::\____\                /::\    \                /::\    \                /::\    \            /::\    \        
@@ -23,24 +22,3 @@ const headerText = String.raw`
           \::/____/                \::/    /                \::/    /                \::/    /                \::/    /                \::/____/                \::/    /                             
                                     \/____/                  \/____/                  \/____/                  \/____/                  ~~                       \/____/                              
 `;
-
-function TextArt({ label, text }) {
-  return (
-    <pre aria-label={label} style={styles.textArt}>
-      {text}
-    </pre>
-  );
-}
-
-function Header() {
-  return (
-    <div style={styles.container}>
-      <TextArt
-        label="ASCII art depicting a person fishing from an island which has a single palm tree"
-        text={headerText}
-      />
-    </div>
-  );
-}
-
-export default Header;
