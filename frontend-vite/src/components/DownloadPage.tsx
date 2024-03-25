@@ -7,8 +7,8 @@ const DownloadPage = () => {
   const params = useParams();
   const fileId = params.fileId;
   useEffect(() => {
-    getPresignedDownloadURL(fileId!);
-  }, []);
+    getPresignedDownloadURL(fileId as string);
+  }, [fileId]);
 
   const getPresignedDownloadURL = (fileId: string) => {
     const url = `${API}/file/${fileId}`;
