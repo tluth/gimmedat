@@ -39,7 +39,7 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
       </Dropzone>
       <div className="text-white">
         <span>{dropzoneText}</span>
-        <ul className="overflow-hidden">
+        <ul className="">
           {fileNames.map((fileName, index) => (
             <li key={index} className="text-green-500 min-h-14 pt-4">
               {fileName}
