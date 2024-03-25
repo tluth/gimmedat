@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import Dropzone from "react-dropzone";
 
 type CustomDropzoneProps = {
@@ -40,9 +39,9 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
       </Dropzone>
       <div className="text-white">
         <span>{dropzoneText}</span>
-        <ul>
+        <ul className="overflow-hidden">
           {fileNames.map((fileName, index) => (
-            <li key={index} className="text-green-500">
+            <li key={index} className="text-green-500 min-h-14 pt-4">
               {fileName}
             </li>
           ))}
