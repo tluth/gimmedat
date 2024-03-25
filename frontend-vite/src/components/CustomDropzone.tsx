@@ -26,13 +26,15 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
             {...getRootProps()}
-            className={`p-7 bg-white text-black cursor-pointer transition-border ease-in-out border-4 rounded-sm border-dashed ${
+            className={`p-7 flex flex-col items-center justify-center h-48 bg-white text-black cursor-pointer transition-border ease-in-out border-4 rounded-sm border-dashed ${
               isDragActive ? "border-green-500 bg-gray-100" : "border-gray-300"
             }`}
           >
             <input {...getInputProps()} />
             <span>{isDragActive ? "📂" : "📁"}</span>
-            <p>Drag'n'drop or select files</p>
+            <p>
+              {isDragActive ? "Drop it bra" : "Drag'n'drop or select files"}
+            </p>
           </div>
         )}
       </Dropzone>

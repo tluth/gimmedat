@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 type FileLinkProps = {
   sharingLink: string;
 };
@@ -7,7 +9,9 @@ const FileLink = ({ sharingLink }: FileLinkProps) => {
   // trigger: "time" || "programmatical"
 
   return (
-    <div className="text-custom-green font-mono select-all">{sharingLink}</div>
+    <Link to={sharingLink} className="text-custom-green font-mono select-all">
+      {sharingLink}
+    </Link>
   );
 };
 
