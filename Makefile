@@ -19,4 +19,7 @@ backend__%:
 frontend__%:
 	"${MAKE}" --directory frontend $*
 
+frontend_vite__%:
+	"${MAKE}" --directory frontend-vite $*
+
 

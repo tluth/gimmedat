@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import CustomDropzone from "./CustomDropzone.js";
 import Expire from "./Expire.js";
