@@ -4,11 +4,13 @@ import CustomDropzone from "./CustomDropzone.js";
 import Expire from "./Expire.js";
 import { API } from "../constants.js";
 import FileLink from "./FileLink.js";
+import LoadingSpinner from "./LoadingSpinner.js";
 
 const UploadPage = () => {
   const [file, setFile] = useState<File>();
   const [progressVal, setProgressVal] = useState(0);
   const [fileId, setFileId] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   //event handlers
   const handleFileChange = (files: File[]) => {
@@ -23,6 +25,7 @@ const UploadPage = () => {
   };
 
   const handleSubmit = () => {
+    setIsUploading(true);
     const upload_request = {
       file_name: file?.name,
       byte_size: file?.size,
@@ -55,12 +58,14 @@ const UploadPage = () => {
             if (xhrUpload.readyState === 4) {
               if (xhrUpload.status === 200) {
                 setFileId(response.uuid);
+                setIsUploading(false);
               }
             }
           };
           xhrUpload.send(file);
         } else {
           alert("Problem submitting file.");
+          setIsUploading(false);
         }
       }
     };
@@ -74,10 +79,10 @@ const UploadPage = () => {
       </div>
       {file && (
         <button
-          className="focus:outline-none mt-4 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+          className="focus:outline-none mt-4 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
           onClick={handleSubmit}
         >
-          Submit
+          {isUploading ? <LoadingSpinner /> : "Upload"}
         </button>
       )}
       {progressVal ? (
