@@ -13,6 +13,10 @@ deps: clean
 	@echo "installing deps"
 	npm install
 
+dev:
+	@echo "running dev server"
+	npm run dev
+
 build: deps
 	@echo "building site"
 	export NODE_OPTIONS="--max_old_space_size=7168" && npm run build
