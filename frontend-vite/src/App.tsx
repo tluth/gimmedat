@@ -1,6 +1,7 @@
 import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UploadPage from "./components/UploadPage";
+import DownloadPage from "./components/DownloadPage";
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <Header />
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/sharing/:fileId" element={<DownloadPage />} /> */}
+          <Route path="/sharing/:fileId" element={<DownloadPage />} />
           <Route path="/" element={<UploadPage />} />
         </Routes>
       </BrowserRouter>
