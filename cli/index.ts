@@ -1,5 +1,6 @@
 #!/usr/bin/env npx tsx
 
+import ora from "ora";
 import {
   getDownloadUrl,
   getFileInfo,
@@ -16,20 +17,20 @@ const main = async () => {
   const filename = args[0];
   const fileInfo = await getFileInfo(filename);
 
-  if (!fileInfo) return;
-
-  const { presigned_upload_url, uuid } = await getPresignedPost(fileInfo);
-
   if (!fileInfo) {
     console.log("Failed to get file info.");
     return;
   }
 
+  const spinner = ora("Uploading file").start();
+  const { presigned_upload_url, uuid } = await getPresignedPost(fileInfo);
+
   await uploadFile(presigned_upload_url, filename, fileInfo.file_type);
 
+  spinner.text = "Getting download url";
   const downloadUrl = await getDownloadUrl(uuid);
 
-  console.log("File can be downloaded from:");
+  spinner.succeed("File can be downloaded from:");
   console.log(downloadUrl);
 };
 
