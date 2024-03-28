@@ -61,7 +61,6 @@ export async function uploadFile(
     });
 
     if (uploadResponse.ok) {
-      console.log("File uploaded successfully.");
       return uploadResponse;
     } else {
       console.error("File upload failed:", await uploadResponse.text());
