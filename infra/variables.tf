@@ -20,10 +20,16 @@ variable "lambda_log_retention" {
   description = "number of days to store lambda logs"
 }
 
+variable "lambda_runtime" {
+  type        = string
+  description = "The runtime for lambda functions"
+  default     = "python3.10"
+}
+
 variable "lambda_loglevel" {
   type        = string
   description = "The log level for lambda functions"
-  default     = "INFO"
+  default     = "DEBUG"
 }
 
 variable "api_lambda_memory" {

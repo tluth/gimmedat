@@ -1,0 +1,4 @@
+aws_lambda_powertools
+aws_lambda_typing
+boto3
+python-dotenv

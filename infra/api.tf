@@ -39,6 +39,20 @@ resource "aws_api_gateway_stage" "api_stage" {
 
 }
 
+resource "aws_api_gateway_usage_plan" "throttle" {
+  name         = "${local.site}-usage-plan"
+
+  api_stages {
+    api_id = aws_api_gateway_rest_api.api.id
+    stage  = aws_api_gateway_stage.api_stage.stage_name
+  }
+
+  throttle_settings {
+    burst_limit = 5
+    rate_limit  = 10
+  }
+}
+
 
 resource "aws_api_gateway_resource" "api_gateway_resource" {
   rest_api_id = aws_api_gateway_rest_api.api.id
@@ -74,6 +88,7 @@ resource "aws_api_gateway_method_settings" "api_gateway_method_settings" {
     # metrics_enabled = true
     # logging_level   = "ERROR"
   }
+  
 }
 
 resource "aws_api_gateway_integration" "api_proxy_integration" {
@@ -129,18 +144,18 @@ resource "aws_lambda_permission" "api_lambda_permission" {
 
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  output_path = "${path.module}/../backend/api.zip"
+  output_path = "${path.module}/../backend/api_build.zip"
   source_dir  = "${path.module}/../backend/api"
 }
 
 resource "aws_lambda_function" "api_lambda" {
-  role                           = aws_iam_role.iam_role.arn
-  function_name                  = local.site
+  role                           = aws_iam_role.api_role.arn
+  function_name                  = "${local.site}"
   timeout                        = 300
   memory_size                    = 512
   reserved_concurrent_executions = 50
   handler                        = "api.run_api.handler"
-  runtime                        = "python3.10"
+  runtime                        = var.lambda_runtime
   filename                       = data.archive_file.lambda_zip.output_path
   environment {
     variables = {
@@ -157,7 +172,7 @@ resource "aws_iam_policy" "extra_perms" {
 }
 
 resource "aws_iam_role_policy_attachment" "extra_perms" {
-  role       = aws_iam_role.iam_role.name
+  role       = aws_iam_role.api_role.name
   policy_arn = aws_iam_policy.extra_perms.arn
 }
 
@@ -174,9 +189,17 @@ data "aws_iam_policy_document" "extra_perms" {
       "dynamodb:Scan",
       "dynamodb:BatchWriteItem",
       "dynamodb:PutItem",
-      "dynamodb:UpdateItem"
+      "dynamodb:UpdateItem",
+      "dynamodb:GetRecords",
+      "dynamodb:GetShardIterator",
+      "dynamodb:DescribeStream",
+      "dynamodb:ListStreams"
     ]
-    resources = [aws_dynamodb_table.state_dynamodb_table.arn, "${aws_dynamodb_table.state_dynamodb_table.arn}/index/*"]
+    resources = [
+      aws_dynamodb_table.state_dynamodb_table.arn,
+      "${aws_dynamodb_table.state_dynamodb_table.arn}/index/*",
+      aws_dynamodb_table.state_dynamodb_table.stream_arn, 
+      ]
   }
   statement {
     sid       = "AllowListBucket"
@@ -207,7 +230,7 @@ data "aws_iam_policy_document" "extra_perms" {
 
 
 resource "aws_iam_role_policy" "iam_role_policy" {
-  role   = aws_iam_role.iam_role.name
+  role   = aws_iam_role.api_role.name
   policy = <<EOF
 {
   "Version": "2012-10-17",
@@ -241,8 +264,8 @@ EOF
 }
 
 
-resource "aws_iam_role" "iam_role" {
-  name               = "iam-${local.site}-framefetcher"
+resource "aws_iam_role" "api_role" {
+  name               = "iam-${local.site}-lambda-role"
   assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
