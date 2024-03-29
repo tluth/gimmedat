@@ -45,3 +45,9 @@ terraform.rc
 *.DS_Store
 
 infra/builds
+
+# python crap 
+# */__pycache__/
+# *.pyc
+# *.pyo
+# *.pyd
