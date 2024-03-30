@@ -27,7 +27,7 @@ def upload_file(data: UploadFileRequest) -> UploadFileResponse:
         file_id=str(file_id),
         s3_path=s3_path,
     )
-    post_presign = get_put_presigned_url(s3_path, data.file_type, data.byte_size)
+    post_presign = get_put_presigned_url(s3_path, data.file_type)
     db_record.save()
     return UploadFileResponse(
         presigned_upload_url=post_presign,
