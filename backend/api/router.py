@@ -19,7 +19,6 @@ logger = logging.getLogger(__name__)
 main_router = APIRouter()
 
 
-
 @main_router.post("/file")
 def upload_file(data: UploadFileRequest) -> UploadFileResponse:
     file_id = uuid4()
@@ -28,10 +27,10 @@ def upload_file(data: UploadFileRequest) -> UploadFileResponse:
         file_id=str(file_id),
         s3_path=s3_path,
     )
-    put_presign = get_put_presigned_url(s3_path, data.file_type)
+    post_presign = get_put_presigned_url(s3_path, data.file_type, data.byte_size)
     db_record.save()
     return UploadFileResponse(
-        presigned_upload_url= put_presign,
+        presigned_upload_url=post_presign,
         uuid=str(file_id)
     )
 
@@ -40,7 +39,7 @@ def upload_file(data: UploadFileRequest) -> UploadFileResponse:
 def get_file(file_id: str) -> GetFileResponse:
     file_record = file_db.query(file_id, limit=1)
     s3_key = file_record.next().as_dict().get("s3_path")
-    if not s3_key: 
+    if not s3_key:
         raise HTTPException(
             status_code=500,
             detail="Error fetching file data."

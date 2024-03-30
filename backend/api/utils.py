@@ -10,6 +10,7 @@ s3_con = boto3.client(
     config=Config(signature_version="s3v4")
 )
 
+
 def get_put_presigned_url(path: str, file_type: str) -> AnyUrl:
     return s3_con.generate_presigned_url(
         "put_object",
@@ -19,7 +20,7 @@ def get_put_presigned_url(path: str, file_type: str) -> AnyUrl:
             "ContentType": file_type,
             "ACL": "private"
         },
-        ExpiresIn="60",
+        ExpiresIn="20",
         HttpMethod="PUT",
     )
 
@@ -32,5 +33,5 @@ def get_get_presigned_url(key):
             "Key": key,
             'ResponseContentDisposition': 'attachment',
             },
-        ExpiresIn="60",
+        ExpiresIn="360",
     )

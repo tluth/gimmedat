@@ -1,5 +1,7 @@
 from pydantic import BaseModel, AnyUrl, Field
+
 from .config import appconfig
+
 
 class UploadFileRequest(BaseModel):
     file_name: str

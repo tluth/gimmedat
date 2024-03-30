@@ -31,12 +31,8 @@ resource "aws_api_gateway_stage" "api_stage" {
   deployment_id = aws_api_gateway_deployment.api_deployment.id
   rest_api_id   = aws_api_gateway_rest_api.api.id
   stage_name    = local.environment
-
-  cache_cluster_enabled = true
-  cache_cluster_size    = "0.5"
-
-  xray_tracing_enabled = true
-
+  cache_cluster_enabled = false
+  xray_tracing_enabled = false
 }
 
 resource "aws_api_gateway_usage_plan" "throttle" {
@@ -99,39 +95,6 @@ resource "aws_api_gateway_integration" "api_proxy_integration" {
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.api_lambda.invoke_arn
 }
-
-# resource "aws_api_gateway_integration_response" "integration_response" {
-#   depends_on  = [aws_api_gateway_integration.api_proxy_integration]
-#   rest_api_id = aws_api_gateway_rest_api.api.id
-#   resource_id = aws_api_gateway_resource.endpoint.id
-#   http_method = aws_api_gateway_method.api_gateway_root_method.http_method
-#   status_code = "200"
-
-#   response_parameters = {
-#     "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,authorizationToken,type,X-Api-Key,X-Amz-Security-Token'"
-#     "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS,GET,PUT,PATCH,DELETE'"
-#     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
-#   }
-# }
-
-# resource "aws_api_gateway_method_response" "options_200" {
-#   depends_on  = [aws_api_gateway_method.api_gateway_root_method]
-#   rest_api_id = aws_api_gateway_rest_api.api.id
-#   resource_id = aws_api_gateway_resource.endpoint.id
-#   http_method = "OPTIONS"
-#   status_code = "200"
-
-#   response_models = {
-#     "application/json" = "Empty"
-#   }
-
-#   response_parameters = {
-#     "method.response.header.Access-Control-Allow-Headers" = true
-#     "method.response.header.Access-Control-Allow-Methods" = true
-#     "method.response.header.Access-Control-Allow-Origin"  = true
-#   }
-# }
-
 
 # Allow the API gateway to invoke this lambda function
 resource "aws_lambda_permission" "api_lambda_permission" {
