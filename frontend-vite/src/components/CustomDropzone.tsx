@@ -19,7 +19,7 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
       <Dropzone
         onDrop={handleDrop}
         minSize={1024}
-        maxSize={262144000}
+        maxSize={1073741824}
         maxFiles={1}
       >
         {({ getRootProps, getInputProps, isDragActive }) => (
