@@ -1,6 +1,5 @@
 import logging
 from uuid import uuid4
-from typing import Any
 
 from fastapi import HTTPException
 
@@ -21,6 +20,11 @@ main_router = APIRouter()
 
 @main_router.post("/file")
 def upload_file(data: UploadFileRequest) -> UploadFileResponse:
+    if data.byte_size > int(appconfig.file_size_limit):
+        raise HTTPException(
+            status_code=400,
+            detail="Too big buddy"
+        ) 
     file_id = uuid4()
     s3_path = f"{file_id}/{data.file_name}"
     db_record = file_db(

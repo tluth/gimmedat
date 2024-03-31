@@ -2,7 +2,6 @@
 - TODOS
   1. set up dependencies and look into https://pypi.org/project/fastapi-cognito/
   2. https://betterprogramming.pub/secure-aws-api-gateway-with-amazon-cognito-and-aws-lambda-535e7c9ffea1
-     e
   3. deployment of api - https://medium.com/thelorry-product-tech-data/aws-lambda-fastapi-ci-cd-pipeline-with-github-actions-c414866b2d48
 
 
