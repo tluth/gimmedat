@@ -25,7 +25,7 @@ deploy_api: build_local
 
 
 build_trash_collector: clean
-	mkdir ${DB_STREAM_BUILD_DIR} && pip3 install -r db_stream_handler/requirements.txt --target=${DB_STREAM_BUILD_DIR}
+	mkdir ${DB_STREAM_BUILD_DIR} && pip3 install -r requirements.txt --target=${DB_STREAM_BUILD_DIR}
 	cp -r db_stream_handler ./${DB_STREAM_BUILD_DIR}/ && cd ${DB_STREAM_BUILD_DIR} && zip -r ../${DB_STREAM_BUILD_DIR}.zip .
 
 deploy_trash_collector: build_trash_collector

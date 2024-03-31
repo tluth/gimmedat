@@ -58,5 +58,7 @@ jobs:
 
       - name: Build and deploy API
         run: make backend__deploy_api
-        env:
-          ENVIRONMENT: ${{ steps.environment.outputs.DEPLOY_ENVIRONMENT }}
+      
+      - name: Build and deploy dynamoDB stream handler
+        run: make backend__deploy_trash_collector
+
