@@ -51,6 +51,39 @@ data "aws_iam_policy_document" "alb_write" {
   }
 }
 
+
+locals {
+  lifecycle_configuration_rule = {
+    enabled = true # bool
+    id      = "${local.site}-log-rules"
+
+    abort_incomplete_multipart_upload_days = 1 # number
+
+    filter_and = null
+    expiration = {
+      days = 90 # integer > 0
+    }
+    noncurrent_version_expiration = {
+      newer_noncurrent_versions = 3  # integer > 0
+      noncurrent_days           = 60 # integer >= 0
+    }
+    transition = [{
+      days          = 30            # integer >= 0
+      storage_class = "STANDARD_IA" # string/enum, one of GLACIER, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, DEEP_ARCHIVE, GLACIER_IR.
+      },
+      {
+        days          = 60           # integer >= 0
+        storage_class = "ONEZONE_IA" # string/enum, one of GLACIER, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, DEEP_ARCHIVE, GLACIER_IR.
+    }]
+    noncurrent_version_transition = [{
+      newer_noncurrent_versions = 3            # integer >= 0
+      noncurrent_days           = 30           # integer >= 0
+      storage_class             = "ONEZONE_IA" # string/enum, one of GLACIER, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, DEEP_ARCHIVE, GLACIER_IR.
+    }]
+  }
+}
+
+
 module "log_storage" {
   source = "cloudposse/s3-log-storage/aws"
   context    = module.this.context
@@ -58,6 +91,5 @@ module "log_storage" {
 
   policy                   = data.aws_iam_policy_document.alb_write.json
   acl                      = "log-delivery-write"
-  standard_transition_days = 30
-  expiration_days          = 90
+  lifecycle_configuration_rules = [local.lifecycle_configuration_rule]
 }

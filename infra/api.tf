@@ -105,6 +105,13 @@ resource "aws_lambda_permission" "api_lambda_permission" {
   source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*/*"
 }
 
+# Logging 
+resource "aws_cloudwatch_log_group" "api_logs" {
+  name              = "/aws/lambda/${aws_lambda_function.api_lambda.function_name}"
+  retention_in_days = 14
+}
+
+# Lambda 
 data "archive_file" "lambda_zip" {
   type        = "zip"
   output_path = "${path.module}/../backend/api_build.zip"
@@ -120,10 +127,12 @@ resource "aws_lambda_function" "api_lambda" {
   handler                        = "api.run_api.handler"
   runtime                        = var.lambda_runtime
   filename                       = data.archive_file.lambda_zip.output_path
+
   environment {
     variables = {
       "REGION" = local.aws_region
-      "BUCKET" = local.site
+      "STORAGE_BUCKET" = var.file_storage_bucket
+      "FILE_SIZE_LIMIT" = var.file_size_limit
     }
   }
 }
@@ -189,8 +198,6 @@ data "aws_iam_policy_document" "extra_perms" {
     ]
   }
 }
-
-
 
 resource "aws_iam_role_policy" "iam_role_policy" {
   role   = aws_iam_role.api_role.name

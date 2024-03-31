@@ -1,3 +1,9 @@
+# Logging 
+resource "aws_cloudwatch_log_group" "dynamo_stream_logs" {
+  name              = "/aws/lambda/${aws_lambda_function.db_stream_handler.function_name}"
+  retention_in_days = 14
+}
+
 data "archive_file" "db_stream_handler" {
   type        = "zip"
   output_path = "${path.module}/../backend/db_stream_handler_build.zip"
