@@ -18,7 +18,7 @@ const CopyArea = ({ text }: CopyAreaProps) => {
 
   return (
     <div
-      className="relative flex items-center justify-center rounded-md border text-custom-green border-custom-green p-2"
+      className="relative flex items-center justify-center rounded-md border text-blue border-blue p-2"
       onMouseEnter={() => setShowCopy(true)}
       onMouseLeave={() => setShowCopy(false)}
     >
@@ -30,7 +30,7 @@ const CopyArea = ({ text }: CopyAreaProps) => {
       </div>
       {showCopy && (
         <button
-          className=" transition ease-in-out absolute top-1/2 right-0 mr-3 opacity-40 hover:opacity-100 -translate-y-1/2 transform rounded-md border border-custom-green p-1"
+          className=" transition ease-in-out absolute top-1/2 right-0 mr-3 opacity-40 hover:opacity-100 -translate-y-1/2 transform rounded-md border border-blue p-1"
           onClick={handleCopyClick}
         >
           {isCopied ? <Checkicon /> : <ClipboardIcon />}
