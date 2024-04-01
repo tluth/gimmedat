@@ -16,3 +16,4 @@ class UploadFileResponse(BaseModel):
 
 class GetFileResponse(BaseModel):
     presigned_url: AnyUrl
+    ttl: int
