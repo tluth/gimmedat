@@ -25,7 +25,7 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
             {...getRootProps()}
-            className={`p-7 opacity-80 flex flex-col items-center justify-center h-48 bg-white text-night cursor-pointer transition-border ease-in-out border-4  rounded-md ${
+            className={`p-7 flex flex-col items-center justify-center h-48 bg-white text-night cursor-pointer transition-border ease-in-out border-4  rounded-md ${
               isDragActive ? "border-main bg-gray-100" : "border-gray-300"
             }`}
           >
@@ -34,18 +34,18 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
             <p>
               {isDragActive ? "Drop it bra" : "Drag'n'drop or select files"}
             </p>
+            <ul className="">
+              {fileNames.map((fileName, index) => (
+                <li key={index} className="text-main min-h-14 pt-4">
+                  {fileName}
+                </li>
+              ))}
+            </ul>
           </div>
         )}
       </Dropzone>
       <div className="text-white">
         <span>{dropzoneText}</span>
-        <ul className="">
-          {fileNames.map((fileName, index) => (
-            <li key={index} className="text-main min-h-14 pt-4">
-              {fileName}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

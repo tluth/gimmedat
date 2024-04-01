@@ -11,7 +11,11 @@ from .models import (
     UploadFileResponse,
     GetFileResponse
 )
-from .utils import get_put_presigned_url, get_get_presigned_url
+from .utils import (
+    get_put_presigned_url,
+    get_get_presigned_url,
+    calc_ttl_seconds
+)
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +28,7 @@ def upload_file(data: UploadFileRequest) -> UploadFileResponse:
         raise HTTPException(
             status_code=400,
             detail="Too big buddy"
-        ) 
+        )
     file_id = uuid4()
     s3_path = f"{file_id}/{data.file_name}"
     db_record = file_db(
@@ -41,8 +45,8 @@ def upload_file(data: UploadFileRequest) -> UploadFileResponse:
 
 @main_router.get("/file/{file_id}")
 def get_file(file_id: str) -> GetFileResponse:
-    file_record = file_db.query(file_id, limit=1)
-    s3_key = file_record.next().as_dict().get("s3_path")
+    file_record = file_db.query(file_id, limit=1).next()
+    s3_key = file_record.s3_path
     if not s3_key:
         raise HTTPException(
             status_code=500,
@@ -50,5 +54,6 @@ def get_file(file_id: str) -> GetFileResponse:
         )
     presigned_url = get_get_presigned_url(s3_key)
     return GetFileResponse(
-        presigned_url=presigned_url
+        presigned_url=presigned_url,
+        ttl=calc_ttl_seconds(file_record.expire_at)
     )

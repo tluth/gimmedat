@@ -1,6 +1,7 @@
 import boto3 
 from pydantic import AnyUrl
 from botocore.client import Config
+import pendulum
 
 from .config import appconfig
 
@@ -35,3 +36,9 @@ def get_get_presigned_url(key):
             },
         ExpiresIn="360",
     )
+
+
+def calc_ttl_seconds(epoch_time: int) -> int:
+    now = pendulum.now().int_timestamp
+    # convert to hours 
+    return epoch_time - now
