@@ -8,7 +8,7 @@ function TextArt({ label, text }: TextArtProps) {
     <pre
       aria-label={label}
       style={{ textShadow: "1px 0 currentColor" }}
-      className="bg-dark text-main font-mono text-[calc(0.25vw+0.25vh)] leading-none p-4 whitespace-pre overflow-x-hidden"
+      className="bg-night text-main font-mono text-[calc(0.25vw+0.25vh)] leading-none p-4 whitespace-pre overflow-x-hidden"
     >
       {text}
     </pre>

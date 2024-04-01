@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import CustomDropzone from "./CustomDropzone.js";
+import CustomDropzone from "./CustomDropzone";
 import Expire from "./Expire.js";
 import { API } from "../constants.js";
 import FileLink from "./FileLink.js";
-import LoadingSpinner from "./LoadingSpinner.js";
+import LoadingSpinner from "./LoadingSpinner";
 
 const UploadPage = () => {
   const [file, setFile] = useState<File>();
