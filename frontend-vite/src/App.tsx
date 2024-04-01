@@ -7,7 +7,7 @@ import DownloadPage from "./components/DownloadPage";
 
 function App() {
   return (
-    <div className="text-center bg-dark min-h-screen flex flex-col">
+    <div className="text-center bg-night min-h-screen flex flex-col">
       <Header />
       <BrowserRouter>
         <Routes>

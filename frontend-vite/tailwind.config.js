@@ -18,10 +18,19 @@ export default {
           800: "#002d80",
           900: "#001b4d",
         },
-        dark: "#121010",
+        night: "#121010",
         white: "#FAEFDD",
-        red: "D64550",
-        green: "659B5E",
+        imperialRed: {
+          400: "#df6d75",
+          DEFAULT: "#D64550",
+          600: "#bc2935"
+        },
+        asparagus: {
+          400: "#95bc90",
+          DEFAULT: "#659B5E",
+          600: "#5d8f57"
+
+        },
       },
       fontFamily: {
         mono: [
