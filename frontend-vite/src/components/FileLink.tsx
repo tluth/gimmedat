@@ -13,7 +13,7 @@ const FileLink = ({ sharingLink }: FileLinkProps) => {
     <>
       <div
         id="unique-sharing-link"
-        className="text-custom-green font-mono mb-4"
+        className="text-blue font-mono mb-4"
       >
         Share it with a friend 🪲
       </div>
