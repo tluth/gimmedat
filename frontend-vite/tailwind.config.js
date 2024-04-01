@@ -19,7 +19,7 @@ export default {
           900: "#001b4d",
         },
         night: "#121010",
-        white: "#FAEFDD",
+        offWhite: "#FAEFDD",
         imperialRed: {
           400: "#df6d75",
           DEFAULT: "#D64550",

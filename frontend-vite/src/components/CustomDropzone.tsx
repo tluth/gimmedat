@@ -25,9 +25,9 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
             {...getRootProps()}
-            className={`p-7 flex flex-col items-center justify-center h-48 bg-white text-night cursor-pointer transition-border ease-in-out border-4  rounded-md ${
+            className={`p-7 flex flex-col h-48 bg-offWhite text-night cursor-pointer transition-border ease-in-out border-4  rounded-md ${
               isDragActive ? "border-main bg-gray-100" : "border-gray-300"
-            }`}
+            } overflow-hidden`}
           >
             <input {...getInputProps()} />
             <span>{isDragActive ? "📂" : "📁"}</span>
@@ -44,7 +44,7 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
           </div>
         )}
       </Dropzone>
-      <div className="text-white">
+      <div className="text-offWhite">
         <span>{dropzoneText}</span>
       </div>
     </div>
