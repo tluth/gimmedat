@@ -26,7 +26,7 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
           <div
             {...getRootProps()}
             className={`p-7 opacity-80 flex flex-col items-center justify-center h-48 bg-white text-dark cursor-pointer transition-border ease-in-out border-4 rounded-sm border-dashed ${
-              isDragActive ? "border-blue-500 bg-gray-100" : "border-gray-300"
+              isDragActive ? "border-main-500 bg-gray-100" : "border-gray-300"
             }`}
           >
             <input {...getInputProps()} />
@@ -41,7 +41,7 @@ function CustomDropzone({ onDrop, dropzoneText }: CustomDropzoneProps) {
         <span>{dropzoneText}</span>
         <ul className="">
           {fileNames.map((fileName, index) => (
-            <li key={index} className="text-blue-500 min-h-14 pt-4">
+            <li key={index} className="text-main min-h-14 pt-4">
               {fileName}
             </li>
           ))}

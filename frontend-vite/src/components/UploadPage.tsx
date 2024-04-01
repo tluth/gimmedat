@@ -79,14 +79,14 @@ const UploadPage = () => {
       </div>
       {file && (
         <button
-          className="focus:outline-none mt-4 text-white bg-blue hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="focus:outline-none mt-4 text-black bg-main hover:bg-main-300 focus:ring-4 focus:ring-main-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-main dark:hover:bg-main-700 dark:focus:ring-main-800"
           onClick={handleSubmit}
         >
           {isUploading ? <LoadingSpinner /> : "Upload"}
         </button>
       )}
       {progressVal ? (
-        <div className="pb-6 max-w-[70%] min-w-[50%] text-blue">
+        <div className="pb-6 max-w-[70%] min-w-[50%] text-main">
           <Expire
             trigger={"programmatical"}
             delay={0}
