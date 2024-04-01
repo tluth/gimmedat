@@ -40,7 +40,7 @@ const DownloadPage = () => {
               </button>
             </a>
             <div className="text-main min-h-14">
-              {`This file will expire in ${Math.round(ttl / 60 / 60)} hours`}
+              {`This file will expire in ${Math.round(ttl! / 60 / 60)} hours`}
             </div>
           </>
         )}
