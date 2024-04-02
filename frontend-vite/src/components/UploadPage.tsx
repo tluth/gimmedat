@@ -10,10 +10,12 @@ const UploadPage = () => {
   const [file, setFile] = useState<File>();
   const [progressVal, setProgressVal] = useState(0);
   const [fileId, setFileId] = useState(null);
-  const [isUploading, setIsUploading] = useState(false);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [isValid, setIsValid] = useState<boolean>(true);
 
   //event handlers
   const handleFileChange = (files: File[]) => {
+    setFileId(null);
     const reader = new FileReader();
     if (files && files.length > 0) {
       const file = files[0];
@@ -75,9 +77,15 @@ const UploadPage = () => {
   return (
     <div className="mx-auto max-w-[70%] min-w-[50%] pt-[5%] inline-block">
       <div>
-        <CustomDropzone onDrop={handleFileChange} dropzoneText={``} />
+        <CustomDropzone
+          onDrop={handleFileChange}
+          selectedFile={file}
+          dropzoneText={``}
+          isValid={isValid}
+          setIsValid={setIsValid}
+        />
       </div>
-      {file && (
+      {file && isValid && (
         <button
           className="focus:outline-none mt-4 text-black bg-main hover:bg-main-300 focus:ring-4 focus:ring-main-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-main dark:hover:bg-main-700 dark:focus:ring-main-800"
           onClick={handleSubmit}
@@ -108,7 +116,7 @@ const UploadPage = () => {
           </Expire>
         </div>
       ) : null}
-      {fileId && (
+      {fileId && isValid && (
         <FileLink sharingLink={`${window.location.origin}/sharing/${fileId}`} />
       )}
     </div>
