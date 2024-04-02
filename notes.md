@@ -1,13 +1,13 @@
 # General TODOS:
-* Hide previous upload link once you start uploading a new one 
+* ~~Hide previous upload link once you start uploading a new one~~
 * Item has expired message
 * Add percentage progress counter 
 * Add fine print saying file will be available for download for 48hrs + that the filesize limit is 1gb 
 * New file icon
 * Maybe add an actual button to select file in dropzone (e.g. soundcloud) 
-* Error message for oversize file 
+* ~~Error message for oversize file~~
 * Support page (with captcha if adding contact form) + link to GitHub 
-* Try add shadow to dropzone 
+* ~~Try add shadow to dropzone~~
 * More clear lines within dropzone - maybe bring dotted border inside  bit 
 * Add menu burger icon to open other pages - cli info, project info 
 * Add security tests / look into free tools you can use to test security (maybe set up to run on scheduled gh action)
