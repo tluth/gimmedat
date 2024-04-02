@@ -11,8 +11,11 @@ const FileLink = ({ sharingLink }: FileLinkProps) => {
 
   return (
     <>
-      <div id="unique-sharing-link" className="text-main font-mono mb-4">
-        Share it with a friend 🪲
+      <div id="unique-sharing-link" className="text-main font-mono">
+        Share it with a friend 🪲 
+      </div>
+      <div className="text-main font-mono mb-4 text-sm">
+        {`(Expires in 48 hours)`}
       </div>
       <CopyArea text={sharingLink} />
     </>
