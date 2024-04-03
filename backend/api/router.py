@@ -22,12 +22,15 @@ logger = logging.getLogger(__name__)
 main_router = APIRouter()
 
 
-@main_router.post("/file")
+@main_router.post(
+    "/file",
+    response_model=UploadFileResponse,
+)
 def upload_file(data: UploadFileRequest) -> UploadFileResponse:
     if data.byte_size > int(appconfig.file_size_limit):
         raise HTTPException(
             status_code=400,
-            detail="Too big buddy"
+            detail="Invalid file size.",
         )
     file_id = uuid4()
     s3_path = f"{file_id}/{data.file_name}"
@@ -45,7 +48,13 @@ def upload_file(data: UploadFileRequest) -> UploadFileResponse:
 
 @main_router.get("/file/{file_id}")
 def get_file(file_id: str) -> GetFileResponse:
-    file_record = file_db.query(file_id, limit=1).next()
+    query_results = file_db.query(file_id, limit=1)
+    file_record = next(query_results, None)
+    if not file_record:
+        raise HTTPException(
+            status_code=410,
+            detail="The file cannot be found. It has likely expired."
+        )
     s3_key = file_record.s3_path
     if not s3_key:
         raise HTTPException(
