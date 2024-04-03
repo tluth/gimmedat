@@ -6,6 +6,7 @@ import LoadingSpinner from "./LoadingSpinner";
 const DownloadPage = () => {
   const [downloadLink, setDownloadLink] = useState();
   const [ttl, setTtl] = useState();
+  const [expired, setExpired] = useState(false);
 
   const params = useParams();
   const fileId = params.fileId;
@@ -17,7 +18,13 @@ const DownloadPage = () => {
     const url = `${API}/file/${fileId}`;
     return new Promise(function () {
       fetch(url, { method: "GET" })
-        .then((result) => result.json())
+        .then((response) => {
+          if (!response.ok) {
+            setExpired(true);
+          } else {
+            return response.json();
+          }
+        })
         .then((json) => {
           setDownloadLink(json.presigned_url);
           setTtl(json.ttl);
@@ -31,7 +38,16 @@ const DownloadPage = () => {
         className={`p-7 opacity-80 flex flex-col items-center justify-center h-48 bg-offWhite text-night
         cursor-pointer transition-border ease-in-out border-4 rounded-md shadow-md shadow-main-200`}
       >
-        {!downloadLink && !ttl ? (
+        {expired ? (
+          <>
+            <div className="text-main min-h-14">
+              Looks like we can't find that one...
+            </div>
+            <div className="text-main min-h-14">
+              The file has likely expired 😔
+            </div>
+          </>
+        ) : !downloadLink && !ttl ? (
           <LoadingSpinner />
         ) : (
           <>
