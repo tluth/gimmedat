@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        custom: "calc(1.1vw + 1.1vh)", // Custom font size
+        custom: "calc(1.5vw + 1.5hw)", // Custom font size
       },
       colors: {
         main: {
