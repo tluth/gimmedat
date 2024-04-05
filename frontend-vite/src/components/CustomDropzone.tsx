@@ -1,4 +1,5 @@
 import Dropzone from "react-dropzone";
+import UploadIcon from "./UploadIcon";
 import { MIN_FILE_SIZE, MAX_FILE_SIZE } from "../constants";
 
 type CustomDropzoneProps = {
@@ -37,13 +38,14 @@ function CustomDropzone({
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
             {...getRootProps()}
-            className={`p-7 flex flex-col h-48 bg-offWhite text-night cursor-pointer transition-border ease-in-out border-4
-              rounded-md shadow-md shadow-main-200 ${
-                isDragActive ? "border-main bg-gray-100" : "border-gray-300"
-              } overflow-hidden`}
+            className={`p-3 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
+              rounded-lg border-dashed ${isDragActive ? "border-main-300" : "border-offWhite"} 
+              overflow-hidden text-ellipsis`}
           >
             <input {...getInputProps()} />
-            <span>{isDragActive ? "📂" : "📁"}</span>
+            <p className="text-center overflow-y-hidden max-h-[120px]">
+              <UploadIcon color="#FAEFDD" altColor="#4d8cff"/>
+            </p>
             <p>
               {isDragActive ? "Drop it bra" : "Drag'n'drop or select files"}
             </p>

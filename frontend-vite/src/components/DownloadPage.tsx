@@ -35,15 +35,15 @@ const DownloadPage = () => {
   return (
     <div className="mx-auto max-w-[60%] min-w-[30%] pt-[5%] inline-block">
       <div
-        className={`p-7 opacity-80 flex flex-col items-center justify-center h-48 bg-offWhite text-night
-        cursor-pointer transition-border ease-in-out border-4 rounded-md shadow-md shadow-main-200`}
+        className={`p-7 flex flex-col items-center justify-center h-48 text-offWhite
+        cursor-pointer transition-border ease-in-out border-4 rounded-md border-dashed pt-14`}
       >
         {expired ? (
           <>
             <div className="text-main min-h-14">
               Looks like we can't find that one...
             </div>
-            <div className="text-main min-h-14">
+            <div className="text-offWhite min-h-14">
               The file has likely expired 😔
             </div>
           </>
