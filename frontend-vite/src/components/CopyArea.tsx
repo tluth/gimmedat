@@ -1,13 +1,15 @@
 import { useState } from "react";
 import Checkicon from "./icons/CheckIcon";
 import ClipboardIcon from "./icons/ClipboardIcon";
+import { isMobile } from "../utils";
 
 type CopyAreaProps = {
   text: string;
 };
 
 const CopyArea = ({ text }: CopyAreaProps) => {
-  const [showCopy, setShowCopy] = useState(false);
+  const isItOnMobile: boolean = isMobile()
+  const [showCopy, setShowCopy] = useState(isItOnMobile ? true : false);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyClick = () => {
@@ -30,7 +32,10 @@ const CopyArea = ({ text }: CopyAreaProps) => {
       </div>
       {showCopy && (
         <button
-          className=" transition ease-in-out absolute top-1/2 right-0 mr-3 opacity-40 hover:opacity-100 -translate-y-1/2 transform rounded-md border border-main p-1"
+          className={
+            `transition ease-in-out absolute top-1/2 right-0 mr-3 ${isItOnMobile ? "opacity-90" : "opacity-40"} 
+            hover:opacity-100 -translate-y-1/2 transform rounded-md border border-main p-1`
+          }
           onClick={handleCopyClick}
         >
           {isCopied ? <Checkicon /> : <ClipboardIcon />}
