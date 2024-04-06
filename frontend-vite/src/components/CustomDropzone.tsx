@@ -49,6 +49,9 @@ function CustomDropzone({
             <p>
               {isDragActive ? "Drop it bra" : "Drag'n'drop or select files"}
             </p>
+            <p className="text-center text-xs">
+              {"(Up to 1GB per file)"}
+            </p>
             <div
               className={`${
                 isValid ? "text-main" : "text-imperialRed"
