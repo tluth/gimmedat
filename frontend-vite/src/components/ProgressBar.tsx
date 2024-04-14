@@ -4,6 +4,7 @@ type ProgressBarProps = {
 };
 
 const ProgressBar = ({ progress, success }: ProgressBarProps) => {
+  console.log(success)
   return (
     <>
       <div className="flex justify-end mb-1">
