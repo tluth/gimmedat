@@ -38,12 +38,12 @@ function CustomDropzone({
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
             {...getRootProps()}
-            className={`p-3 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
+            className={`pb-5 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
               rounded-lg border-dashed ${isDragActive ? "border-main-300" : "border-offWhite"} 
-              overflow-hidden text-ellipsis`}
+              overflow-hidden`}
           >
             <input {...getInputProps()} />
-            <p className="text-center overflow-y-hidden max-h-[120px]">
+            <p className="text-center overflow-hidden max-h-[120px]">
               <UploadIcon color="#FAEFDD" altColor="#4d8cff"/>
             </p>
             <p>
@@ -55,12 +55,10 @@ function CustomDropzone({
             <div
               className={`${
                 isValid ? "text-main" : "text-imperialRed"
-              } min-h-14 pt-4`}
+              } min-h-14 pt-4 break-words`}
             >
-              {selectedFile && isValid ? selectedFile.name : null}
-              {!isValid
-                ? "Files must be bigger than 1kb and smaller than 1gb"
-                : null}
+              {selectedFile && isValid ? selectedFile.name : !isValid && selectedFile ? 
+                "Files must be bigger than 1kb and smaller than 1gb" : null}
             </div>
           </div>
         )}
