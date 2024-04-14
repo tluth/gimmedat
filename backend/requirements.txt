@@ -8,3 +8,4 @@ python-dotenv
 pynamodb
 environ-config>=23.0.0
 boto3
+email-validator

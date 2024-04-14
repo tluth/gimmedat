@@ -20,6 +20,7 @@ def create_api():
         description="",
         contact={"github": "tluth"},
         version="0.1",
+        debug=True
     )
 
     @app.exception_handler(RequestValidationError)
