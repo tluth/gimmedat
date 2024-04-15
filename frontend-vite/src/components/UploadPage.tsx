@@ -104,7 +104,9 @@ const UploadPage = () => {
           className="focus:outline-none mt-4 text-black bg-main hover:bg-main-300 focus:ring-4 focus:ring-main-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-main dark:hover:bg-main-700 dark:focus:ring-main-800"
           onClick={handleSubmit}
         >
-          {isUploading ? <LoadingSpinner /> : "Upload"}
+          <div className="min-w-12 flex items-center justify-center">
+            {isUploading ? <LoadingSpinner /> : "Upload"}
+          </div>
         </button>
       )}
       {isValid && (
