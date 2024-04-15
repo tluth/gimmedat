@@ -38,7 +38,7 @@ function CustomDropzone({
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
             {...getRootProps()}
-            className={`pb-5 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
+            className={`pb-5 p-2 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
               rounded-lg border-dashed ${isDragActive ? "border-main-300" : "border-offWhite"} 
               overflow-hidden`}
           >
@@ -46,7 +46,7 @@ function CustomDropzone({
             <p className="text-center overflow-hidden max-h-[120px]">
               <UploadIcon color="#FAEFDD" altColor="#4d8cff"/>
             </p>
-            <p>
+            <p className="">
               {isDragActive ? "Drop it bra" : "Drag'n'drop or select files"}
             </p>
             <p className="text-center text-xs">
