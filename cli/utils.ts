@@ -3,6 +3,8 @@ import { API } from "./constants";
 import { type Stats, promises } from "fs";
 import { promises as fs } from "fs";
 import mime from "mime";
+import FormData from "form-data";
+import fetch from "node-fetch";
 
 export const getPresignedPost = async (fileInfo: FileInfo) => {
   const res = await fetch(`${API}/file`, {
@@ -13,8 +15,23 @@ export const getPresignedPost = async (fileInfo: FileInfo) => {
     body: JSON.stringify(fileInfo),
   });
   const data = await res.json();
-  //   console.log(data);
-  return data as { presigned_upload_url: string; uuid: string };
+  console.log(data);
+
+  return data as { presigned_upload_data: string; uuid: string };
+};
+
+export const buildUploadBody = async (fileInfo: FileInfo) => {
+  const res = await fetch(`${API}/file`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(fileInfo),
+  });
+  const data = await res.json();
+  console.log(data);
+
+  return data as { presigned_upload_data: string; uuid: string };
 };
 
 export async function getFileInfo(filePath: string): Promise<FileInfo | null> {
@@ -27,7 +44,7 @@ export async function getFileInfo(filePath: string): Promise<FileInfo | null> {
     }
     return {
       file_name: basename(resolvedPath), // Get the filename from the path
-      size: stats.size, // File size in bytes
+      byte_size: stats.size, // File size in bytes
       file_type: getMimeType(resolvedPath), // File MIME type
     };
   } catch (error) {
@@ -43,7 +60,7 @@ export function getMimeType(filePath: string): string {
 }
 
 export async function uploadFile(
-  presignedUploadUrl: string,
+  presignedUploadData: any,
   filePath: string,
   fileType: string
 ) {
@@ -51,13 +68,20 @@ export async function uploadFile(
     // Asynchronously read the file content
     const fileContent = await fs.readFile(filePath);
 
-    const uploadResponse = await fetch(presignedUploadUrl, {
-      method: "PUT",
+    const formData = new FormData();
+
+    Object.keys(presignedUploadData.fields).forEach((key: string) => {
+      formData.append(key, presignedUploadData.fields[key]);
+    });
+    formData.append("file", fileContent);
+
+    const uploadResponse = await fetch(presignedUploadData.url, {
+      method: "POST",
       headers: {
-        "Content-Type": fileType, // Set the correct Content-Type for the file
-        "x-amz-acl": "private", // Set the file ACL
+        // "Content-Type": "multipart/formdata", // Set the correct Content-Type for the file
+        // "x-amz-acl": "private", // Set the file ACL
       },
-      body: fileContent, // The file content to upload
+      body: formData, // The file content to upload
     });
 
     if (uploadResponse.ok) {
@@ -75,6 +99,6 @@ export const getDownloadUrl = async (uuid: string) => {
     method: "GET",
   });
 
-  const data = await res.json();
+  const data = (await res.json()) as { presigned_url: string };
   return data.presigned_url;
 };
