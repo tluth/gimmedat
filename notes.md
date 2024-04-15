@@ -2,8 +2,8 @@
 * ~~Hide previous upload link once you start uploading a new one~~
 * ~~Item has expired message~~
 * Add percentage progress counter 
-* Add fine print saying file will be available for download for 48hrs + that the filesize limit is 1gb 
-* New file icon
+* ~~Add fine print saying file will be available for download for 48hrs + that the filesize limit is 1gb ~~
+* ~~New file icon~~
 * Maybe add an actual button to select file in dropzone (e.g. soundcloud) 
 * ~~Error message for oversize file~~
 * Support page (with captcha if adding contact form) + link to GitHub 

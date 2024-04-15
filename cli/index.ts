@@ -23,9 +23,9 @@ const main = async () => {
   }
 
   const spinner = ora("Uploading file").start();
-  const { presigned_upload_url, uuid } = await getPresignedPost(fileInfo);
+  const { presigned_upload_data, uuid } = await getPresignedPost(fileInfo);
 
-  await uploadFile(presigned_upload_url, filename, fileInfo.file_type);
+  await uploadFile(presigned_upload_data, filename, fileInfo.file_type);
 
   spinner.text = "Getting download url";
   const downloadUrl = await getDownloadUrl(uuid);

@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import CustomDropzone from "./CustomDropzone";
-import Expire from "./Expire.js";
 import { API } from "../constants.js";
 import FileLink from "./FileLink.js";
 import LoadingSpinner from "./LoadingSpinner";
@@ -11,11 +10,16 @@ const UploadPage = () => {
   const [progressVal, setProgressVal] = useState(0);
   const [fileId, setFileId] = useState(null);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [isValid, setIsValid] = useState<boolean>(true);
+  const [isValid, setIsValid] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
 
   //event handlers
   const handleFileChange = (files: File[]) => {
     setFileId(null);
+    setIsValid(false);
+    setSuccess(false);
+    setIsUploading(false);
+    setProgressVal(0);
     const reader = new FileReader();
     if (files && files.length > 0) {
       const file = files[0];
@@ -33,6 +37,7 @@ const UploadPage = () => {
       byte_size: file?.size,
       file_type: file?.type,
     };
+    console.error(upload_request);
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `${API}/file`);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -41,10 +46,16 @@ const UploadPage = () => {
       if (xhr.readyState === 4) {
         if (xhr.status === 200) {
           const response = JSON.parse(xhr.responseText);
-
+          const formData = new FormData();
+          Object.keys(response.presigned_upload_data.fields).forEach(
+            (key: string) => {
+              formData.append(key, response.presigned_upload_data.fields[key]);
+            }
+          );
+          formData.append("file", file as Blob);
           const xhrUpload = new XMLHttpRequest();
           // create event listener to update put progress so user wont refresh page during upload
-          xhrUpload.open("PUT", response.presigned_upload_url);
+          xhrUpload.open("POST", response.presigned_upload_data.url, true);
           xhrUpload.upload.addEventListener(
             "progress",
             function (evt) {
@@ -54,20 +65,23 @@ const UploadPage = () => {
             },
             false
           );
-          xhrUpload.setRequestHeader("Content-Type", file!.type);
-          xhrUpload.setRequestHeader("x-amz-acl", "private");
           xhrUpload.onreadystatechange = function () {
             if (xhrUpload.readyState === 4) {
-              if (xhrUpload.status === 200) {
+              if (xhrUpload.status === 204) {
                 setFileId(response.uuid);
                 setIsUploading(false);
+                setSuccess(true);
+              } else {
+                setIsUploading(false);
+                setSuccess(false);
               }
             }
           };
-          xhrUpload.send(file);
+          xhrUpload.send(formData);
         } else {
           alert("Problem submitting file.");
           setIsUploading(false);
+          setSuccess(false);
         }
       }
     };
@@ -90,34 +104,18 @@ const UploadPage = () => {
           className="focus:outline-none mt-4 text-black bg-main hover:bg-main-300 focus:ring-4 focus:ring-main-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-main dark:hover:bg-main-700 dark:focus:ring-main-800"
           onClick={handleSubmit}
         >
-          {isUploading ? <LoadingSpinner /> : "Upload"}
+          <div className="min-w-12 flex items-center justify-center">
+            {isUploading ? <LoadingSpinner /> : "Upload"}
+          </div>
         </button>
       )}
-      {progressVal ? (
-        <div className="pb-6 max-w-[70%] min-w-[50%] text-main">
-          <Expire
-            trigger={"programmatical"}
-            delay={0}
-            isVisible={progressVal === 100 ? false : true}
-          >
-            <div className="progress">
-              <div
-                className="progress-bar progress-bar-success progres
-                s-bar-striped"
-                role="progressbar"
-                aria-valuenow={progressVal}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                style={{
-                  width: progressVal + "%",
-                }}
-              ></div>
-            </div>
-          </Expire>
-        </div>
-      ) : null}
-      {fileId && isValid && (
-        <FileLink sharingLink={`${window.location.origin}/sharing/${fileId}`} />
+      {isValid && (
+        <FileLink
+          sharingLink={`${window.location.origin}/sharing/${fileId}`}
+          progress={progressVal}
+          success={success}
+          isUploading={isUploading}
+        />
       )}
     </div>
   );

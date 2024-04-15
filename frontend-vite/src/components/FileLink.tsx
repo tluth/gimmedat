@@ -1,23 +1,34 @@
 import CopyArea from "./CopyArea";
+import ProgressBar from "./ProgressBar";
 
 type FileLinkProps = {
   sharingLink: string;
+  progress: number;
+  success: boolean;
+  isUploading: boolean;
 };
 
-const FileLink = ({ sharingLink }: FileLinkProps) => {
-  //trigger variable identifies if components visibility depends on time limit (for setTimeout) or
-  //is set programmatically
-  // trigger: "time" || "programmatical"
-
+const FileLink = ({
+  sharingLink,
+  progress,
+  success,
+  isUploading,
+}: FileLinkProps) => {
   return (
     <>
-      <div id="unique-sharing-link" className="text-main font-mono">
-        Share it with a friend 🪲 
-      </div>
-      <div className="text-main font-mono mb-4 text-sm">
-        {`(Expires in 48 hours)`}
-      </div>
-      <CopyArea text={sharingLink} />
+      {progress === 100 && success ? (
+        <>
+          <div id="unique-sharing-link" className="text-main font-mono">
+            Share it with a friend 🪲
+          </div>
+          <div className="text-main font-mono mb-4 text-sm">
+            {`(Expires in 48 hours)`}
+          </div>
+          <CopyArea text={sharingLink} />
+        </>
+      ) : isUploading ? (
+        <ProgressBar progress={progress} success={success} />
+      ) : null}
     </>
   );
 };

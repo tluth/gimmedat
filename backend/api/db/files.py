@@ -15,10 +15,10 @@ class FileModel(BaseModel):
     expire_at = NumberAttribute(attr_name="expire_at", default=get_expiry_date)
 
 
-def get_new_filess_model() -> FileModel:
+def get_new_files_model() -> FileModel:
     return ModelTypeFactory(FileModel).create(
         appconfig.files_table_name, appconfig.aws_region
     )
 
 
-file_db = get_new_filess_model()
+file_db = get_new_files_model()

@@ -1,7 +1,7 @@
 from typing import Any
 import logging
 
-import boto3 
+import boto3
 
 from config import appconfig
 
