@@ -8,8 +8,12 @@ type FileLinkProps = {
   isUploading: boolean;
 };
 
-const FileLink = (props: FileLinkProps) => {
-  const { sharingLink, progress, success, isUploading } = props;
+const FileLink = ({
+  sharingLink,
+  progress,
+  success,
+  isUploading,
+}: FileLinkProps) => {
   return (
     <>
       {progress === 100 && success ? (
