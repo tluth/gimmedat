@@ -44,6 +44,9 @@ export default {
           "monospace",
         ], // Ensure monospace is defined
       },
+      backgroundImage: {
+        sparkle: "url(/assets/WG8P.gif)"
+      }
     },
   },
   plugins: [],
