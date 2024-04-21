@@ -43,7 +43,7 @@ function CustomDropzone({
                 isDragActive ? "border-main-300" : "border-offWhite"
               } 
               overflow-hidden px-3
-              bg-[url('giphy.gif')]`}
+              bg-[url('/giphy.gif')]`}
           >
             <div
               className="m-auto text-center bg-night bg-opacity-65 mt-5"
