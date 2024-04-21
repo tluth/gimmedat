@@ -89,7 +89,7 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-[70%] min-w-[50%] pt-[5%] inline-block">
+    <div className="mx-auto sm:max-w-[80%] sm:min-w-[50%] min-w-[75%] pt-[5%] inline-block">
       <div>
         <CustomDropzone
           onDrop={handleFileChange}
