@@ -41,6 +41,7 @@ function CustomDropzone({
           <div
             {...getRootProps()}
             className={`pb-5 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
+<<<<<<< Updated upstream
               rounded-lg border-dashed ${
                 isDragActive ? "border-main-300" : "border-offWhite"
               } 
@@ -53,6 +54,25 @@ function CustomDropzone({
                 textShadow:
                   "1px -1px 10px black, 0px 0px 5px black, 0px 2px 15px black, -1px 1px 10px black",
               }}
+=======
+              rounded-lg border-dashed ${isDragActive ? "border-main-300" : "border-offWhite"} 
+              overflow-hidden`}
+          >
+            <input {...getInputProps()} />
+            <p className="text-center overflow-hidden max-h-[120px]">
+              <UploadIcon color="#FAEFDD" altColor="#4d8cff"/>
+            </p>
+            <p>
+              {isDragActive ? "Drop it bra" : "Drag'n'drop or select files"}
+            </p>
+            <p className="text-center text-xs">
+              {"(Up to 1GB per file)"}
+            </p>
+            <div
+              className={`${
+                isValid ? "text-main" : "text-imperialRed"
+              } min-h-14 pt-4 break-words`}
+>>>>>>> Stashed changes
             >
               <input {...getInputProps()} />
               <p className="text-center overflow-hidden max-h-[120px]">
