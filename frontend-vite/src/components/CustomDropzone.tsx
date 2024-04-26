@@ -1,6 +1,7 @@
 import Dropzone from "react-dropzone";
 import UploadIcon from "./UploadIcon";
 import { MIN_FILE_SIZE, MAX_FILE_SIZE } from "../constants";
+import { toast } from "sonner";
 
 type CustomDropzoneProps = {
   onDrop: (acceptedFiles: File[]) => void;
@@ -19,6 +20,7 @@ function CustomDropzone({
 }: CustomDropzoneProps) {
   const onRejection = () => {
     setIsValid(false);
+    toast.error("Files must be bigger than 1kb and smaller than 1Gb");
   };
 
   const onAcceptance = () => {
@@ -68,7 +70,7 @@ function CustomDropzone({
                 {selectedFile && isValid
                   ? selectedFile.name
                   : !isValid && selectedFile
-                  ? "Files must be bigger than 1kb and smaller than 1gb"
+                  ? "Files must be bigger than 1kb and smaller than 1Gb"
                   : null}
               </div>
             </div>
