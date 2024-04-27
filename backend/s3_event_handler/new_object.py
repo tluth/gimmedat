@@ -21,11 +21,10 @@ def check_cache(s3_key: str, ip_address: str, filesize: int) -> dict:
 
     if ip_address not in NEW_OBJECT_CACHE:
         NEW_OBJECT_CACHE[ip_address] = [new_item]
-
-    elif new_item not in NEW_OBJECT_CACHE[ip_address]:
+    else:
         NEW_OBJECT_CACHE[ip_address].append(new_item)
 
-    elif NEW_OBJECT_CACHE[ip_address].count(new_item) > 10:
+    if NEW_OBJECT_CACHE[ip_address].count(new_item) > 10:
         add_to_blacklist(ip_address, s3_key)
 
     return NEW_OBJECT_CACHE

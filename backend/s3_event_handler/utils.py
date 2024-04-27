@@ -38,7 +38,7 @@ def serialize_event_data(json_data: dict) -> dict:
 
 def get_expiry_date() -> int:
     now = pendulum.now()
-    expiry = now + pendulum.duration(days=1)
+    expiry = now + pendulum.duration(hours=2)
     return expiry.int_timestamp
 
 

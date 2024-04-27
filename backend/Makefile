@@ -41,7 +41,7 @@ deploy_trash_collector: build_trash_collector
 
 
 build_s3_handler: clean
-	mkdir ${S3_HANDLER_BUILD_DIR} && pip3 install -r requirements.txt --target=${S3_HANDLER_BUILD_DIR}
+	mkdir ${S3_HANDLER_BUILD_DIR} && pip3 install -r s3_event_handler/requirements.txt --target=${S3_HANDLER_BUILD_DIR}
 	cp -r s3_event_handler ./${S3_HANDLER_BUILD_DIR}/ && cd ${S3_HANDLER_BUILD_DIR} && zip -r ../${S3_HANDLER_BUILD_DIR}.zip .
 
 deploy_s3_handler: build_s3_handler
