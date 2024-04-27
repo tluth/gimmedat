@@ -48,3 +48,6 @@ deploy_s3_handler: build_s3_handler
 	aws lambda update-function-code --function-name ${s3_HANDLER_LAMBDA_NAME} \
 	--zip-file fileb://${S3_HANDLER_BUILD_DIR}.zip
 	rm -r ./${S3_HANDLER_BUILD_DIR} && rm ${S3_HANDLER_BUILD_DIR}.zip
+
+
+deploy: deploy_api deploy_trash_collector deploy_s3_handler
