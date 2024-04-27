@@ -63,4 +63,4 @@ jobs:
         run: make backend__deploy_trash_collector
 
       - name: Build and deploy S3 event handler
-        run: make backend__s3_event_handler
+        run: make backend__deploy_s3_handler
