@@ -173,6 +173,29 @@ data "aws_iam_policy_document" "extra_perms" {
       aws_dynamodb_table.state_dynamodb_table.stream_arn, 
       ]
   }
+
+  statement {
+    sid    = "AllowBlacklistDB"
+    effect = "Allow"
+    actions = [
+      "dynamodb:BatchGetItem",
+      "dynamodb:GetItem",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:BatchWriteItem",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem",
+      "dynamodb:GetRecords",
+      "dynamodb:GetShardIterator",
+      "dynamodb:DescribeStream",
+      "dynamodb:ListStreams"
+    ]
+    resources = [
+      aws_dynamodb_table.blacklist_table.arn,
+      "${aws_dynamodb_table.blacklist_table.arn}/index/*"
+      ]
+  }
+
   statement {
     sid       = "AllowListBucket"
     effect    = "Allow"

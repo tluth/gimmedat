@@ -1,7 +1,7 @@
 import logging
 from uuid import uuid4
 
-from fastapi import HTTPException
+from fastapi import HTTPException, Request
 
 from .config import appconfig
 from .db.files import file_db
@@ -26,7 +26,9 @@ main_router = APIRouter()
     "/file",
     response_model=UploadFileResponse,
 )
-def upload_file(data: UploadFileRequest) -> UploadFileResponse:
+def upload_file(data: UploadFileRequest, request: Request) -> UploadFileResponse:
+    user_ip = request.client.host
+
     if data.byte_size > int(appconfig.file_size_limit):
         raise HTTPException(
             status_code=400,

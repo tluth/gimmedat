@@ -37,7 +37,7 @@ const UploadPage = () => {
       byte_size: file?.size,
       file_type: file?.type,
     };
-    console.error(upload_request);
+
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `${API}/file`);
     xhr.setRequestHeader("Content-Type", "application/json");
