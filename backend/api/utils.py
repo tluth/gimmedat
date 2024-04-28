@@ -1,5 +1,6 @@
 import boto3
 from botocore.client import Config
+import botocore
 import pendulum
 
 from .config import appconfig
@@ -52,7 +53,7 @@ def get_get_presigned_url(key: str) -> dict:
             "Bucket": appconfig.storage_bucket,
             "Key": key,
             'ResponseContentDisposition': 'attachment',
-            },
+        },
         ExpiresIn="720",
     )
 
@@ -61,3 +62,25 @@ def calc_ttl_seconds(epoch_time: int) -> int:
     now = pendulum.now().int_timestamp
     # convert to hours
     return epoch_time - now
+
+
+def blacklist_lookup(ip_address: str) -> bool:
+    """
+    Takes an IP address and checks whether it's in our
+    table of blacklisted user IPs. Returns true if present
+    """
+    try:
+        db_client = boto3.resource('dynamodb')
+        table = db_client.Table(appconfig.blacklist_table_name)
+        response = table.get_item(
+            Key={
+                'ip_address': ip_address
+            },
+            AttributesToGet=['ip_address'],
+            ReturnConsumedCapacity='NONE',
+        )
+        return "Item" in response
+
+    except botocore.exceptions.ClientError as e:
+        print("Exception occurred:", e)
+        return False
