@@ -3,7 +3,7 @@ type ProgressBarProps = {
   success: boolean;
 };
 
-const ProgressBar = ({ progress, success }: ProgressBarProps) => {
+const ProgressBar = ({ progress }: ProgressBarProps) => {
   return (
     <>
       <div className="flex justify-end mb-1">
