@@ -4,6 +4,7 @@ import CustomDropzone from "./CustomDropzone";
 import { API } from "../constants.js";
 import FileLink from "./FileLink.js";
 import LoadingSpinner from "./LoadingSpinner";
+import { toast } from "sonner";
 
 const UploadPage = () => {
   const [file, setFile] = useState<File>();
@@ -78,6 +79,12 @@ const UploadPage = () => {
             }
           };
           xhrUpload.send(formData);
+        } else if (xhr.status === 403) {
+          toast.error(
+            "Sorry, mate. I think you've had a few too many. Try again later."
+          );
+          setIsUploading(false);
+          setSuccess(false);
         } else {
           alert("Problem submitting file.");
           setIsUploading(false);

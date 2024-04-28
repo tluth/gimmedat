@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse
 
 from api.router import main_router
 
+
 logging.Logger.root.level = 10
 
 

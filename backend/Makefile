@@ -9,6 +9,10 @@ DB_STREAM_BUILD_DIR=db_stream_handler_build
 s3_HANDLER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-s3-event-handler"
 S3_HANDLER_BUILD_DIR=s3_event_handler_build
 
+
+run_api:
+	uvicorn api.run_api:app --port 5000 --reload
+
 clean:
 	@if [ -d ${API_BUILD_DIR} ]; then \
 		rm -r ${API_BUILD_DIR}; \
@@ -20,6 +24,7 @@ clean:
 		rm -r ${S3_HANDLER_BUILD_DIR}; \
 	fi
 
+# API
 build_local: clean
 	mkdir ${API_BUILD_DIR} && pip3 install -r requirements.txt --target=${API_BUILD_DIR}
 	cp -r api ./${API_BUILD_DIR}/api/ && cd ${API_BUILD_DIR} && zip -r ../${API_BUILD_DIR}.zip .
@@ -29,7 +34,7 @@ deploy_api: build_local
 	--zip-file fileb://${API_BUILD_DIR}.zip
 	rm -r ./${API_BUILD_DIR} && rm ${API_BUILD_DIR}.zip
 
-
+# DynamoDB TTL Event Handler
 build_trash_collector: clean
 	mkdir ${DB_STREAM_BUILD_DIR} && pip3 install -r requirements.txt --target=${DB_STREAM_BUILD_DIR}
 	cp -r db_stream_handler ./${DB_STREAM_BUILD_DIR}/ && cd ${DB_STREAM_BUILD_DIR} && zip -r ../${DB_STREAM_BUILD_DIR}.zip .
@@ -39,7 +44,7 @@ deploy_trash_collector: build_trash_collector
 	--zip-file fileb://${DB_STREAM_BUILD_DIR}.zip
 	rm -r ./${DB_STREAM_BUILD_DIR} && rm ${DB_STREAM_BUILD_DIR}.zip
 
-
+# S3 Upload Event Handler
 build_s3_handler: clean
 	mkdir ${S3_HANDLER_BUILD_DIR} && pip3 install -r s3_event_handler/requirements.txt --target=${S3_HANDLER_BUILD_DIR}
 	cp -r s3_event_handler ./${S3_HANDLER_BUILD_DIR}/ && cd ${S3_HANDLER_BUILD_DIR} && zip -r ../${S3_HANDLER_BUILD_DIR}.zip .
