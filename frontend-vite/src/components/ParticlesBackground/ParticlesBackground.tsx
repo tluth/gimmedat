@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
+import type { Container, Engine } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim"; 
 import particlesConfig from "./particlesConfig";
 
@@ -8,7 +9,7 @@ const ParticlesBackground = () => {
 
   // this should be run only once per application lifetime
   useEffect(() => {
-    initParticlesEngine(async (engine) => {
+    initParticlesEngine(async (engine: Engine) => {
       // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
       // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
       // starting from v2 you can add only the features you need reducing the bundle size
@@ -21,7 +22,7 @@ const ParticlesBackground = () => {
     });
   }, []);
 
-  const particlesLoaded = (container: any) => {
+  const particlesLoaded = (container?: Container | undefined) => {
     console.log(container);
   };
 
@@ -31,7 +32,9 @@ const ParticlesBackground = () => {
         <Particles
         className={"absolute h-[100%] w-[100%] -z-1"}
           id="tsparticles"
+          // @ts-expect-error:next-line
           particlesLoaded={particlesLoaded}
+          // @ts-expect-error:next-line
           options={particlesConfig}
         />
       }
