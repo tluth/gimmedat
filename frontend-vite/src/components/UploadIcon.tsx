@@ -6,6 +6,7 @@ type IconProps = {
 function UploadIcon({ color, altColor }: IconProps) {
   return (
     <svg
+      id="upload-icon"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
