@@ -4,7 +4,6 @@ import UploadPage from "./components/UploadPage";
 import DownloadPage from "./components/DownloadPage";
 import { Toaster } from "sonner";
 
-//
 
 function App() {
   return (
