@@ -3,9 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UploadPage from "./components/UploadPage";
 import DownloadPage from "./components/DownloadPage";
 import { Toaster } from "sonner";
-import ParticlesBackground from "./components/ParticlesBackground/ParticlesBackground";
 
-//
 
 function App() {
   return (
@@ -16,7 +14,6 @@ function App() {
         <Routes>
           <Route path="/sharing/:fileId" element={<DownloadPage />} />
           <Route path="/" element={<UploadPage />} />
-          <Route path="/foo" element={<ParticlesBackground />} />
         </Routes>
       </BrowserRouter>
     </div>
