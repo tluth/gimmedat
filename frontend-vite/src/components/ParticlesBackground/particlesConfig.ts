@@ -1,12 +1,15 @@
 const particlesConfig = {
-  fullScreen: { enable: false },
+  fullScreen: { 
+    enable: false,
+    zIndex: -1
+  },
   fpsLimit: 30,
   interactivity: {
     events: {
       onDiv: {
         enable: true,
         mode: "repulse",
-        selectors: ["repulse-div"],
+        elementId: "repulse-div",
         type: "circle",
       },
       onHover: {
@@ -37,6 +40,7 @@ const particlesConfig = {
       warp: true,
       frequency: window.innerWidth > 700 ? 2.7 : 10,
     },
+    reduceDuplicates: false,
     move: {
       vibrate: true,
       direction: "none",
@@ -47,13 +51,18 @@ const particlesConfig = {
       random: false,
       speed: 3,
       straight: false,
-      trail: { enabled: true },
+      trail: { enabled: true, length: 2 },
+      attract: {
+        distance: 150,
+        enable: true
+      },
+
     },
     number: {
       density: {
         enable: true,
-        area: window.innerWidth > 700 ? 1000 : 100,
-        factor: 100,
+        area: window.innerWidth > 700 ? 700 : 70,
+        factor: 50,
       },
       value: 180,
     },
