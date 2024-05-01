@@ -21,7 +21,7 @@ function CustomDropzone({
 }: CustomDropzoneProps) {
   const onRejection = () => {
     setIsValid(false);
-    toast.error("Files must be bigger than 1kb and smaller than 1Gb");
+    toast.error("Files must be bigger than 1kb and smaller than 4Gb");
   };
 
   const onAcceptance = () => {
@@ -49,8 +49,8 @@ function CustomDropzone({
           >
           <ParticlesBackground/>
             <div
-              
-              className="m-auto text-center bg-night bg-opacity-95 mt-5"
+              id="repulse-div"
+              className="m-auto text-center mt-5"
               style={{
                 textShadow:
                 "1px -1px 10px black, 0px 0px 5px black, 0px 2px 15px black, -1px 1px 10px black",
@@ -63,7 +63,7 @@ function CustomDropzone({
               <p>
                 {isDragActive ? "Drop it bra" : "Drag'n'drop or select files"}
               </p>
-              <p id="repulse-div" className="text-center text-xs">{"(Up to 1GB per file)"}</p>
+              <p className="text-center text-xs">{"(Up to 4GB per file)"}</p>
               <div 
                 className={`${
                   isValid ? "text-main" : "text-imperialRed"
@@ -72,7 +72,7 @@ function CustomDropzone({
                 {selectedFile && isValid
                   ? selectedFile.name
                   : !isValid && selectedFile
-                  ? "Files must be bigger than 1kb and smaller than 1Gb"
+                  ? "Files must be bigger than 1kb and smaller than 4Gb"
                   : null}
               </div>
             </div>

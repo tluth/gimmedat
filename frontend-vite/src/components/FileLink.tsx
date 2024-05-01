@@ -22,7 +22,7 @@ const FileLink = ({
             Share it with a friend 🪲
           </div>
           <div className="text-main font-mono mb-4 text-sm">
-            {`(Expires in 48 hours)`}
+            {`(Expires in 4 days)`}
           </div>
           <CopyArea text={sharingLink} />
         </>

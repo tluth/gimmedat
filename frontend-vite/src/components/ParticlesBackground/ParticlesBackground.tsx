@@ -30,7 +30,7 @@ const ParticlesBackground = () => {
     <>
       {init &&
         <Particles
-        className={"absolute h-[100%] w-[100%] -z-1"}
+        className={"absolute h-[100%] w-[100%]"}
           id="tsparticles"
           // @ts-expect-error:next-line
           particlesLoaded={particlesLoaded}
