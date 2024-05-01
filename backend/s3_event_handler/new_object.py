@@ -9,7 +9,7 @@ NEW_OBJECT_CACHE: dict[str, list] = {}
 def check_cache(s3_key: str, ip_address: str, filesize: int) -> dict:
     """
         Cache the uploaded file info and add user IP address to
-        blacklist table if we receive a file with same name and 
+        blacklist table if we receive a file with same name and
         size > 10 times
     """
     global NEW_OBJECT_CACHE
