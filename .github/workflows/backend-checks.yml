@@ -38,5 +38,5 @@ jobs:
       - name: flake8 Lint
         uses: py-actions/flake8@v2
         with:
-          args: --config ./backend/api/.flake8 ./backend
+          args: --config ./backend/.flake8 ./backend
 
