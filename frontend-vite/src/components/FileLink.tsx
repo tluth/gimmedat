@@ -6,6 +6,7 @@ type FileLinkProps = {
   progress: number;
   success: boolean;
   isUploading: boolean;
+  fileSize: number | undefined;
 };
 
 const FileLink = ({
@@ -13,6 +14,7 @@ const FileLink = ({
   progress,
   success,
   isUploading,
+  fileSize
 }: FileLinkProps) => {
   return (
     <>
@@ -27,7 +29,7 @@ const FileLink = ({
           <CopyArea text={sharingLink} />
         </>
       ) : isUploading ? (
-        <ProgressBar progress={progress} success={success} />
+        <ProgressBar progress={progress} success={success} fileSize={fileSize}/>
       ) : null}
     </>
   );
