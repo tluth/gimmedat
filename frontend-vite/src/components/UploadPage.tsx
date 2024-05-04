@@ -122,6 +122,7 @@ const UploadPage = () => {
           progress={progressVal}
           success={success}
           isUploading={isUploading}
+          fileSize={file?.size}
         />
       )}
     </div>
