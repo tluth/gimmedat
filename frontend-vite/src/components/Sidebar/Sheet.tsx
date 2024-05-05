@@ -3,7 +3,8 @@
 import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ArrowLeftToLine } from "lucide-react";
+import { HiChevronDoubleLeft } from "react-icons/hi2";
+
 
 import { cn } from "../../utils";
 
@@ -31,7 +32,7 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName;
 
 const sheetVariants = cva(
-  "fixed z-50 gap-4 bg-night p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
+  "fixed z-50 gap-4 bg-night shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
   {
     variants: {
       side: {
@@ -70,7 +71,7 @@ const SheetContent = React.forwardRef<
        disabled:pointer-events-none data-[state=open]:bg-night
      "
       >
-        <ArrowLeftToLine className="text-main-700 w-10 h-10 transition-colors hover:text-main-600 hover:font-black" />
+        <HiChevronDoubleLeft className="text-main-700 w-10 h-10 transition-colors hover:text-main-600 hover:font-black" />
         <span className="sr-only">Close</span>
       </SheetPrimitive.Close>
     </SheetPrimitive.Content>

@@ -29,23 +29,25 @@ const Sidebar = () => {
           </SheetTrigger>
         ) : null}
         <SheetContent
-          className="md:bg-opacity-90 bg-asparagus text-offWhite md:max-w-[20%] md:min-w-[20%] min-w-full shadow-md shadow-main-200"
+          className="md:bg-opacity-90 bg-main text-offWhite md:max-w-[20%] md:min-w-[20%] min-w-full shadow-md shadow-main-200"
           style={{
             boxShadow:
               "5px 0 20px rgba(128, 173, 255, 0.4), 3px 0 3px rgba(128, 173, 255, 0.2)",
           }}
         >
-          <div className="w-full rounded p-2 pt-8">
-            <ul className="space-y-3 text-lg">
+          <div className="w-full rounded p-2 pt-16">
+          <div className="text-night lg:text-xl text-sm text-left p-2 border-b border-night-light  font-mono">G I M M E D A T</div>
+
+            <ul className="space-y-3 text-m pt-4">
               <li>
                 <a
                   href="/"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
-                  <span>
-                    <Home className=" text-main-700 w-9 h-9" />
+                  <span className="pl-6">
+                    <Home className=" text-main-800 w-9 h-9" />
                   </span>
-                  <span>Home</span>
+                  <span >Home</span>
                 </a>
               </li>
               <li>
@@ -53,8 +55,8 @@ const Sidebar = () => {
                   href="/about"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
-                  <span>
-                    <CircleHelp className=" text-main-700 w-9 h-9" />
+                  <span className="pl-6">
+                    <CircleHelp className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>About</span>
                 </a>
@@ -64,8 +66,8 @@ const Sidebar = () => {
                   href="https://github.com/tluth/gimmedat"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
-                  <span>
-                    <Github className=" text-main-700 w-9 h-9" />
+                  <span className="pl-6" >
+                    <Github className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Github</span>
                 </a>
@@ -75,8 +77,8 @@ const Sidebar = () => {
                   href="https://github.com/tluth/gimmedat"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
-                  <span>
-                    <HeartHandshake className=" text-main-700 w-9 h-9" />
+                  <span className="pl-6">
+                    <HeartHandshake className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Donate</span>
                 </a>
@@ -86,8 +88,8 @@ const Sidebar = () => {
                   href="https://nkfunky.com/"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
-                  <span>
-                    <Music4 className=" text-main-700 w-9 h-9" />
+                  <span className="pl-6">
+                    <Music4 className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Music from friends</span>
                 </a>
@@ -97,8 +99,8 @@ const Sidebar = () => {
                   href="mailto:tom@bulgingdiscs.com"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
-                  <span>
-                    <Send className=" text-main-700 w-9 h-9" />
+                  <span className="pl-6">
+                    <Send className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>contact</span>
                 </a>
