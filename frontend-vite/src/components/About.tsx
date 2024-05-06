@@ -1,15 +1,15 @@
 const AboutPage = () => {
   return (
-    <div className="mx-auto sm:max-w-[80%] sm:min-w-[50%] min-w-[75%] max-w-[90%] pt-[5%] inline-block">
+    <div className="mx-auto lg:max-w-[60%] sm:max-w-[80%] sm:min-w-[50%] max-w-[90%] min-w-[75%] pt-[5%] inline-block">
       <div
-        className={`flex flex-col items-center justify-center text-offWhite rounded-xl
+        className={`flex flex-col text-justify text-offWhite rounded-xl
         border-2 border-dotted border-main-200 p-5
-        bg-night-light bg-opacity-30 mb-8`}
+        bg-night-light bg-opacity-30 mb-8 leading-relaxed`}
       >
-        <h1 className="my-4 text-2xl font-extrabold leading-none tracking-tight md:text-4xl lg:text-5xl ">
+        <h1 className="my-4 text-2xl font-extrabold md:text-4xl lg:text-5xl text-center">
           About
         </h1>
-        <span className="text-xl font-bold pb-4">
+        <span className="text-lg md:text-2xl font-bold pb-5 text-center">
           Free • No-nonsense • Open-source • Secure • File sharing
         </span>
         <p>
@@ -37,9 +37,10 @@ const AboutPage = () => {
           considerate and respectful in your use of the platform. 
           Unnecessary excessive uploads will get you temporarily blacklisted.  
         </p>
-        <h1 className="my-4 text-2xl font-extrabold leading-none tracking-tight md:text-4xl lg:text-5xl ">
+        <h1 className="my-4 text-2xl font-extrabold md:text-4xl lg:text-5xl text-center">
           Privacy Policy
         </h1>
+        <p className="font-black">In General:</p>
         <p>
           In general, we aim to keep the handling, storing and sharing of
           Personally Identifiable Information (“PII”) to the absolute minimum.
@@ -60,7 +61,7 @@ const AboutPage = () => {
           (currently 96hrs).{" "}
         </p>
 
-        <h1 className="my-4 text-2xl font-extrabold leading-none tracking-tight md:text-4xl lg:text-5xl ">
+        <h1 className="my-4 text-2xl font-extrabold md:text-4xl lg:text-5xl text-center">
           Conflicts of Interest and Ethics
         </h1>
         <p>
@@ -81,9 +82,9 @@ const AboutPage = () => {
           a coup against your local political leader, that's your business. 
           We won't be aware of it, nor would we necessarily care.
         </p>
-        <h2 className="mb-4 text-xl font-extrabold tracking-tight md:text-3xl lg:text-4xl">
+        <span className="text-xl font-bold pb-4">
           However...
-        </h2>
+        </span>
         <p>
           Gimmedat is 100% committed to fighting online child sexual abuse and
           exploitation, and preventing our services from being used to spread

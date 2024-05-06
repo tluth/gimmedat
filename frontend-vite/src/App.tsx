@@ -5,12 +5,12 @@ import DownloadPage from "./components/DownloadPage";
 import AboutPage from "./components/About";
 import { Toaster } from "sonner";
 import Sidebar from "./components/Sidebar/Sidebar";
-import StuffWeLikePage from "./components/StuffWeLike";
+import StuffWeLikePage from "./components/StuffWeLike/StuffWeLike";
 
 function App() {
   return (
 
-    <div className="text-center bg-night min-h-screen flex flex-col">
+    <div className="bg-night min-h-screen flex flex-col">
       <Sidebar />
       <Toaster />
       <Header />

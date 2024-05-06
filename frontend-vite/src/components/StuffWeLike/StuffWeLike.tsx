@@ -1,4 +1,5 @@
 import { Music4, RadioTower } from "lucide-react";
+import LinkItem from "./LinkItem";
 
 const StuffWeLikePage = () => {
   return (
