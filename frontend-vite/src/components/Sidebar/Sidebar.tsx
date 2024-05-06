@@ -74,7 +74,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <a
-                  href="https://github.com/tluth/gimmedat"
+                  href="https://buymeacoffee.com/tluth"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
@@ -96,7 +96,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <a
-                  href="mailto:tom@bulgingdiscs.com"
+                  href="mailto:tom@bulgingdiscs.fun"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
