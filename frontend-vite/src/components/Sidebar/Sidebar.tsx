@@ -2,8 +2,8 @@ import { useState } from "react";
 import {
   Github,
   CircleHelp,
-  HeartHandshake,
-  Music4,
+  Beer,
+  BookHeart,
   Send,
   Home,
 } from "lucide-react";
@@ -29,10 +29,10 @@ const Sidebar = () => {
           </SheetTrigger>
         ) : null}
         <SheetContent
-          className="md:bg-opacity-90 bg-main text-offWhite md:max-w-[20%] md:min-w-[20%] min-w-full shadow-md shadow-main-200"
+          className="md:bg-opacity-90 bg-main text-offWhite md:max-w-[20%] md:min-w-[20%] min-w-full shadow-md shadow-main-300"
           style={{
             boxShadow:
-              "5px 0 20px rgba(128, 173, 255, 0.4), 3px 0 3px rgba(128, 173, 255, 0.2)",
+              "5px 0 10px rgba(128, 173, 255, 0.3), 3px 0 3px rgba(128, 173, 255, 0.2)",
           }}
         >
           <div className="w-full rounded p-2 pt-16">
@@ -74,24 +74,24 @@ const Sidebar = () => {
               </li>
               <li>
                 <a
-                  href="https://buymeacoffee.com/tluth"
+                  href="/external-links"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
-                    <HeartHandshake className=" text-main-800 w-9 h-9" />
+                    <BookHeart className=" text-main-800 w-9 h-9" />
                   </span>
-                  <span>Donate</span>
+                  <span>Stuff we like</span>
                 </a>
               </li>
               <li>
                 <a
-                  href="https://nkfunky.com/"
+                  href="https://buymeacoffee.com/tluth"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
-                    <Music4 className=" text-main-800 w-9 h-9" />
+                    <Beer className=" text-main-800 w-9 h-9" />
                   </span>
-                  <span>Music from friends</span>
+                  <span>Buy me a beer</span>
                 </a>
               </li>
               <li>
@@ -102,7 +102,7 @@ const Sidebar = () => {
                   <span className="pl-6">
                     <Send className=" text-main-800 w-9 h-9" />
                   </span>
-                  <span>contact</span>
+                  <span>Contact</span>
                 </a>
               </li>
             </ul>

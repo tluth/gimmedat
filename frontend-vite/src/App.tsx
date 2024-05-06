@@ -5,6 +5,7 @@ import DownloadPage from "./components/DownloadPage";
 import AboutPage from "./components/About";
 import { Toaster } from "sonner";
 import Sidebar from "./components/Sidebar/Sidebar";
+import StuffWeLikePage from "./components/StuffWeLike";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/external-links" element={<StuffWeLikePage />} />
           <Route path="/sharing/:fileId" element={<DownloadPage />} />
           <Route path="/" element={<UploadPage />} />
         </Routes>
