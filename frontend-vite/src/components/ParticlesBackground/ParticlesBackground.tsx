@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type { Container, Engine } from "@tsparticles/engine";
-import { loadSlim } from "@tsparticles/slim"; 
+import { loadSlim } from "@tsparticles/slim";
 import particlesConfig from "./particlesConfig";
 
 const ParticlesBackground = () => {
@@ -28,18 +28,16 @@ const ParticlesBackground = () => {
 
   return (
     <>
-      {init &&
+      {init && (
         <Particles
-        className={"absolute h-[100%] w-[100%]"}
+          className={"absolute h-[100%] w-[100%]"}
           id="tsparticles"
-          // @ts-expect-error:next-line
           particlesLoaded={particlesLoaded}
-          // @ts-expect-error:next-line
           options={particlesConfig}
         />
-      }
+      )}
     </>
   );
 };
 
-export default ParticlesBackground
+export default ParticlesBackground;
