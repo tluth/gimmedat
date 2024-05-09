@@ -15,8 +15,8 @@ const AboutPage = () => {
         <p>
           Gimmedat started as a not-for-profit, personal project to help with my
           regular need to send relatively large files across the internet
-          without costing an arm and a leg in monthly fees for popular services like
-          Google Drive or Dropbox. At the moment, this is intended only for
+          without costing an arm and a leg in monthly fees for popular services
+          like Google Drive or Dropbox. At the moment, this is intended only for
           temporary file sharing rather than permanent storage. You can upload a
           file, up to 4GB in size and receive a download link which will be
           valid for 4 days. Sure, WeTransfer would've met my needs and maybe
@@ -26,7 +26,10 @@ const AboutPage = () => {
         <p>
           This is an ongoing work-in-progress, and we're open to contributions
           from others. See the Contributing Guidelines{" "}
-          <a className="a-line" href="https://github.com/tluth/gimmedat/blob/main/CONTRIBUTING.md">
+          <a
+            className="a-line"
+            href="https://github.com/tluth/gimmedat/blob/main/CONTRIBUTING.md"
+          >
             here
           </a>
           , which include our code of conduct as well as other info on things
@@ -34,8 +37,8 @@ const AboutPage = () => {
           and funded out of my own pocket, just for the fun of it. We aim to
           keep things free from advertising and trackers, and we do our best to
           respect your privacy and security. Therefore, we ask that you be
-          considerate and respectful in your use of the platform. 
-          Unnecessary excessive uploads will get you temporarily blacklisted.  
+          considerate and respectful in your use of the platform. Unnecessary
+          excessive uploads will get you temporarily blacklisted.
         </p>
         <h1 className="my-4 text-2xl font-extrabold md:text-4xl lg:text-5xl text-center">
           Privacy Policy
@@ -44,8 +47,8 @@ const AboutPage = () => {
         <p>
           In general, we aim to keep the handling, storing and sharing of
           Personally Identifiable Information (“PII”) to the absolute minimum.
-          The records stored in our database when a file is uploaded
-          contain no PII alongside the file.
+          The records stored in our database when a file is uploaded contain no
+          PII alongside the file.
         </p>
         <p>
           We do not allow or employ third-party behavioral tracking. Our website
@@ -70,30 +73,28 @@ const AboutPage = () => {
           sorts of shady business. We therefore employ various routine measures
           for monitoring and detection of those kinds of misuses, which we don't
           agree with. If you are flagged for any such behaviour, all previous
-          considerations for your privacy, security and safety may be
-          disregarded.
+          considerations for your privacy and security will no longer be
+          guaranteed.
         </p>
         <p>
-          We do not actively restrict access based on location (E.g. to comply
-          with international embargoes) or content (E.g. no copyright strikes),
+          We do not actively restrict access based on location (e.g. to comply
+          with international embargoes) or content (e.g. no copyright strikes),
           and and have no particular concern whether your use of Gimedat is in
-          violation of the laws of your local government. If you wanna share a
-          pirated copy of the latest Marvel blockbuster, or your plans to stage
-          a coup against your local political leader, that's your business. 
-          We won't be aware of it, nor would we necessarily care.
+          violation of the laws of your local government. If you wanto to share
+          a pirated copy of the latest Marvel blockbuster with your dad, or
+          distribute your plans to overthrow your local political leader, that's
+          your business. We won't be aware of it, nor would we necessarily care.
         </p>
-        <span className="text-xl font-bold pb-4">
-          However...
-        </span>
+        <span className="text-xl font-bold pb-4">However...</span>
         <p>
           Gimmedat is 100% committed to fighting online child sexual abuse and
           exploitation, and preventing our services from being used to spread
           child sexual abuse material (CSAM). While our resources are limited,
-          we still devote significant time and energy into detecting,
-          removing, and reporting child sexual exploitation content and
-          behavior. In the case of CSAM detection, our privacy policy goes out
-          the window. Your information will be recorded, stored and shared with
-          the relevant authorities, agencies and/or whoever we see fit. 
+          we still devote significant time and energy into detecting, removing,
+          and reporting child sexual exploitation content and behavior. In the
+          case of CSAM detection, our privacy policy goes out the window. Your
+          information will be recorded, stored and shared with the relevant
+          authorities, agencies and/or whoever we see fit.
         </p>
       </div>
     </div>

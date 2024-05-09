@@ -15,7 +15,6 @@ export const getPresignedPost = async (fileInfo: FileInfo) => {
     body: JSON.stringify(fileInfo),
   });
   const data = await res.json();
-  console.log(data);
 
   return data as { presigned_upload_data: string; uuid: string };
 };
@@ -29,7 +28,6 @@ export const buildUploadBody = async (fileInfo: FileInfo) => {
     body: JSON.stringify(fileInfo),
   });
   const data = await res.json();
-  console.log(data);
 
   return data as { presigned_upload_data: string; uuid: string };
 };

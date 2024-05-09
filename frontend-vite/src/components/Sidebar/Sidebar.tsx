@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Github,
-  CircleHelp,
-  Beer,
-  BookHeart,
-  Send,
-  Home,
-} from "lucide-react";
+import { Github, CircleHelp, Beer, BookHeart, Send, Home } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "./Sheet";
 import HamburgerButton from "./HamburgerButton";
 
@@ -22,8 +15,8 @@ const Sidebar = () => {
       <Sheet onOpenChange={handleOpenClose} open={isOpen}>
         {!isOpen ? (
           <SheetTrigger
-            className={`w-10 sm:w-12 h-[0.35rem] transition-all opacity-75 hover:opacity-100 
-            disabled:pointer-events-none data-[state=open]:bg-night mt-3 ml-3`}
+            className={`transition-all opacity-75 hover:opacity-100 
+            disabled:pointer-events-none data-[state=open]:bg-night mt-3 ml-3 left-0 top-0 align-left`}
           >
             <HamburgerButton handleClick={handleOpenClose} isOpen={isOpen} />
           </SheetTrigger>
@@ -36,7 +29,9 @@ const Sidebar = () => {
           }}
         >
           <div className="w-full rounded p-2 pt-16">
-          <div className="text-night lg:text-xl text-sm text-left p-2 border-b border-night-light  font-mono">G I M M E D A T</div>
+            <div className="text-night lg:text-xl text-sm text-left p-2 border-b border-night-light  font-mono">
+              G I M M E D A T
+            </div>
 
             <ul className="space-y-3 text-m pt-4">
               <li>
@@ -47,7 +42,7 @@ const Sidebar = () => {
                   <span className="pl-6">
                     <Home className=" text-main-800 w-9 h-9" />
                   </span>
-                  <span >Home</span>
+                  <span>Home</span>
                 </a>
               </li>
               <li>
@@ -66,7 +61,7 @@ const Sidebar = () => {
                   href="https://github.com/tluth/gimmedat"
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
-                  <span className="pl-6" >
+                  <span className="pl-6">
                     <Github className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Github</span>
