@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UploadPage from "./components/UploadPage";
 import DownloadPage from "./components/DownloadPage";
 import { Toaster } from "sonner";
-//
 
 function App() {
   return (
