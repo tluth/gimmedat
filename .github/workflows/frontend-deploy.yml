@@ -72,7 +72,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: pnpm install
+        run: cd frontend-vite && pnpm install
 
       - name: Build
         run: cd frontend-vite && pnpm run build
