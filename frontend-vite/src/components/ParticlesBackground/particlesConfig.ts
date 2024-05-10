@@ -1,7 +1,7 @@
 const particlesConfig = {
-  fullScreen: { 
+  fullScreen: {
     enable: false,
-    zIndex: -1
+    zIndex: -1,
   },
   fpsLimit: 30,
   interactivity: {
@@ -54,9 +54,8 @@ const particlesConfig = {
       trail: { enabled: true, length: 2 },
       attract: {
         distance: 150,
-        enable: true
+        enable: true,
       },
-
     },
     number: {
       density: {

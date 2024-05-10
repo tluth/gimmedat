@@ -24,6 +24,10 @@ const ParticlesBackground = () => {
 
   const particlesLoaded = (container?: Container | undefined) => {
     console.log(container);
+    return new Promise<void>((resolve) => {
+      console.log("Particles loaded");
+      resolve();
+    });
   };
 
   return (
@@ -33,6 +37,7 @@ const ParticlesBackground = () => {
           className={"absolute h-[100%] w-[100%]"}
           id="tsparticles"
           particlesLoaded={particlesLoaded}
+          // @ts-expect-error particles type error
           options={particlesConfig}
         />
       )}
