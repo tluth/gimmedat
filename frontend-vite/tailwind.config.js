@@ -1,7 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
+  prefix: "",
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       fontSize: {
         custom: "calc(1.5vw + 1.5hw)", // Custom font size
@@ -70,4 +84,4 @@ export default {
   },
   // eslint-disable-next-line no-undef
   plugins: [require("tailwindcss-animate")],
-};
+}
