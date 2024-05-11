@@ -46,7 +46,7 @@ const ContactPage = () => {
 
   return (
     <div className="flex justify-center w-[100vw] pt-12">
-      <div className="sm:w-[30vw] text-offWhite ">
+      <div className="sm:w-[30vw] w-[80vw] text-offWhite ">
        <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
         <div className="text-left space-y-6">
@@ -66,7 +66,7 @@ const ContactPage = () => {
         />
         <FormField
           control={form.control}
-          name="firstName"
+          name="lastName"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Last Name</FormLabel>
@@ -81,7 +81,7 @@ const ContactPage = () => {
 
         <FormField
           control={form.control}
-          name="firstName"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
@@ -95,7 +95,7 @@ const ContactPage = () => {
 
 <FormField
           control={form.control}
-          name="firstName"
+          name="message"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Message</FormLabel>
