@@ -2,6 +2,7 @@ import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UploadPage from "./components/UploadPage";
 import DownloadPage from "./components/DownloadPage";
+import ContactPage from "./components/ContactPage";
 import AboutPage from "./components/About";
 import { Toaster } from "sonner";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -18,6 +19,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/sharing/:fileId" element={<DownloadPage />} />
           <Route path="/" element={<UploadPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </BrowserRouter>
     </div>
