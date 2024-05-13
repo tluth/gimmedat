@@ -16,6 +16,9 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "./ui/textarea"
 
+import emailjs from '@emailjs/browser';
+
+
  
 const formSchema = z.object({
   firstName: z.string().min(2).max(50),
@@ -41,6 +44,19 @@ const ContactPage = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values)
+
+    emailjs
+      .send(import.meta.env.EMAILJS_SERVICE_ID!, import.meta.env.EMAILJS_TEMPLATE_ID!, values, {
+        publicKey: import.meta.env.EMAILJS_PUBLIC_KEY,
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
   }
 
 
@@ -58,7 +74,7 @@ const ContactPage = () => {
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input placeholder="Ronny" {...field} />
+                <Input placeholder="Ronny" {...field} name="firstName"/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -71,7 +87,7 @@ const ContactPage = () => {
             <FormItem>
               <FormLabel>Last Name</FormLabel>
               <FormControl>
-                <Input placeholder="Crumpets" {...field} />
+                <Input placeholder="Crumpets" {...field} name="lastName"/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -86,7 +102,7 @@ const ContactPage = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="ro_crum@gmail.com" {...field} />
+                <Input placeholder="ro_crum@gmail.com" {...field} name="email"/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,7 +116,7 @@ const ContactPage = () => {
             <FormItem>
               <FormLabel>Message</FormLabel>
               <FormControl>
-                <Textarea placeholder="Go wild..." {...field} />
+                <Textarea placeholder="Go wild..." {...field} name="message"/>
               </FormControl>
               <FormMessage />
             </FormItem>
