@@ -46,8 +46,8 @@ const ContactPage = () => {
     console.log(values)
 
     emailjs
-      .send(import.meta.env.EMAILJS_SERVICE_ID!, import.meta.env.EMAILJS_TEMPLATE_ID!, values, {
-        publicKey: import.meta.env.EMAILJS_PUBLIC_KEY,
+      .send(import.meta.env.VITE_EMAILJS_SERVICE_ID!, import.meta.env.VITE_EMAILJS_TEMPLATE_ID!, values, {
+        publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       })
       .then(
         () => {
