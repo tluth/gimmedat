@@ -14,12 +14,12 @@ const AboutPage = () => {
         </span>
         <p>
           Gimmedat started as a not-for-profit, personal project to help with my
-          regular need to send relatively large files across the internet
+          regular need to send relatively large files to others across the internet,
           without costing an arm and a leg in monthly fees for popular services like
           Google Drive or Dropbox. At the moment, this is intended only for
           temporary file sharing rather than permanent storage. You can upload a
           file, up to 4GB in size and receive a download link which will be
-          valid for 4 days. Sure, WeTransfer would've met my needs and maybe
+          valid for 4 days. Sure, WeTransfer would've met those needs and maybe
           done an even better job, but building stuff is also fun, so I decided
           to build this.
         </p>
@@ -29,13 +29,13 @@ const AboutPage = () => {
           <a className="a-line" href="https://github.com/tluth/gimmedat/blob/main/CONTRIBUTING.md">
             here
           </a>
-          , which include our code of conduct as well as other info on things
+          , which also includes our code of conduct as well as other info on things
           like bug reporting, etc. Please keep in mind, this is non-comercial
           and funded out of my own pocket, just for the fun of it. We aim to
-          keep things free from advertising and trackers, and we do our best to
-          respect your privacy and security. Therefore, we ask that you be
-          considerate and respectful in your use of the platform. 
-          Unnecessary excessive uploads will get you temporarily blacklisted.  
+          keep things free from advertising and trackers, with an emphasis on
+          respecting privacy and security. Therefore, we ask that you be
+          considerate and respectful in your use of the platform.
+          Unnecessary excessive uploads will get you temporarily blacklisted. 
         </p>
         <h1 className="my-4 text-2xl font-extrabold md:text-4xl lg:text-5xl text-center">
           Privacy Policy
@@ -45,7 +45,7 @@ const AboutPage = () => {
           In general, we aim to keep the handling, storing and sharing of
           Personally Identifiable Information (“PII”) to the absolute minimum.
           The records stored in our database when a file is uploaded
-          contain no PII alongside the file.
+          contain no information on the uploader, let alone PII, alongside the file information.
         </p>
         <p>
           We do not allow or employ third-party behavioral tracking. Our website
@@ -58,7 +58,7 @@ const AboutPage = () => {
         <p>We do not currently utilise any cookies.</p>
         <p>
           ALL data is permanently destroyed within the given time frame
-          (currently 96hrs).{" "}
+          (currently 96hrs).
         </p>
 
         <h1 className="my-4 text-2xl font-extrabold md:text-4xl lg:text-5xl text-center">
