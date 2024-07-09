@@ -26,7 +26,10 @@ const AboutPage = () => {
         <p>
           This is an ongoing work-in-progress, and we're open to contributions
           from others. See the Contributing Guidelines{" "}
-          <a className="a-line" href="https://github.com/tluth/gimmedat/blob/main/CONTRIBUTING.md">
+          <a
+            className="a-line"
+            href="https://github.com/tluth/gimmedat/blob/main/CONTRIBUTING.md"
+          >
             here
           </a>
           , which also includes our code of conduct as well as other info on things
@@ -75,17 +78,15 @@ const AboutPage = () => {
           will likely be disregarded.
         </p>
         <p>
-          We do not actively restrict access based on location (E.g. to comply
-          with international embargoes) or content (E.g. no copyright strikes),
+          We do not actively restrict access based on location (e.g. to comply
+          with international embargoes) or content (e.g. no copyright strikes),
           and and have no particular concern whether your use of Gimedat is in
           violation of the laws of your local government. If you wanna share a
           pirated copy of the latest Marvel blockbuster, or your homemade ANFO 
           recipe, that's your business, not mine. We probably won't be aware of it, 
           nor would we necessarily care. 
         </p>
-        <span className="text-xl font-bold pb-4">
-          However...
-        </span>
+        <span className="text-xl font-bold pb-4">However...</span>
         <p>
           Gimmedat is 100% committed to fighting online child sexual abuse and
           exploitation, and preventing our services from being used to spread
