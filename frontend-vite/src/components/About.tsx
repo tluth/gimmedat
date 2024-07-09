@@ -35,7 +35,7 @@ const AboutPage = () => {
           keep things free from advertising and trackers, with an emphasis on
           respecting privacy and security. Therefore, we ask that you be
           considerate and respectful in your use of the platform.
-          Unnecessary excessive uploads will get you temporarily blacklisted. 
+          Unnecessary excessive uploads will get you temporarily blacklisted.
         </p>
         <h1 className="my-4 text-2xl font-extrabold md:text-4xl lg:text-5xl text-center">
           Privacy Policy
@@ -67,20 +67,21 @@ const AboutPage = () => {
         <p>
           While we aim to provide a private and unrestrictive service, we
           understand this comes with it the potential for abuse, misuse, and all
-          sorts of shady business. We therefore employ various routine measures
-          for monitoring and detection of those kinds of misuses, which we don't
-          agree with. If you are flagged for any such behaviour, all previous
-          considerations for your privacy, security and safety may be
-          disregarded.
+          sorts of shady business. We therefore employ various measures
+          for routine monitoring and detection of those kinds of misuses which we don't
+          agree with (these are automated programmatic processes - a human
+          is not looking at what you've uploaded). If you are flagged for any such 
+          behaviour though, all previous considerations for your privacy and security 
+          will likely be disregarded.
         </p>
         <p>
           We do not actively restrict access based on location (E.g. to comply
           with international embargoes) or content (E.g. no copyright strikes),
           and and have no particular concern whether your use of Gimedat is in
           violation of the laws of your local government. If you wanna share a
-          pirated copy of the latest Marvel blockbuster, or your plans to stage
-          a coup against your local political leader, that's your business. 
-          We won't be aware of it, nor would we necessarily care.
+          pirated copy of the latest Marvel blockbuster, or your homemade ANFO 
+          recipe, that's your business, not mine. We probably won't be aware of it, 
+          nor would we necessarily care. 
         </p>
         <span className="text-xl font-bold pb-4">
           However...
@@ -93,7 +94,7 @@ const AboutPage = () => {
           removing, and reporting child sexual exploitation content and
           behavior. In the case of CSAM detection, our privacy policy goes out
           the window. Your information will be recorded, stored and shared with
-          the relevant authorities, agencies and/or whoever we see fit. 
+          the relevant authorities, agencies and/or whoever we feel appropriate.
         </p>
       </div>
     </div>

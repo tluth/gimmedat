@@ -1,5 +1,5 @@
-import { Music4, RadioTower } from "lucide-react";
-import LinkItem from "./LinkItem";
+import { Music4, RadioTower, FlaskConical } from "lucide-react";
+// import LinkItem from "./LinkItem";
 
 const StuffWeLikePage = () => {
   return (
@@ -21,6 +21,7 @@ const StuffWeLikePage = () => {
             <a
               href="https://nkfunky.com/"
               className="flex items-center space-x-3 p-2  font-medium hover:bg-main-400/30 focus:shadow-outline rounded"
+              target="_blank"
             >
               <span className="">
                 <RadioTower />
@@ -40,6 +41,20 @@ const StuffWeLikePage = () => {
               <span>
                 Triple Mango Newsletter — Bi-weekly music recos to help you
                 break through the monotony of the algorithm 🥭🥭🥭
+              </span>
+            </a>
+          </li>
+          <li>
+            <a
+              target="_blank"
+              href="https://mint-tea-records.co.uk/"
+              className="flex items-center space-x-3 p-2  font-medium hover:bg-main-400/30 focus:shadow-outline rounded"
+            >
+              <span className="">
+                <FlaskConical />
+              </span>
+              <span>
+                Mint Tea Records — Record label based in Bristol, UK, run by a guy who does a bunch of other cool creative stuff.
               </span>
             </a>
           </li>

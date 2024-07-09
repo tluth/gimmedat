@@ -1,5 +1,5 @@
 import Dropzone from "react-dropzone";
-import UploadIcon from "./UploadIcon";
+import UploadIcon from "./icons/UploadIcon";
 import { MIN_FILE_SIZE, MAX_FILE_SIZE } from "../constants";
 import { toast } from "sonner";
 import ParticlesBackground from "./ParticlesBackground/ParticlesBackground";
