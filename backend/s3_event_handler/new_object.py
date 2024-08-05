@@ -28,7 +28,7 @@ def check_cache_for_duplicate_files(s3_key: str, ip_address: str, filesize: int)
 
     if (
         NEW_OBJECT_CACHE[ip_address].count(new_item) > 10 or
-        len(NEW_OBJECT_CACHE[ip_address] > 3)
+        len(NEW_OBJECT_CACHE[ip_address]) > 3
     ):
         add_to_blacklist(ip_address, s3_key)
 
