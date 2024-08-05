@@ -10,7 +10,7 @@ def check_cache_for_duplicate_files(s3_key: str, ip_address: str, filesize: int)
     """
         Cache the uploaded file info and add user IP address to
         blacklist table if we receive a file with same name and
-        size > 10 times or if we just get >1000 requests from the same user 
+        size > 10 times or if we just get >1000 requests from the same user
         (Lambda should stay warm and retain cache for approx 15 mins so this is
         a limit of around 1 request every second for 15 mins straight)
     """
