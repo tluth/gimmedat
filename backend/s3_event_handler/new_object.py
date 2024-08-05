@@ -1,7 +1,8 @@
 import os
-
+import logging
 from .utils import serialize_event_data, add_to_blacklist
 
+logger = logging.getLogger(__name__)
 
 NEW_OBJECT_CACHE: dict[str, list] = {}
 
@@ -26,11 +27,17 @@ def check_cache_for_duplicate_files(s3_key: str, ip_address: str, filesize: int)
     else:
         NEW_OBJECT_CACHE[ip_address].append(new_item)
 
-    if (
-        NEW_OBJECT_CACHE[ip_address].count(new_item) > 10 or
-        len(NEW_OBJECT_CACHE[ip_address]) > 3
-    ):
+    # check for too much of a good thing
+    if NEW_OBJECT_CACHE[ip_address].count(new_item) > 10:
         add_to_blacklist(ip_address, s3_key)
+        logger.info(
+            f"IP: {ip_address} blacklisted for repeatedly uploading the same file"
+        )
+    # check for too much of the same dickhead
+    if len(NEW_OBJECT_CACHE[ip_address]) > 1000:
+        logger.info(
+            f"IP: {ip_address} blacklisted for unreasonable number of uploads"
+        )
 
     return NEW_OBJECT_CACHE
 
