@@ -2,6 +2,7 @@ locals {
   envs = {
     "dev"     = "dev"
     "prod"    = "prod"
+    "default" = "dev"
   }
   environment = local.envs[terraform.workspace]
 
@@ -15,5 +16,5 @@ locals {
   file_storage_table_name = "${var.product}-${local.environment}-files"
 
   product_domain     = "${var.product}.${data.aws_route53_zone.zone.name}"
-  product_domain_api = "${var.product}-api.${data.aws_route53_zone.zone.name}"
+  product_domain_api = "api.${local.product_domain}"
 }
