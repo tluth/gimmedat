@@ -51,3 +51,6 @@ infra/builds
 *.pyc
 *.pyo
 *.pyd
+
+# Build zips from terraform 
+# backend/*.zip
