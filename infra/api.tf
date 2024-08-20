@@ -4,7 +4,7 @@ module "acm_api_certificate" {
   providers = {
     aws = aws.us_east_1
   }
-  domain_name                       = "api.${local.product_domain}"
+  domain_name                       = local.product_domain_api
   name                              = "${local.product_domain}-api-acm"
   zone_id                           = data.aws_route53_zone.zone.id
   process_domain_validation_options = true
@@ -13,7 +13,7 @@ module "acm_api_certificate" {
 
 resource "aws_api_gateway_domain_name" "api_domain" {
   depends_on      = [module.acm_api_certificate]
-  domain_name     = "api.${local.product_domain}"
+  domain_name     = local.product_domain_api
   certificate_arn = module.acm_api_certificate.arn
   security_policy = "TLS_1_2"
 }
@@ -26,7 +26,7 @@ resource "aws_api_gateway_base_path_mapping" "mapping" {
 
 resource "aws_route53_record" "api_domain_name" {
   zone_id = data.aws_route53_zone.zone.id
-  name    = "api"
+  name    = "api.${var.product}"
   type    = "CNAME"
   ttl     = 60
   records = [aws_api_gateway_domain_name.api_domain.cloudfront_domain_name]
