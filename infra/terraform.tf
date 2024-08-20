@@ -2,10 +2,9 @@ terraform {
   required_version = ">= 1.4.0"
 
   backend "s3" {
-    region = "eu-central-1"
     encrypt = "true"
     bucket = "gimmedat-terraform"
-    key = "tfstate"
+    key = "gimmedat.tfstate"
   }
 
   required_providers {
