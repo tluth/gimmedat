@@ -78,8 +78,8 @@ jobs:
         run: cd frontend-vite && pnpm run build
         env:
           ENVIRONMENT: ${{ steps.environment.outputs.DEPLOY_ENVIRONMENT }}
-          REACT_APP_API_URL: https://ce8gryt0wj.execute-api.eu-central-1.amazonaws.com/dev #temp hardcoded API URL
-          VITE_APP_API_URL: https://ce8gryt0wj.execute-api.eu-central-1.amazonaws.com/dev #temp hardcoded API URL
+          REACT_APP_API_URL: https://api.gimmedat.bulgingdiscs.fun #temp hardcoded API URL
+          VITE_APP_API_URL: https://api.gimmedat.bulgingdiscs.fun #temp hardcoded API URL
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
           VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
