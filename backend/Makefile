@@ -24,6 +24,9 @@ clean:
 		rm -r ${S3_HANDLER_BUILD_DIR}; \
 	fi
 
+format:
+	autopep8 --in-place --aggressive --aggressive -r .
+
 # API
 build_local: clean
 	mkdir ${API_BUILD_DIR} && pip3 install -r requirements.txt --target=${API_BUILD_DIR}

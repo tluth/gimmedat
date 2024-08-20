@@ -17,7 +17,7 @@ def remove_expired_item_s3(record: dict) -> str | None:
         s3_client.delete_object(
             Bucket=appconfig.storage_bucket,
             Key=s3_key
-            )
+        )
         return s3_key
     except KeyError:
         logger.error("Record doesn't match expected pattern."
