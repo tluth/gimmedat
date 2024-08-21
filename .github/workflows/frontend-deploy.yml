@@ -92,7 +92,7 @@ jobs:
 
       - name: Upload to S3
         run: |
-          make frontend_vite__deploy
+          make frontend__deploy
         env:
           AWS_DEFAULT_REGION: "eu-central-1"
           ENVIRONMENT: ${{ steps.environment.outputs.DEPLOY_ENVIRONMENT }}
