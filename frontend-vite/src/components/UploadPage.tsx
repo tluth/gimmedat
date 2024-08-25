@@ -31,6 +31,10 @@ const UploadPage = () => {
     }
   };
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
   const handleSubmit = () => {
     setIsUploading(true);
     const upload_request = {

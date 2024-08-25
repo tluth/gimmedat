@@ -53,4 +53,8 @@ export default {
     },
   },
   plugins: [],
+<<<<<<< Updated upstream
 };
+=======
+};
+>>>>>>> Stashed changes
