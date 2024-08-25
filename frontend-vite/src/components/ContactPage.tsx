@@ -18,6 +18,8 @@ import { Textarea } from "./ui/textarea"
 
 import emailjs from '@emailjs/browser';
 
+import { useState } from "react"
+
 
  
 const formSchema = z.object({
@@ -30,6 +32,11 @@ const formSchema = z.object({
 
 const ContactPage = () => {
 
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSuccessful, setIsSuccessful] = useState(false)
+  const [isError, setIsError] = useState(false)
+
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,19 +48,22 @@ const ContactPage = () => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-    console.log(import.meta.env.VITE_EMAILJS_TEMPLATE_ID)
+
+    setIsLoading(true)
+
     emailjs
       .send(import.meta.env.VITE_EMAILJS_SERVICE_ID!, import.meta.env.VITE_EMAILJS_TEMPLATE_ID!, values, {
         publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       })
       .then(
         () => {
+          setIsLoading(false)
+          setIsSuccessful(true)
           console.log('SUCCESS!');
         },
         (error) => {
+          setIsLoading(false)
+          setIsError(true)
           console.log('FAILED...', error.text);
         },
       );
@@ -123,7 +133,14 @@ const ContactPage = () => {
           )}
         />
         </div>
-        <Button type="submit">Submit</Button>
+        <div className="grid grid-cols-2">
+       {isSuccessful?<Button disabled type="submit">Submit</Button>:<Button type="submit">Submit</Button>}
+       {isLoading?<div>Just a sec...</div>:<div></div>}
+       {isSuccessful?<div className=" pl-4 text-sm">Thanks, we've received your email.</div>:<div></div>}
+       {isError?<div>Sorry, something's gone wrong.</div>:<div></div>}
+
+
+        </div>
       </form>
     </Form>
     </div>
