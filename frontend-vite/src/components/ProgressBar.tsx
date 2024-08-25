@@ -1,15 +1,17 @@
+import { niceBytes } from "../utils";
+
 type ProgressBarProps = {
   progress: number;
   success: boolean;
+  fileSize: number | undefined;
 };
 
-const ProgressBar = ({ progress, success }: ProgressBarProps) => {
-  console.log(success)
+const ProgressBar = ({ progress, fileSize }: ProgressBarProps) => {
   return (
     <>
       <div className="flex justify-end mb-1">
         <span className="text-sm font-medium text-blue-700 dark:text-white">
-          {Math.round(progress)}%
+          {Math.round(progress)}% {fileSize? `of ${niceBytes(fileSize)}` : null}
         </span>
       </div>
       <div className="w-full bg-main-200 rounded-full dark:bg-gray-700">

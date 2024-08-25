@@ -1,7 +1,7 @@
 import logging
 from uuid import uuid4
 
-from fastapi import HTTPException
+from fastapi import HTTPException, Request, status
 
 from .config import appconfig
 from .db.files import file_db
@@ -14,8 +14,10 @@ from .models import (
 from .utils import (
     get_put_presigned_url,
     get_get_presigned_url,
-    calc_ttl_seconds
+    calc_ttl_seconds,
+    blacklist_lookup
 )
+
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +28,16 @@ main_router = APIRouter()
     "/file",
     response_model=UploadFileResponse,
 )
-def upload_file(data: UploadFileRequest) -> UploadFileResponse:
+def upload_file(
+    data: UploadFileRequest,
+    request: Request,
+) -> UploadFileResponse:
+    if blacklist_lookup(request.client.host):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Forbidden"
+        )
+
     if data.byte_size > int(appconfig.file_size_limit):
         raise HTTPException(
             status_code=400,

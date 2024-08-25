@@ -39,6 +39,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -51,8 +57,25 @@ jobs:
           DEPLOY_ENVIRONMENT=${ENV_INPUT:-"dev"}
           echo "::set-output name=DEPLOY_ENVIRONMENT::${DEPLOY_ENVIRONMENT}"
           ./build/scripts/accountid.sh ${DEPLOY_ENVIRONMENT}
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: cd frontend-vite && pnpm install
+
       - name: Build
-        run: make frontend_vite__build
+        run: cd frontend-vite && pnpm run build
         env:
           ENVIRONMENT: ${{ steps.environment.outputs.DEPLOY_ENVIRONMENT }}
           REACT_APP_API_URL: https://ce8gryt0wj.execute-api.eu-central-1.amazonaws.com/dev #temp hardcoded API URL

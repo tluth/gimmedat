@@ -5,7 +5,7 @@ import pendulum
 
 def get_expiry_date() -> int:
     now = pendulum.now()
-    expiry = now + pendulum.duration(days=2)
+    expiry = now + pendulum.duration(days=4)
     return expiry.int_timestamp
 
 

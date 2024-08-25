@@ -38,5 +38,3 @@ def handler(event: Any, context: Any) -> None:
         removed_files.append(s3_item)
     logger.info("The following items were deleted from s3:")
     logger.info(removed_files)
-
-

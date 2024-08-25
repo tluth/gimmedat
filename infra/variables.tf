@@ -62,5 +62,6 @@ variable "file_storage_bucket" {
 
 variable "file_size_limit" {
   type      = number
-  default   = 1073741824
+  default   = 4294967296
+  description = "4GB file size limit"
 }

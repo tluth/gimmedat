@@ -18,7 +18,10 @@ export default {
           800: "#002d80",
           900: "#001b4d",
         },
-        night: "#121010",
+        night: {
+          light: "#2b2626",
+          DEFAULT: "#121010"
+        },
         offWhite: "#FAEFDD",
         imperialRed: {
           400: "#df6d75",
@@ -44,6 +47,9 @@ export default {
           "monospace",
         ], // Ensure monospace is defined
       },
+      backgroundImage: {
+        sparkle: "url(/assets/WG8P.gif)"
+      }
     },
   },
   plugins: [],

@@ -4,6 +4,7 @@ import CustomDropzone from "./CustomDropzone";
 import { API } from "../constants.js";
 import FileLink from "./FileLink.js";
 import LoadingSpinner from "./LoadingSpinner";
+import { toast } from "sonner";
 
 const UploadPage = () => {
   const [file, setFile] = useState<File>();
@@ -37,7 +38,7 @@ const UploadPage = () => {
       byte_size: file?.size,
       file_type: file?.type,
     };
-    console.error(upload_request);
+
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `${API}/file`);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -78,6 +79,12 @@ const UploadPage = () => {
             }
           };
           xhrUpload.send(formData);
+        } else if (xhr.status === 403) {
+          toast.error(
+            "Sorry, mate. I think you've had a few too many. Try again later."
+          );
+          setIsUploading(false);
+          setSuccess(false);
         } else {
           alert("Problem submitting file.");
           setIsUploading(false);
@@ -89,8 +96,8 @@ const UploadPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-[70%] min-w-[50%] pt-[5%] inline-block">
-      <div>
+    <div className="mx-auto sm:max-w-[70%] sm:min-w-[50%] min-w-[70%] max-w-[80%] pt-[5%] inline-block">
+      <div className="bg-night-light bg-opacity-30">
         <CustomDropzone
           onDrop={handleFileChange}
           selectedFile={file}
@@ -115,6 +122,7 @@ const UploadPage = () => {
           progress={progressVal}
           success={success}
           isUploading={isUploading}
+          fileSize={file?.size}
         />
       )}
     </div>

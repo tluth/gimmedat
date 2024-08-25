@@ -33,10 +33,11 @@ const DownloadPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-[60%] min-w-[30%] pt-[5%] inline-block">
+    <div className="mx-auto sm:max-w-[80%] sm:min-w-[50%] min-w-[75%] pt-[5%] inline-block">
       <div
         className={`p-7 flex flex-col items-center justify-center h-48 text-offWhite
-        cursor-pointer transition-border ease-in-out border-2 rounded-md border-dashed pt-14`}
+        cursor-pointer transition-border ease-in-out border-2 rounded-md border-dashed pt-14
+        bg-night-light bg-opacity-30`}
       >
         {expired ? (
           <>

@@ -6,6 +6,7 @@ type FileLinkProps = {
   progress: number;
   success: boolean;
   isUploading: boolean;
+  fileSize: number | undefined;
 };
 
 const FileLink = ({
@@ -13,6 +14,7 @@ const FileLink = ({
   progress,
   success,
   isUploading,
+  fileSize
 }: FileLinkProps) => {
   return (
     <>
@@ -22,12 +24,12 @@ const FileLink = ({
             Share it with a friend 🪲
           </div>
           <div className="text-main font-mono mb-4 text-sm">
-            {`(Expires in 48 hours)`}
+            {`(Expires in 4 days)`}
           </div>
           <CopyArea text={sharingLink} />
         </>
       ) : isUploading ? (
-        <ProgressBar progress={progress} success={success} />
+        <ProgressBar progress={progress} success={success} fileSize={fileSize}/>
       ) : null}
     </>
   );

@@ -12,6 +12,7 @@
 * Add menu burger icon to open other pages - cli info, project info 
 * Add security tests / look into free tools you can use to test security (maybe set up to run on scheduled gh action)
 * Add regular unit tests + linting 
+* store files under our own unique names rather than user provided names 
 
 
 ## API DNS Issues:
