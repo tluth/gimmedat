@@ -31,7 +31,6 @@ const main = async () => {
   const downloadUrl = await getDownloadUrl(uuid);
 
   spinner.succeed("File can be downloaded from:");
-  console.log(downloadUrl);
 };
 
 main();

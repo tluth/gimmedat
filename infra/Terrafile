@@ -21,3 +21,7 @@ terraform-aws-lambda:
 squidfunk/terraform-aws-api-gateway-enable-cors :
     source: https://github.com/squidfunk/terraform-aws-api-gateway-enable-cors.git
     version: 0.3.3
+
+cloudposse/terraform-aws-ses:
+    source: "https://github.com/cloudposse/terraform-aws-ses.git"
+    version: "0.25.0"

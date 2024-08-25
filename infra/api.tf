@@ -1,12 +1,38 @@
-resource "aws_acm_certificate" "api_cert" {
-  provider          = aws.us_east_1
-  domain_name       = local.product_domain_api
-  validation_method = "DNS"
-  lifecycle {
-    create_before_destroy = true
+# custom domain for API
+module "acm_api_certificate" {
+  source = "./vendor/modules/cloudposse/terraform-aws-acm-request-certificate"
+  providers = {
+    aws = aws.us_east_1
   }
+  domain_name                       = local.product_domain_api
+  name                              = "${local.product_domain}-api-acm"
+  zone_id                           = data.aws_route53_zone.zone.id
+  process_domain_validation_options = true
+  ttl                               = "300"
 }
 
+resource "aws_api_gateway_domain_name" "api_domain" {
+  depends_on      = [module.acm_api_certificate]
+  domain_name     = local.product_domain_api
+  certificate_arn = module.acm_api_certificate.arn
+  security_policy = "TLS_1_2"
+}
+
+resource "aws_api_gateway_base_path_mapping" "mapping" {
+  api_id      = aws_api_gateway_rest_api.api.id
+  stage_name  = aws_api_gateway_stage.api_stage.stage_name
+  domain_name = aws_api_gateway_domain_name.api_domain.domain_name
+}
+
+resource "aws_route53_record" "api_domain_name" {
+  zone_id = data.aws_route53_zone.zone.id
+  name    = "api.${var.product}"
+  type    = "CNAME"
+  ttl     = 60
+  records = [aws_api_gateway_domain_name.api_domain.cloudfront_domain_name]
+}
+
+# API
 resource "aws_api_gateway_rest_api" "api" {
   name = local.site
   endpoint_configuration {

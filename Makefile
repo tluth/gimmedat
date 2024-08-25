@@ -16,7 +16,7 @@ infra__%:
 backend__%:
 	"${MAKE}" --directory backend $*
 
-frontend_vite__%:
+frontend__%:
 	"${MAKE}" --directory frontend-vite $*
 
 
