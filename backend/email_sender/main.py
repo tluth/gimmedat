@@ -6,7 +6,7 @@ from email.mime.text import MIMEText
 
 import boto3
 
-from config import appconfig
+from email_sender.config import appconfig
 
 
 logger = logging.getLogger(__name__)
