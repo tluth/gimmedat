@@ -10,7 +10,7 @@ s3_HANDLER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-s3-event-handler"
 S3_HANDLER_BUILD_DIR=s3_event_handler_build
 
 EMAILER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-email-sender"
-EAMILER_BUILD_DIR=eamil_sender
+EAMILER_BUILD_DIR=email_sender
 
 
 run_api:
