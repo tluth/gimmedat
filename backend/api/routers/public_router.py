@@ -3,15 +3,15 @@ from uuid import uuid4
 
 from fastapi import HTTPException, Request, status
 
-from .config import appconfig
-from .db.files import file_db
-from .trailingslash_router import APIRouter
-from .models import (
+from ..config import appconfig
+from ..db.files import file_db
+from ..trailingslash_router import APIRouter
+from ..models import (
     UploadFileRequest,
     UploadFileResponse,
     GetFileResponse
 )
-from .utils import (
+from ..utils import (
     get_put_presigned_url,
     get_get_presigned_url,
     calc_ttl_seconds,

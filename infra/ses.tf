@@ -5,4 +5,6 @@ module "ses" {
   verify_dkim   = true
   verify_domain = true
   context = module.this.context
+  create_spf_record = true
+  # iam_allowed_resources = [ aws_lambda_function.email_sender.arn ]
 }

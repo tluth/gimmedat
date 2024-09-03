@@ -9,6 +9,9 @@ DB_STREAM_BUILD_DIR=db_stream_handler_build
 s3_HANDLER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-s3-event-handler"
 S3_HANDLER_BUILD_DIR=s3_event_handler_build
 
+EMAILER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-email-sender"
+EAMILER_BUILD_DIR=eamil_sender
+
 
 run_api:
 	uvicorn api.run_api:app --port 5000 --reload
@@ -54,5 +57,14 @@ deploy_s3_handler: build_s3_handler
 	--zip-file fileb://${S3_HANDLER_BUILD_DIR}.zip
 	rm -r ./${S3_HANDLER_BUILD_DIR} && rm ${S3_HANDLER_BUILD_DIR}.zip
 
+# Email Lambda
+build_email_lambda: clean
+	mkdir ${EAMILER_BUILD_DIR} && pip3 install -r ./${EAMILER_BUILD_DIR}/requirements.txt --target=${EAMILER_BUILD_DIR}
+	cp -r eamil_sender ./${EAMILER_BUILD_DIR}/ && cd ${EAMILER_BUILD_DIR} && zip -r ../${EAMILER_BUILD_DIR}.zip .
 
-deploy: deploy_api deploy_trash_collector deploy_s3_handler
+deploy_email_lambda: build_email_lambda
+	aws lambda update-function-code --function-name ${EMAILER_LAMBDA_NAME} \
+	--zip-file fileb://${EAMILER_BUILD_DIR}.zip
+	rm -r ./${EAMILER_BUILD_DIR} && rm ${EAMILER_BUILD_DIR}.zip
+
+deploy: deploy_api deploy_trash_collector deploy_s3_handler deploy_email_lambda
