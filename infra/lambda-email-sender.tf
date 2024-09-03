@@ -10,6 +10,13 @@ resource "aws_lambda_function" "email_sender" {
   handler       = "email_sender.main.lambda_handler"
   runtime       = var.lambda_runtime
   filename      = data.archive_file.email_sender.output_path
+  environment {
+    variables = {
+      "REGION" = local.aws_region
+      "ENVIRONMENT" = local.environment
+      "DOMAIN" = local.product_domain
+    }
+  }
 }
 
 resource "aws_iam_role" "iam_email_lambda" {
