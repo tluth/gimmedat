@@ -10,7 +10,7 @@ s3_HANDLER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-s3-event-handler"
 S3_HANDLER_BUILD_DIR=s3_event_handler_build
 
 EMAILER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-email-sender"
-EAMILER_BUILD_DIR=email_sender
+EAMILER_BUILD_DIR=email_sender_build
 
 
 run_api:
@@ -62,8 +62,8 @@ deploy_s3_handler: build_s3_handler
 
 # Email Lambda
 build_email_lambda: clean
-	mkdir ${EAMILER_BUILD_DIR} && pip3 install -r ./${EAMILER_BUILD_DIR}/requirements.txt --target=${EAMILER_BUILD_DIR}
-	cp -r eamil_sender ./${EAMILER_BUILD_DIR}/ && cd ${EAMILER_BUILD_DIR} && zip -r ../${EAMILER_BUILD_DIR}.zip .
+	mkdir ${EAMILER_BUILD_DIR} && pip3 install -r email_sender/requirements.txt --target=${EAMILER_BUILD_DIR}
+	cp -r email_sender ./${EAMILER_BUILD_DIR}/ && cd ${EAMILER_BUILD_DIR} && zip -r ../${EAMILER_BUILD_DIR}.zip .
 
 deploy_email_lambda: build_email_lambda
 	aws lambda update-function-code --function-name ${EMAILER_LAMBDA_NAME} \
