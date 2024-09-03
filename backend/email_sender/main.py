@@ -1,4 +1,5 @@
 import os
+import logging
 from collections import namedtuple
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
@@ -6,6 +7,7 @@ from email.mime.text import MIMEText
 
 import boto3
 
+logger = logging.getLogger(__name__)
 ses = boto3.client("ses")
 Attachment = namedtuple("Attachment", ["name", "content_type", "content"])
 
@@ -82,8 +84,11 @@ def format_response(status_code, body):
     }
 
 
-def handler(event, context):
-
+def lambda_handler(event, context):
+    print()
+    logger.info(
+        f"Processing email to: {event['recipient_email']}"
+    )
     email = Email(
         to=event["recipient_email"], subject=event["email_subject"])
     email.text(event["content"])

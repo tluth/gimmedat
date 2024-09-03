@@ -7,7 +7,7 @@ data "archive_file" "email_sender" {
 resource "aws_lambda_function" "email_sender" {
   function_name = "${local.site}-email-sender"
   role          = aws_lambda_function.api_lambda.role
-  handler       = "s3_event_handler.new_object.lambda_handler"
+  handler       = "email_sender.main.lambda_handler"
   runtime       = var.lambda_runtime
   filename      = data.archive_file.email_sender.output_path
 }
