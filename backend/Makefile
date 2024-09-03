@@ -26,6 +26,9 @@ clean:
 	@if [ -d ${S3_HANDLER_BUILD_DIR} ]; then \
 		rm -r ${S3_HANDLER_BUILD_DIR}; \
 	fi
+	@if [ -d ${EAMILER_BUILD_DIR} ]; then \
+		rm -r ${EAMILER_BUILD_DIR}; \
+	fi
 
 # API
 build_local: clean
