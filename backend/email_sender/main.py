@@ -1,4 +1,3 @@
-import os
 import logging
 from collections import namedtuple
 from email.mime.application import MIMEApplication
@@ -6,6 +5,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 import boto3
+
+from config import appconfig
+
 
 logger = logging.getLogger(__name__)
 ses = boto3.client("ses")
@@ -21,7 +23,7 @@ class Email(object):
             self.to = to
         else:
             raise Exception("Invalid email address")
-        self._domain = os.environ["DOMAIN"]
+        self._domain = appconfig.domain
         self.subject = subject
         self._html = None
         self._text = None
