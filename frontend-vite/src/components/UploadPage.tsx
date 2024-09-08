@@ -39,7 +39,7 @@ const UploadPage = () => {
       file_name: file?.name,
       byte_size: file?.size,
       file_type: file?.type,
-      recipient_email: "tom.lutherborrow@gmail.com",
+      recipient_email: "tlutherborrow@gmail.com",
       sender: "tommmyu"
     };
 
