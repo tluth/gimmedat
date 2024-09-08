@@ -6,7 +6,7 @@ API_BUILD_DIR = api_build
 DB_STREAM_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-trash-collection"
 DB_STREAM_BUILD_DIR=db_stream_handler_build
 
-s3_HANDLER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-s3-event-handler"
+S3_HANDLER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-s3-event-handler"
 S3_HANDLER_BUILD_DIR=s3_event_handler_build
 
 EMAILER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-email-sender"
@@ -56,7 +56,7 @@ build_s3_handler: clean
 	cp -r s3_event_handler ./${S3_HANDLER_BUILD_DIR}/ && cd ${S3_HANDLER_BUILD_DIR} && zip -r ../${S3_HANDLER_BUILD_DIR}.zip .
 
 deploy_s3_handler: build_s3_handler
-	aws lambda update-function-code --function-name ${s3_HANDLER_LAMBDA_NAME} \
+	aws lambda update-function-code --function-name ${S3_HANDLER_LAMBDA_NAME} \
 	--zip-file fileb://${S3_HANDLER_BUILD_DIR}.zip
 	rm -r ./${S3_HANDLER_BUILD_DIR} && rm ${S3_HANDLER_BUILD_DIR}.zip
 

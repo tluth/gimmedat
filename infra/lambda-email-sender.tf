@@ -6,15 +6,15 @@ data "archive_file" "email_sender" {
 
 resource "aws_lambda_function" "email_sender" {
   function_name = "${local.site}-email-sender"
-  role          = aws_lambda_function.api_lambda.role
+  role          = aws_iam_role.iam_email_lambda.arn
   handler       = "email_sender.main.lambda_handler"
   runtime       = var.lambda_runtime
   filename      = data.archive_file.email_sender.output_path
   environment {
     variables = {
-      "REGION" = local.aws_region
+      "REGION"      = local.aws_region
       "ENVIRONMENT" = local.environment
-      "DOMAIN" = local.product_domain
+      "DOMAIN"      = local.product_domain
     }
   }
 }
@@ -52,8 +52,11 @@ data "aws_iam_policy_document" "email_lambda" {
   statement {
     sid       = "AllowSES2"
     effect    = "Allow"
-    resources = [module.ses.ses_domain_identity_arn]
-    actions   = ["ses:SendRawEmail"]
+    resources = [aws_ses_domain_identity.sesid.arn]
+    actions = [
+      "ses:SendRawEmail",
+      "ses:SendEmail"
+    ]
   }
 
   # restriction to just our lambda logs

@@ -68,9 +68,9 @@ class Email(object):
         msg.attach(part2)
 
         return ses.send_raw_email(
-            RawMessage={"Data": msg.as_string()},
             Source="no-reply@{}".format(self._domain),
             Destinations=self.to,
+            RawMessage={"Data": msg.as_string()},
         )
 
 
@@ -87,7 +87,6 @@ def format_response(status_code, body):
 
 
 def lambda_handler(event, context):
-    print()
     logger.info(
         f"Processing email to: {event['recipient_email']}"
     )

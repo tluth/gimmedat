@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from backend.api.routers.public_router import main_router
+from api.routers.public_router import main_router
 
 
 logging.Logger.root.level = 10

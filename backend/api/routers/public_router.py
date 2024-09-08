@@ -48,6 +48,8 @@ def upload_file(
     db_record = file_db(
         file_id=str(file_id),
         s3_path=s3_path,
+        recipient_email=data.recipient_email,
+        sender=data.sender
     )
     post_presign = get_put_presigned_url(
         s3_path, data.file_type, data.byte_size)
