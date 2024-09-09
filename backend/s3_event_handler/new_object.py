@@ -65,6 +65,8 @@ def lambda_handler(event, context):
         data_response["object_size"]
     )
     # Check if email needs to be sent
+    print("event_obj")
+    print(data_response)
     file_id = Path(data_response["object_key"]).parts[0]
     file_record = get_file_record(file_id, data_response["object_key"])
     if "recipient_email" in file_record and "sender" in file_record:

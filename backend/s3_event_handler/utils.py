@@ -66,6 +66,8 @@ def get_file_record(id: str, s3_key: str) -> dict:
         }
     )
     print("=================")
+    print(id)
+    print(s3_key)
     print(response)
     return response["Item"]
 
