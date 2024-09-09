@@ -62,7 +62,7 @@ def get_file_record(id: str, s3_key: str) -> dict:
     response = table.get_item(
         Key={
             "file_id": id,
-            "s3_key": s3_key
+            "s3_path": s3_key
         }
     )
     return response["Item"]
