@@ -88,7 +88,9 @@ def format_response(status_code, body):
 
 
 def lambda_handler(event, context):
-    event = json.loads(event)
+    print("============")
+    print(event)
+    print(type(event))
     logger.info(
         f"Processing email to: {event['recipient_email']}"
     )
