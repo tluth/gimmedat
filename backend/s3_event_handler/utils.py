@@ -58,7 +58,7 @@ def get_expiry_date() -> int:
 
 
 def get_file_record(id: str) -> dict:
-    table = DB_CLIENT.Table(appconfig.storage_bucket)
+    table = DB_CLIENT.Table(appconfig.files_table_name)
     response = table.get_item(
         Key={"file_id": id}
     )
