@@ -1,5 +1,6 @@
 import os
 import logging
+import urllib
 from pathlib import Path
 
 from .utils import (
@@ -66,10 +67,9 @@ def lambda_handler(event, context):
     )
     # Check if email needs to be sent
     print("=====")
-    print("event_obj")
-    print(data_response)
-    file_id = Path(data_response["object_key"]).parts[0]
-    file_record = get_file_record(file_id, data_response["object_key"])
+    s3_key = urllib.parse.unquote(data_response["object_key"])
+    file_id = Path(s3_key.parts[0])
+    file_record = get_file_record(file_id, s3_key)
     print(file_record)
     if "recipient_email" in file_record and "sender" in file_record:
         send_email(file_record)
