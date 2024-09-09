@@ -57,10 +57,13 @@ def get_expiry_date() -> int:
     return expiry.int_timestamp
 
 
-def get_file_record(id: str) -> dict:
+def get_file_record(id: str, s3_key: str) -> dict:
     table = DB_CLIENT.Table(appconfig.files_table_name)
     response = table.get_item(
-        Key={"file_id": id}
+        Key={
+            "file_id": id,
+            "s3_key": s3_key
+        }
     )
     return response["Item"]
 
