@@ -78,7 +78,7 @@ def add_to_blacklist(ip_address: str, s3_key: str):
     })
 
 
-def send_email(file_record: dict, recipient_email: str, sender: str):
+def send_email(file_record: dict):
     link: str = f"{appconfig.frontend_base_domain}/sharing/{file_record['file_id']}"
     file_name: str = Path(file_record["s3_path"]).stem
     ttl_in_hours: int = format(file_record["expire_at"], ".0f")
@@ -90,8 +90,8 @@ def send_email(file_record: dict, recipient_email: str, sender: str):
     )
     payload = {
         "content": content,
-        "recipient_email": recipient_email,
-        "email_subject": f"{sender} wants to share a file with you",
+        "recipient_email": file_record["recipient_email"],
+        "email_subject": f"{file_record['sender']} wants to share a file with you",
         "attachments": [],
     }
     LAMBDA_CLIENT.invoke(
