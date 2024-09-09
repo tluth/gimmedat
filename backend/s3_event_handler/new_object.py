@@ -1,6 +1,6 @@
 import os
 import logging
-import urllib
+from urllib.parse import unquote_plus
 from pathlib import Path
 
 from .utils import (
@@ -67,7 +67,7 @@ def lambda_handler(event, context):
     )
     # Check if email needs to be sent
     print("=====")
-    s3_key = urllib.parse.unquote(data_response["object_key"]).decode('utf8')
+    s3_key = unquote_plus(data_response["object_key"])
     file_id = Path(s3_key).parts[0]
     print(file_id)
     print(s3_key)
