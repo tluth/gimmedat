@@ -80,8 +80,8 @@ def add_to_blacklist(ip_address: str, s3_key: str):
 
 def send_email(file_record: dict):
     link: str = f"{appconfig.frontend_base_domain}/sharing/{file_record['file_id']}"
-    file_name: str = Path(file_record['s3_path']).stem
-    ttl_in_hours: int = format(file_record['ttl'], ".0f")
+    file_name: str = Path(file_record["s3_path"]).stem
+    ttl_in_hours: int = format(file_record["expire_at"], ".0f")
     content = file_recipient_template(
         file_record["sender"],
         link,
