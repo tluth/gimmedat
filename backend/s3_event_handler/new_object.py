@@ -67,8 +67,10 @@ def lambda_handler(event, context):
     )
     # Check if email needs to be sent
     print("=====")
-    s3_key = urllib.parse.unquote(data_response["object_key"])
+    s3_key = urllib.parse.unquote(data_response["object_key"]).decode('utf8')
     file_id = Path(s3_key).parts[0]
+    print(file_id)
+    print(s3_key)
     file_record = get_file_record(file_id, s3_key)
     print(file_record)
     if "recipient_email" in file_record and "sender" in file_record:
