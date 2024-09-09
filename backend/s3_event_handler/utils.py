@@ -65,11 +65,7 @@ def get_file_record(id: str, s3_key: str) -> dict:
             "s3_path": s3_key
         }
     )
-    print("=================")
-    print(id)
-    print(s3_key)
-    print(response)
-    return response["Item"]
+    return json.dumps(response["Item"])
 
 
 def add_to_blacklist(ip_address: str, s3_key: str):
