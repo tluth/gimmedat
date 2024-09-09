@@ -1,3 +1,4 @@
+from decimal import Decimal
 import json
 from pathlib import Path
 
@@ -16,6 +17,13 @@ LAMBDA_CLIENT = boto3.client(
     "lambda",
     appconfig.aws_region,
 )
+
+
+class DecimalEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return str(obj)
+        return json.JSONEncoder.default(self, obj)
 
 
 def get_file(s3_key):
@@ -65,7 +73,7 @@ def get_file_record(id: str, s3_key: str) -> dict:
             "s3_path": s3_key
         }
     )
-    return json.dumps(response["Item"])
+    return json.dumps(response["Item"], cls=DecimalEncoder)
 
 
 def add_to_blacklist(ip_address: str, s3_key: str):
