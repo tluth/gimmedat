@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import { Loader2 } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -133,11 +135,11 @@ const ContactPage = () => {
           )}
         />
         </div>
-        <div className="grid grid-cols-2">
+        <div className="flex">
        {isSuccessful?<Button disabled type="submit">Submit</Button>:<Button type="submit">Submit</Button>}
-       {isLoading?<div>Just a sec...</div>:<div></div>}
-       {isSuccessful?<div className=" pl-4 text-sm">Thanks, we've received your email.</div>:<div></div>}
-       {isError?<div>Sorry, something's gone wrong.</div>:<div></div>}
+       {isLoading?<div className="flex self-center pl-4"><Loader2 className="mr-2 h-4 w-4 animate-spin" /> <div className="pl-2">Please wait...</div></div>:<div></div>}
+       {isSuccessful?<div className="flex pl-4 text-sm self-center">Thanks, we've received your email.</div>:<div></div>}
+       {isError?<div className="flex pl-4 text-sm self-center">Sorry, something's gone wrong.</div>:<div></div>}
 
 
         </div>
