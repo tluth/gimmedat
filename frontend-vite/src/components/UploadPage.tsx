@@ -113,7 +113,6 @@ const UploadPage = () => {
       {file && isValid && !success && (
         <div className="flex justify-between">
         <EmailForm className="left-content"/>
-        
 
         </div>
       )}
