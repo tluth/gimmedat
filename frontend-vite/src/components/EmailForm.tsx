@@ -1,7 +1,29 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Input } from "@/components/ui/input";
+import React, { useEffect, useState } from "react";
+import { send } from "@emailjs/browser";
 import { Button } from "./ui/button";
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+const formSchema = z.object({
+  senderName: z.string().min(2, { message: "A Name is required" }).max(50),
+  senderEmail: z.string().email(),
+  recipientName: z.string().min(2, { message: "A Name is required" }).max(50),
+  recipientEmail: z.string().email(),
+});
 
 type EmailFormProps = {
   className?: string;
@@ -22,6 +44,22 @@ const EmailForm = ({
 }: EmailFormProps) => {
   const [isRecipient, setIsRecipient] = useState<boolean>(false);
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      senderName: "",
+      senderEmail: "",
+      recipientName: "",
+      recipientEmail: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+  }
+
   const defaultStyles = `p-5 mb-5 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
         rounded-lg border-dashed ${
           isChecked ? "border-main-300" : "border-offWhite"
@@ -37,19 +75,86 @@ const EmailForm = ({
           <Button onClick={() => setIsRecipient(!isRecipient)} className="p2">
             Add recipient details
           </Button>
-          {isRecipient?(
-            <Input
-            name="recipient-email"
-            aria-label="recipient-email"
-            placeholder="ro_crum@gmail.com"
-            value={recipient}
-          />
-          ):<div />}
-          {!isRecipient?(
-        <Button>Continue without recipient</Button>
-          ): <div />}
+          {isRecipient ? (
+            <Form {...form}>
+              {" "}
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                <div className="grid grid-cols-2 gap-2">
+                <FormField
+                  control={form.control}
+                  name="senderName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-left">Sender name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="John" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="senderEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sender email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="john@gmail.com" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                <FormField
+                  control={form.control}
+                  name="recipientName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Recipient name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Jane" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="recipientEmail"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Recipient email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="jane@gmail.com" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                  
+                />
+                </div>
+                <Button type="submit">Submit</Button>
+              </form>
+            </Form>
+          ) : (
+            <div />
+          )}
+          {!isRecipient ? <Button>Continue without recipient</Button> : <div />}
         </div>
-        
       </div>
     </div>
   );
