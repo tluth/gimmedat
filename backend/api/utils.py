@@ -54,7 +54,7 @@ def get_get_presigned_url(key: str) -> dict:
             "Key": key,
             'ResponseContentDisposition': 'attachment',
         },
-        ExpiresIn="720",
+        ExpiresIn="7200",
     )
 
 

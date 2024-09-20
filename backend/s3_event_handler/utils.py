@@ -1,6 +1,21 @@
+import json
+from pathlib import Path
+
 import pendulum
 import boto3
+
+
 from .config import appconfig
+from .email_template import file_recipient_template
+
+DB_CLIENT = boto3.resource(
+    "dynamodb",
+    appconfig.aws_region,
+)
+LAMBDA_CLIENT = boto3.client(
+    "lambda",
+    appconfig.aws_region,
+)
 
 
 def get_file(s3_key):
@@ -42,12 +57,50 @@ def get_expiry_date() -> int:
     return expiry.int_timestamp
 
 
+def get_file_record(id: str, s3_key: str) -> dict:
+    table = DB_CLIENT.Table(appconfig.files_table_name)
+    response = table.get_item(
+        Key={
+            "file_id": id,
+            "s3_path": s3_key
+        }
+    )
+    return response["Item"]
+
+
 def add_to_blacklist(ip_address: str, s3_key: str):
-    db_client = boto3.resource('dynamodb')
-    table = db_client.Table(appconfig.blaclist_table_name)
+    table = DB_CLIENT.Table(appconfig.blaclist_table_name)
     table.put_item(Item={
+<<<<<<< HEAD
         'ip_address': ip_address,
         'created_at': pendulum.now().int_timestamp,
+=======
+        "ip_address": ip_address,
+        "created_at":  pendulum.now().int_timestamp,
+>>>>>>> ses
         "expire_at": get_expiry_date(),
         "s3_key": s3_key
     })
+
+
+def send_email(file_record: dict):
+    link: str = f"{appconfig.frontend_base_domain}/sharing/{file_record['file_id']}"
+    file_name: str = Path(file_record["s3_path"]).stem
+    ttl_in_hours: int = format(file_record["expire_at"], ".0f")
+    content = file_recipient_template(
+        file_record["sender"],
+        link,
+        file_name,
+        ttl_in_hours
+    )
+    payload = {
+        "content": content,
+        "recipient_email": file_record["recipient_email"],
+        "email_subject": f"{file_record['sender']} wants to share a file with you",
+        "attachments": [],
+    }
+    LAMBDA_CLIENT.invoke(
+        FunctionName=f"gimmedat-{appconfig.environment}-email-sender",
+        InvocationType="Event",
+        Payload=json.dumps(payload)
+    )

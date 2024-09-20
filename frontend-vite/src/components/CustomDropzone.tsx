@@ -41,7 +41,7 @@ function CustomDropzone({
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
             {...getRootProps()}
-            className={`pb-5 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
+            className={`pb-5 mb-5 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
           rounded-lg border-dashed ${
             isDragActive ? "border-main-300" : "border-offWhite"
           } overflow-hidden px-3 relative`}

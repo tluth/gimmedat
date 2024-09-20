@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
-from api.router import main_router
+from api.routers.public_router import main_router
 
 
 logging.Logger.root.level = 10
@@ -25,11 +25,16 @@ def create_api():
     )
 
     @app.exception_handler(RequestValidationError)
-    async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    async def validation_exception_handler(
+            request: Request,
+            exc: RequestValidationError):
         exc_str = f'{exc}'.replace('\n', ' ').replace('   ', ' ')
         logging.error(f"{request}: {exc_str}")
         content = {'status_code': 10422, 'message': exc_str, 'data': None}
-        return JSONResponse(content=content, status_code=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        return JSONResponse(
+            content=content,
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY
+        )
 
     ###########################################################################
     #   Middleware                                                            #

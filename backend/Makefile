@@ -6,8 +6,11 @@ API_BUILD_DIR = api_build
 DB_STREAM_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-trash-collection"
 DB_STREAM_BUILD_DIR=db_stream_handler_build
 
-s3_HANDLER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-s3-event-handler"
+S3_HANDLER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-s3-event-handler"
 S3_HANDLER_BUILD_DIR=s3_event_handler_build
+
+EMAILER_LAMBDA_NAME="${PRODUCT}-${ENVIRONMENT}-email-sender"
+EAMILER_BUILD_DIR=email_sender_build
 
 
 run_api:
@@ -22,6 +25,9 @@ clean:
 	fi
 	@if [ -d ${S3_HANDLER_BUILD_DIR} ]; then \
 		rm -r ${S3_HANDLER_BUILD_DIR}; \
+	fi
+	@if [ -d ${EAMILER_BUILD_DIR} ]; then \
+		rm -r ${EAMILER_BUILD_DIR}; \
 	fi
 
 format:
@@ -53,9 +59,18 @@ build_s3_handler: clean
 	cp -r s3_event_handler ./${S3_HANDLER_BUILD_DIR}/ && cd ${S3_HANDLER_BUILD_DIR} && zip -r ../${S3_HANDLER_BUILD_DIR}.zip .
 
 deploy_s3_handler: build_s3_handler
-	aws lambda update-function-code --function-name ${s3_HANDLER_LAMBDA_NAME} \
+	aws lambda update-function-code --function-name ${S3_HANDLER_LAMBDA_NAME} \
 	--zip-file fileb://${S3_HANDLER_BUILD_DIR}.zip
 	rm -r ./${S3_HANDLER_BUILD_DIR} && rm ${S3_HANDLER_BUILD_DIR}.zip
 
+# Email Lambda
+build_email_lambda: clean
+	mkdir ${EAMILER_BUILD_DIR} && pip3 install -r email_sender/requirements.txt --target=${EAMILER_BUILD_DIR}
+	cp -r email_sender ./${EAMILER_BUILD_DIR}/ && cd ${EAMILER_BUILD_DIR} && zip -r ../${EAMILER_BUILD_DIR}.zip .
 
-deploy: deploy_api deploy_trash_collector deploy_s3_handler
+deploy_email_lambda: build_email_lambda
+	aws lambda update-function-code --function-name ${EMAILER_LAMBDA_NAME} \
+	--zip-file fileb://${EAMILER_BUILD_DIR}.zip
+	rm -r ./${EAMILER_BUILD_DIR} && rm ${EAMILER_BUILD_DIR}.zip
+
+deploy: deploy_api deploy_trash_collector deploy_s3_handler deploy_email_lambda

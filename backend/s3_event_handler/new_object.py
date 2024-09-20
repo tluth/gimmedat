@@ -1,6 +1,14 @@
 import os
 import logging
-from .utils import serialize_event_data, add_to_blacklist
+from urllib.parse import unquote_plus
+from pathlib import Path
+
+from .utils import (
+    serialize_event_data,
+    add_to_blacklist,
+    get_file_record,
+    send_email
+)
 
 logger = logging.getLogger(__name__)
 
@@ -49,6 +57,7 @@ def lambda_handler(event, context):
         event ([type]): Json event
         context ([type]): [description]
     """
+    # Check cache for duplicate uploads
     data_response = serialize_event_data(event)
     global NEW_OBJECT_CACHE
     NEW_OBJECT_CACHE = check_cache_for_duplicate_files(
@@ -56,3 +65,9 @@ def lambda_handler(event, context):
         data_response["source_ip"],
         data_response["object_size"]
     )
+    # Check if email needs to be sent
+    s3_key = unquote_plus(data_response["object_key"])
+    file_id = Path(s3_key).parts[0]
+    file_record = get_file_record(file_id, s3_key)
+    if "recipient_email" in file_record and "sender" in file_record:
+        send_email(file_record)

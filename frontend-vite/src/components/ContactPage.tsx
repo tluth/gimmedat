@@ -41,10 +41,6 @@ const ContactPage = () => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
-    console.log(import.meta.env.VITE_EMAILJS_TEMPLATE_ID)
     emailjs
       .send(import.meta.env.VITE_EMAILJS_SERVICE_ID!, import.meta.env.VITE_EMAILJS_TEMPLATE_ID!, values, {
         publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,

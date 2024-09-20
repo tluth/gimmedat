@@ -5,6 +5,8 @@ import { API } from "../constants.js";
 import FileLink from "./FileLink.js";
 import LoadingSpinner from "./LoadingSpinner";
 import { toast } from "sonner";
+import EmailForm from "./EmailForm.js";
+
 
 const UploadPage = () => {
   const [file, setFile] = useState<File>();
@@ -37,6 +39,8 @@ const UploadPage = () => {
       file_name: file?.name,
       byte_size: file?.size,
       file_type: file?.type,
+      recipient_email: "tlutherborrow@gmail.com",
+      sender: "tommmyu"
     };
 
     const xhr = new XMLHttpRequest();
@@ -106,15 +110,18 @@ const UploadPage = () => {
           setIsValid={setIsValid}
         />
       </div>
-      {file && isValid && (
+      {file && isValid && !success && (
+        <div className="flex justify-between">
+        {/* <EmailForm className="left-content"/> */}
         <button
-          className="focus:outline-none mt-4 text-black bg-main hover:bg-main-300 focus:ring-4 focus:ring-main-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-main dark:hover:bg-main-700 dark:focus:ring-main-800"
+          className="right-content max-h-10 focus:outline-none text-black bg-main hover:bg-main-300 focus:ring-4 focus:ring-main-300 font-medium rounded-lg text-sm px-8 py-2.5 me-2 mb-2 dark:bg-main dark:hover:bg-main-700 dark:focus:ring-main-800"
           onClick={handleSubmit}
         >
           <div className="min-w-12 flex items-center justify-center">
             {isUploading ? <LoadingSpinner /> : "Upload"}
           </div>
         </button>
+        </div>
       )}
       {isValid && (
         <FileLink
