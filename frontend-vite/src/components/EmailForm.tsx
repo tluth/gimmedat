@@ -18,8 +18,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+import { Checkbox } from "@/components/ui/checkbox";
+
 const formSchema = z.object({
-  sender: z.union([z.string().min(2, { message: "A Name or email is required" }).max(50), z.string().email()]),
+  sender: z.union([
+    z.string().min(2, { message: "A Name or email is required" }).max(50),
+    z.string().email(),
+  ]),
   recipientEmail: z.string().email(),
 });
 
@@ -64,32 +69,31 @@ const EmailForm = ({
   return (
     <div className={`${defaultStyles} ${className} w-full`}>
       <div className="">
-        <div className="text-sm pb-2 text-offWhite">
-          Would you like to email the download link?
-        </div>
         <div className="flex flex-col justify-between gap-2">
-          <Button onClick={() => setIsRecipient(!isRecipient)} className="p2">
-            Add recipient details
-          </Button>
-          {isRecipient ? (
-            <Form {...form}>
-              {" "}
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
-              >
-                <div className="grid grid-cols-2 gap-2">
+          <Form {...form} >
+            {" "}
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="flex items-center space-x-2">
+                <Checkbox id="terms" checked={!isRecipient} onCheckedChange={() => setIsRecipient(!isRecipient)} />
+                <label
+                  htmlFor="terms"
+                  className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  Tick to email the download link{" "}
+                </label>
+              </div>
+
+              <div className="flex flex-col justify-between gap-2 w-[50%]">
                 <FormField
+                  
                   control={form.control}
                   name="sender"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-left">Sender name</FormLabel>
                       <FormControl>
-                        <Input placeholder="John" {...field} />
+                        <Input placeholder="Sender name or email" disabled={isRecipient} {...field} />
                       </FormControl>
-                      <FormDescription>
-                      </FormDescription>
+                      <FormDescription></FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -99,25 +103,18 @@ const EmailForm = ({
                   name="recipientEmail"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Recipient email</FormLabel>
                       <FormControl>
-                        <Input placeholder="jane@gmail.com" {...field} />
+                        <Input placeholder="Recipient email" disabled={isRecipient} {...field} />
                       </FormControl>
-                      <FormDescription>
-                      </FormDescription>
+                      <FormDescription></FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
-                  
                 />
-                </div>
-                <Button type="submit">Submit</Button>
-              </form>
-            </Form>
-          ) : (
-            <div />
-          )}
-          {!isRecipient ? <Button>Continue without recipient</Button> : <div />}
+              </div>
+              <Button type="submit" disabled={isRecipient} >Submit</Button>
+            </form>
+          </Form>
         </div>
       </div>
     </div>
