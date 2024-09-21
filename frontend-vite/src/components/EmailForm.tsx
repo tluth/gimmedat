@@ -19,9 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
-  senderName: z.string().min(2, { message: "A Name is required" }).max(50),
-  senderEmail: z.string().email(),
-  recipientName: z.string().min(2, { message: "A Name is required" }).max(50),
+  sender: z.union([z.string().min(2, { message: "A Name or email is required" }).max(50), z.string().email()]),
   recipientEmail: z.string().email(),
 });
 
@@ -47,9 +45,7 @@ const EmailForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      senderName: "",
-      senderEmail: "",
-      recipientName: "",
+      sender: "",
       recipientEmail: "",
     },
   });
@@ -85,44 +81,12 @@ const EmailForm = ({
                 <div className="grid grid-cols-2 gap-2">
                 <FormField
                   control={form.control}
-                  name="senderName"
+                  name="sender"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-left">Sender name</FormLabel>
                       <FormControl>
                         <Input placeholder="John" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="senderEmail"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Sender email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="john@gmail.com" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                <FormField
-                  control={form.control}
-                  name="recipientName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Recipient name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Jane" {...field} />
                       </FormControl>
                       <FormDescription>
                       </FormDescription>
