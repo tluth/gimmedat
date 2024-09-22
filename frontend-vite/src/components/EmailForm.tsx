@@ -56,8 +56,6 @@ const EmailForm = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
@@ -69,7 +67,6 @@ const EmailForm = ({
   return (
     <div className={`${defaultStyles} ${className} w-full`}>
       <div className="">
-        <div className="flex flex-col justify-between gap-2">
           <Form {...form} >
             {" "}
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -83,7 +80,8 @@ const EmailForm = ({
                 </label>
               </div>
 
-              <div className="flex flex-col justify-between gap-2 w-[50%]">
+              <div className="grid grid-cols-2 gap-2">
+                <div>
                 <FormField
                   
                   control={form.control}
@@ -111,11 +109,12 @@ const EmailForm = ({
                     </FormItem>
                   )}
                 />
-              </div>
-              <Button type="submit" disabled={isRecipient} >Submit</Button>
+                </div>
+              
+              <Button type="submit" className="h-24 w-[80%] justify-self-center	" >Submit</Button>
+              </div>   
             </form>
           </Form>
-        </div>
       </div>
     </div>
   );
