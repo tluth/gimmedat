@@ -45,10 +45,10 @@ const EmailForm = ({
   handleChangeRecipient,
   handleChangeSender,
 }: EmailFormProps) => {
-  const [isRecipient, setIsRecipient] = useState<boolean>(false);
+  const [isRecipient, setIsRecipient] = useState<boolean>(true);
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+    resolver: isRecipient ? zodResolver(formSchema) : undefined,
     defaultValues: {
       sender: "",
       recipientEmail: "",
@@ -71,7 +71,7 @@ const EmailForm = ({
             {" "}
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="flex items-center space-x-2">
-                <Checkbox id="terms" checked={!isRecipient} onCheckedChange={() => setIsRecipient(!isRecipient)} />
+                <Checkbox id="terms" checked={isRecipient} onCheckedChange={() => setIsRecipient(!isRecipient)} />
                 <label
                   htmlFor="terms"
                   className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -89,7 +89,7 @@ const EmailForm = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="Sender name or email" disabled={isRecipient} {...field} />
+                        <Input placeholder="Sender name or email" disabled={!isRecipient} {...field} />
                       </FormControl>
                       <FormDescription></FormDescription>
                       <FormMessage />
@@ -102,7 +102,7 @@ const EmailForm = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="Recipient email" disabled={isRecipient} {...field} />
+                        <Input placeholder="Recipient email" disabled={!isRecipient} {...field} />
                       </FormControl>
                       <FormDescription></FormDescription>
                       <FormMessage />
