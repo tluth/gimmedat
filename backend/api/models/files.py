@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel, AnyUrl, Field, EmailStr
 
-from .config import appconfig
+from ..config import appconfig
 
 
 class UploadFileRequest(BaseModel):

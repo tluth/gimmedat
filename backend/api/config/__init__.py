@@ -12,7 +12,10 @@ class AuthConfig:
         default=4294967296,
         help="max file size limit for uploads in bytes")
     storage_bucket = environ.var(default="gimmedat-dev-file-storage")
-    frontend_base_domain = environ.var(default="https://gimmedat.bulgingdiscs.fun")
+    frontend_base_domain = environ.var(
+        default="https://gimmedat.bulgingdiscs.fun")
+    cognito_app_client_id = environ.var(default="24i0v6tkh4258o858fvt7mo0ak")
+    cognito_user_pool_id = environ.var(default="eu-central-1_TOWhnk8hl")
 
 
 # pull in config

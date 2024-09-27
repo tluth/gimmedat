@@ -4,9 +4,9 @@ from uuid import uuid4
 from fastapi import HTTPException, Request, status
 
 from ..config import appconfig
-from ..db.files import file_db
+from ..models.db.files import file_db
 from ..trailingslash_router import APIRouter
-from ..models import (
+from ..models.files import (
     UploadFileRequest,
     UploadFileResponse,
     GetFileResponse

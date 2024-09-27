@@ -1,6 +1,6 @@
 from pynamodb.attributes import NumberAttribute, UnicodeAttribute
 
-from ..config import appconfig
+from ...config import appconfig
 from .base import get_expiry_date
 from .constantkey import HashKey, RangeKey
 from .base import BaseModel
