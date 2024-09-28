@@ -68,29 +68,25 @@ const EmailForm = ({
     console.log(values)
   }
 
-  const defaultStyles = `p-5 mb-5 flex flex-col text-offWhite transition-border ease-in-out border-2
-        rounded-lg border-dashed ${
-          isChecked ? "border-main-300" : "border-offWhite"
-        } overflow-hidden px-3 relative`
+  const defaultStyles = `py-5 justify-between text-offWhite overflow-hidden relative`
 
   return (
-    <div className={`${defaultStyles} ${className} w-full`}>
-      <div className="">
+    <div className={`${defaultStyles} ${className} w-full flex`}>
+      <div className={`transition-border ease-in-out border-2 rounded-lg border-dashed ${
+          isChecked ? "border-main-300" : "border-offWhite"
+        } w-96`}>
           <Form {...form} >
             {" "}
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 m-5">
               <div className="flex items-center space-x-2 cursor-pointer">
-                <Checkbox id="terms" checked={isChecked} onCheckedChange={() => setIsChecked(!isChecked)} />
+                <Checkbox id="terms" checked={isChecked} onCheckedChange={() => setIsChecked(!isChecked)} className="cursor-pointer"/>
                 <label
                   htmlFor="terms"
-                  className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="text-xs font-medium leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  Tick to email the download link{" "}
+                  Tick to email the download link automatically
                 </label>
               </div>
-
-              <div className="grid grid-cols-2 gap-2">
-                <div>
                 <FormField
                   control={form.control}
                   name="sender"
@@ -116,14 +112,11 @@ const EmailForm = ({
                       <FormMessage />
                     </FormItem>
                   )}
-                />
-                </div>
-              
-              <Button type="submit" className="h-10 w-[50%] justify-self-end" onClick={handleSubmit}>Submit</Button>
-              </div>   
+                /> 
             </form>
           </Form>
       </div>
+      <Button type="submit" className="ml-5  h-10 min-w-24 sm:min-w-32 max-w-64" onClick={handleSubmit}>Submit</Button>
     </div>
   )
 }

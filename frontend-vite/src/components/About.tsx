@@ -99,7 +99,7 @@ const AboutPage = () => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AboutPage;
+export default AboutPage

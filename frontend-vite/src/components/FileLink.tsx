@@ -1,13 +1,13 @@
-import CopyArea from "./CopyArea";
-import ProgressBar from "./ProgressBar";
+import CopyArea from "./CopyArea"
+import ProgressBar from "./ProgressBar"
 
 type FileLinkProps = {
-  sharingLink: string;
-  progress: number;
-  success: boolean;
-  isUploading: boolean;
-  fileSize: number | undefined;
-};
+  sharingLink: string
+  progress: number
+  success: boolean
+  isUploading: boolean
+  fileSize: number | undefined
+}
 
 const FileLink = ({
   sharingLink,
@@ -32,7 +32,7 @@ const FileLink = ({
         <ProgressBar progress={progress} success={success} fileSize={fileSize}/>
       ) : null}
     </>
-  );
-};
+  )
+}
 
-export default FileLink;
+export default FileLink

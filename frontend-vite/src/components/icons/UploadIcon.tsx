@@ -1,7 +1,7 @@
 type IconProps = {
-  color: string;
-  altColor: string;
-};
+  color: string
+  altColor: string
+}
 
 function UploadIcon({ color, altColor }: IconProps) {
   return (
@@ -51,7 +51,7 @@ function UploadIcon({ color, altColor }: IconProps) {
         </g>
       </g>
     </svg>
-  );
+  )
 }
 
-export default UploadIcon;
+export default UploadIcon

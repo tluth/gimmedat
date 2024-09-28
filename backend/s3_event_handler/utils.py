@@ -70,8 +70,9 @@ def get_expiry_date() -> int:
 
 def calc_file_ttl_hours(epoch_time: int) -> int:
     now = pendulum.now().int_timestamp
+    seconds_until_expiry = int(epoch_time) - int(now)
     # convert to hours
-    return round(int(epoch_time) - int(now) / 60 / 60)
+    return round(seconds_until_expiry / 60 / 60)
 
 
 def get_file_record(id: str, s3_key: str) -> dict:

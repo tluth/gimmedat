@@ -1,16 +1,16 @@
-import Dropzone from "react-dropzone";
-import UploadIcon from "./icons/UploadIcon";
-import { MIN_FILE_SIZE, MAX_FILE_SIZE } from "../constants";
-import { toast } from "sonner";
-import ParticlesBackground from "./ParticlesBackground/ParticlesBackground";
+import Dropzone from "react-dropzone"
+import UploadIcon from "./icons/UploadIcon"
+import { MIN_FILE_SIZE, MAX_FILE_SIZE } from "../constants"
+import { toast } from "sonner"
+import ParticlesBackground from "./ParticlesBackground/ParticlesBackground"
 
 type CustomDropzoneProps = {
-  onDrop: (acceptedFiles: File[]) => void;
-  selectedFile?: File;
-  dropzoneText: string;
-  isValid: boolean;
-  setIsValid: (valid: boolean) => void;
-};
+  onDrop: (acceptedFiles: File[]) => void
+  selectedFile?: File
+  dropzoneText: string
+  isValid: boolean
+  setIsValid: (valid: boolean) => void
+}
 
 function CustomDropzone({
   onDrop,
@@ -20,13 +20,13 @@ function CustomDropzone({
   setIsValid,
 }: CustomDropzoneProps) {
   const onRejection = () => {
-    setIsValid(false);
-    toast.error("Files must be bigger than 1kb and smaller than 4Gb");
-  };
+    setIsValid(false)
+    toast.error("Files must be bigger than 1kb and smaller than 4Gb")
+  }
 
   const onAcceptance = () => {
-    setIsValid(true);
-  };
+    setIsValid(true)
+  }
 
   return (
     <div>
@@ -82,7 +82,7 @@ function CustomDropzone({
         <span>{dropzoneText}</span>
       </div>
     </div>
-  );
+  )
 }
 
-export default CustomDropzone;
+export default CustomDropzone

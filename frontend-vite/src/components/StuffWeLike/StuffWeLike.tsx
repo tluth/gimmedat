@@ -1,5 +1,5 @@
-import { Music4, RadioTower, FlaskConical } from "lucide-react";
-// import LinkItem from "./LinkItem";
+import { Music4, RadioTower, FlaskConical } from "lucide-react"
+// import LinkItem from "./LinkItem"
 
 const StuffWeLikePage = () => {
   return (
@@ -61,7 +61,7 @@ const StuffWeLikePage = () => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default StuffWeLikePage;
+export default StuffWeLikePage

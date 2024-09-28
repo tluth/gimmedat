@@ -1,36 +1,36 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { API } from "../constants";
-import LoadingSpinner from "./LoadingSpinner";
+import { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { API } from "../constants"
+import LoadingSpinner from "./LoadingSpinner"
 
 const DownloadPage = () => {
-  const [downloadLink, setDownloadLink] = useState();
-  const [ttl, setTtl] = useState();
-  const [expired, setExpired] = useState(false);
+  const [downloadLink, setDownloadLink] = useState()
+  const [ttl, setTtl] = useState()
+  const [expired, setExpired] = useState(false)
 
-  const params = useParams();
-  const fileId = params.fileId;
+  const params = useParams()
+  const fileId = params.fileId
   useEffect(() => {
-    getPresignedDownloadURL(fileId as string);
-  }, [fileId]);
+    getPresignedDownloadURL(fileId as string)
+  }, [fileId])
 
   const getPresignedDownloadURL = (fileId: string) => {
-    const url = `${API}/file/${fileId}`;
+    const url = `${API}/file/${fileId}`
     return new Promise(function () {
       fetch(url, { method: "GET" })
         .then((response) => {
           if (!response.ok) {
-            setExpired(true);
+            setExpired(true)
           } else {
-            return response.json();
+            return response.json()
           }
         })
         .then((json) => {
-          setDownloadLink(json.presigned_url);
-          setTtl(json.ttl);
-        });
-    });
-  };
+          setDownloadLink(json.presigned_url)
+          setTtl(json.ttl)
+        })
+    })
+  }
 
   return (
     <div className="mx-auto sm:max-w-[80%] sm:min-w-[50%] min-w-[75%] pt-[5%] inline-block">
@@ -64,7 +64,7 @@ const DownloadPage = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DownloadPage;
+export default DownloadPage

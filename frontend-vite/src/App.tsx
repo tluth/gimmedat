@@ -1,12 +1,12 @@
-import Header from "./components/Header";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UploadPage from "./components/UploadPage";
-import DownloadPage from "./components/DownloadPage";
-import ContactPage from "./components/ContactPage";
-import AboutPage from "./components/About";
-import { Toaster } from "sonner";
-import Sidebar from "./components/Sidebar/Sidebar";
-import StuffWeLikePage from "./components/StuffWeLike/StuffWeLike";
+import Header from "./components/Header"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import UploadPage from "./components/UploadPage"
+import DownloadPage from "./components/DownloadPage"
+import ContactPage from "./components/ContactPage"
+import AboutPage from "./components/About"
+import { Toaster } from "sonner"
+import Sidebar from "./components/Sidebar/Sidebar"
+import StuffWeLikePage from "./components/StuffWeLike/StuffWeLike"
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

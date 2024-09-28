@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "./ui/textarea"
 
-import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser'
 
 
  
@@ -47,12 +47,12 @@ const ContactPage = () => {
       })
       .then(
         () => {
-          console.log('SUCCESS!');
+          console.log('SUCCESS!')
         },
         (error) => {
-          console.log('FAILED...', error.text);
+          console.log('FAILED...', error.text)
         },
-      );
+      )
   }
 
 
