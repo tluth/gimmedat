@@ -1,8 +1,8 @@
-"use client"
- 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
+
+import { Loader2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,8 +18,10 @@ import { Textarea } from "./ui/textarea"
 
 import emailjs from '@emailjs/browser'
 
+import { useState } from "react"
 
- 
+
+
 const formSchema = z.object({
   firstName: z.string().min(2).max(50),
   lastName: z.string().min(2).max(50),
@@ -29,6 +31,11 @@ const formSchema = z.object({
 
 
 const ContactPage = () => {
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [isSuccessful, setIsSuccessful] = useState(false)
+  const [isError, setIsError] = useState(false)
+
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,16 +48,21 @@ const ContactPage = () => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true)
     emailjs
       .send(import.meta.env.VITE_EMAILJS_SERVICE_ID!, import.meta.env.VITE_EMAILJS_TEMPLATE_ID!, values, {
         publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       })
       .then(
         () => {
-          console.log('SUCCESS!')
+          setIsLoading(false)
+          setIsSuccessful(true)
+          console.log('SUCCESS!');
         },
         (error) => {
-          console.log('FAILED...', error.text)
+          setIsLoading(false)
+          setIsError(true)
+          console.log('FAILED...', error.text);
         },
       )
   }
@@ -119,7 +131,14 @@ const ContactPage = () => {
           )}
         />
         </div>
-        <Button type="submit">Submit</Button>
+        <div className="flex">
+       {isSuccessful?<Button disabled type="submit">Submit</Button>:<Button type="submit">Submit</Button>}
+       {isLoading?<div className="flex self-center pl-4"><Loader2 className="mr-2 h-4 w-4 animate-spin" /> <div className="pl-2">Please wait...</div></div>:<div></div>}
+       {isSuccessful?<div className="flex pl-4 text-sm self-center">Thanks, we've received your email.</div>:<div></div>}
+       {isError?<div className="flex pl-4 text-sm self-center">Sorry, something's gone wrong.</div>:<div></div>}
+
+
+        </div>
       </form>
     </Form>
     </div>
