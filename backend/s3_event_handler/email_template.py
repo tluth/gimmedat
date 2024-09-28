@@ -24,7 +24,7 @@ def file_recipient_template(
                 <br/>
                 <p>
                     Please don't open the link if you don't recognise the sender mentioned above.
-                    If you're receiving unwanted emails from this address, and/or you suspect 
+                    If you're receiving unwanted emails from this address, and/or you suspect
                     that someone is using our services to spam you with emails, please
                     contact us using the contact form <a href="https://gimmedat.bulgingdiscs.fun/contact">here</a>
                 </p>
