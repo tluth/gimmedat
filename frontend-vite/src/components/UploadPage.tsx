@@ -3,10 +3,8 @@ import { useState } from "react"
 import CustomDropzone from "./CustomDropzone"
 import { API } from "../constants.js"
 import FileLink from "./FileLink.js"
-import LoadingSpinner from "./LoadingSpinner"
 import { toast } from "sonner"
 import EmailForm from "./EmailForm.js"
-import { send } from "@emailjs/browser"
 
 
 const UploadPage = () => {
