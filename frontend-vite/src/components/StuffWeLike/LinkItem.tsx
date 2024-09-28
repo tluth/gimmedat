@@ -1,17 +1,17 @@
-import { ForwardRefExoticComponent, RefAttributes } from "react";
-import { SquareArrowOutUpRight, LucideProps } from "lucide-react";
-import { isMobile } from "../../utils";
+import { ForwardRefExoticComponent, RefAttributes } from "react"
+import { SquareArrowOutUpRight, LucideProps } from "lucide-react"
+import { isMobile } from "../../utils"
 
 type LinkItemProps = {
-  href: string;
+  href: string
   Icon: ForwardRefExoticComponent<
     Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
-  text: string;
-};
+  >
+  text: string
+}
 
 const LinkItem = ({ href, Icon, text }: LinkItemProps) => {
-  const isItOnMobile: boolean = isMobile();
+  const isItOnMobile: boolean = isMobile()
   return (
     <li>
       <a
@@ -28,7 +28,7 @@ const LinkItem = ({ href, Icon, text }: LinkItemProps) => {
         />
       </a>
     </li>
-  );
-};
+  )
+}
 
-export default LinkItem;
+export default LinkItem

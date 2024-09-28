@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Github, CircleHelp, Beer, BookHeart, Send, Home } from "lucide-react";
-import { Sheet, SheetContent, SheetTrigger } from "./Sheet";
-import HamburgerButton from "./HamburgerButton";
+import { useState } from "react"
+import { Github, CircleHelp, Beer, BookHeart, Send, Home } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "./Sheet"
+import HamburgerButton from "./HamburgerButton"
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleOpenClose = (): void => {
-    setIsOpen(!isOpen);
-  };
+    setIsOpen(!isOpen)
+  }
 
   return (
     <div className="absolute grid grid-cols-2 gap-2">
@@ -105,7 +105,7 @@ const Sidebar = () => {
         </SheetContent>
       </Sheet>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

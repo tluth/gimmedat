@@ -1,0 +1,2 @@
+boto3
+environ-config>=23.0.0

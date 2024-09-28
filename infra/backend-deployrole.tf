@@ -11,7 +11,8 @@ data "aws_iam_policy_document" "ghaction_backend_statements" {
     resources = [
       aws_lambda_function.api_lambda.arn,
       aws_lambda_function.db_stream_handler.arn,
-      aws_lambda_function.s3_event_handler.arn
+      aws_lambda_function.s3_event_handler.arn,
+      aws_lambda_function.email_sender.arn
     ]
   }
 }

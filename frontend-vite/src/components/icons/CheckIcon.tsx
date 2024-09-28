@@ -14,7 +14,7 @@ const CheckIcon = () => {
         strokeWidth="10"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default CheckIcon;
+export default CheckIcon

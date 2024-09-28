@@ -4,7 +4,7 @@ import { loadSlim } from "@tsparticles/slim";
 import particlesConfig from "./particlesConfig";
 
 const ParticlesBackground = () => {
-  const [init, setInit] = useState(false);
+  const [init, setInit] = useState(false)
 
   // this should be run only once per application lifetime
   useEffect(() => {
@@ -34,7 +34,7 @@ const ParticlesBackground = () => {
         />
       )}
     </>
-  );
-};
+  )
+}
 
-export default ParticlesBackground;
+export default ParticlesBackground

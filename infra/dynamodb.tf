@@ -1,7 +1,6 @@
 resource "aws_dynamodb_table" "state_dynamodb_table" {
   name         = local.file_storage_table_name
   hash_key     = "file_id"
-  range_key    = "s3_path" 
   billing_mode = "PAY_PER_REQUEST"
 
   stream_enabled   = true
@@ -22,10 +21,6 @@ resource "aws_dynamodb_table" "state_dynamodb_table" {
 
   attribute {
     name = "file_id"
-    type = "S"
-  }
-  attribute {
-    name = "s3_path"
     type = "S"
   }
 }

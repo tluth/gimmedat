@@ -1,10 +1,10 @@
 export interface HamburgerProps {
-  handleClick: () => void;
-  isOpen?: boolean;
+  handleClick: () => void
+  isOpen?: boolean
 }
 
 export default function HamburgerButton(props: HamburgerProps) {
-  const { handleClick, isOpen } = props;
+  const { handleClick, isOpen } = props
 
   return (
     <button
@@ -20,5 +20,5 @@ export default function HamburgerButton(props: HamburgerProps) {
         className="object-fill"
       />
     </button>
-  );
+  )
 }

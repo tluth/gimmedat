@@ -1,7 +1,7 @@
 type TextArtProps = {
-  label: string;
-  text: string;
-};
+  label: string
+  text: string
+}
 
 function TextArt({ label, text }: TextArtProps) {
   return (
@@ -14,7 +14,7 @@ function TextArt({ label, text }: TextArtProps) {
     >
       {text}
     </pre>
-  );
+  )
 }
 
-export default TextArt;
+export default TextArt

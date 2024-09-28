@@ -1,5 +1,5 @@
-import { headerText } from "../../constants";
-import TextArt from "./TextArt";
+import { headerText } from "../../constants"
+import TextArt from "./TextArt"
 
 function Header() {
   return (
@@ -9,7 +9,7 @@ function Header() {
         text={headerText}
       />
     </div>
-  );
+  )
 }
 
-export default Header;
+export default Header

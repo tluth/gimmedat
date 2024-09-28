@@ -1,5 +1,3 @@
-"use client"
- 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -18,12 +16,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "./ui/textarea"
 
-import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser'
 
 import { useState } from "react"
 
 
- 
+
 const formSchema = z.object({
   firstName: z.string().min(2).max(50),
   lastName: z.string().min(2).max(50),
@@ -50,9 +48,7 @@ const ContactPage = () => {
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-
     setIsLoading(true)
-
     emailjs
       .send(import.meta.env.VITE_EMAILJS_SERVICE_ID!, import.meta.env.VITE_EMAILJS_TEMPLATE_ID!, values, {
         publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
@@ -68,7 +64,7 @@ const ContactPage = () => {
           setIsError(true)
           console.log('FAILED...', error.text);
         },
-      );
+      )
   }
 
 

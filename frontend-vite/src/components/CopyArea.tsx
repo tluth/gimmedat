@@ -1,22 +1,22 @@
-import { useState } from "react";
-import Checkicon from "./icons/CheckIcon";
-import ClipboardIcon from "./icons/ClipboardIcon";
-import { isMobile } from "../utils";
+import { useState } from "react"
+import Checkicon from "./icons/CheckIcon"
+import ClipboardIcon from "./icons/ClipboardIcon"
+import { isMobile } from "../utils"
 
 type CopyAreaProps = {
-  text: string;
-};
+  text: string
+}
 
 const CopyArea = ({ text }: CopyAreaProps) => {
   const isItOnMobile: boolean = isMobile()
-  const [showCopy, setShowCopy] = useState(isItOnMobile ? true : false);
-  const [isCopied, setIsCopied] = useState(false);
+  const [showCopy, setShowCopy] = useState(isItOnMobile ? true : false)
+  const [isCopied, setIsCopied] = useState(false)
 
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(text);
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2000);
-  };
+    navigator.clipboard.writeText(text)
+    setIsCopied(true)
+    setTimeout(() => setIsCopied(false), 2000)
+  }
 
   return (
     <div
@@ -42,7 +42,7 @@ const CopyArea = ({ text }: CopyAreaProps) => {
         </button>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default CopyArea;
+export default CopyArea

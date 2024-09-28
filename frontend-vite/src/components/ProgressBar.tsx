@@ -1,10 +1,10 @@
-import { niceBytes } from "../utils";
+import { niceBytes } from "../utils"
 
 type ProgressBarProps = {
-  progress: number;
-  success: boolean;
-  fileSize: number | undefined;
-};
+  progress: number
+  success: boolean
+  fileSize: number | undefined
+}
 
 const ProgressBar = ({ progress, fileSize }: ProgressBarProps) => {
   return (
@@ -21,7 +21,7 @@ const ProgressBar = ({ progress, fileSize }: ProgressBarProps) => {
         ></div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ProgressBar;
+export default ProgressBar

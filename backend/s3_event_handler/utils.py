@@ -1,6 +1,32 @@
+import json
+import logging
+from pathlib import Path
+
 import pendulum
 import boto3
+
+
 from .config import appconfig
+from .email_template import file_recipient_template
+
+
+# Set up logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.WARNING)  # Ensure all log levels are captured
+handler = logging.StreamHandler()  # AWS Lambda outputs logs to stdout
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+DB_CLIENT = boto3.resource(
+    "dynamodb",
+    appconfig.aws_region,
+)
+LAMBDA_CLIENT = boto3.client(
+    "lambda",
+    appconfig.aws_region,
+)
 
 
 def get_file(s3_key):
@@ -42,12 +68,51 @@ def get_expiry_date() -> int:
     return expiry.int_timestamp
 
 
+def calc_file_ttl_hours(epoch_time: int) -> int:
+    now = pendulum.now().int_timestamp
+    seconds_until_expiry = int(epoch_time) - int(now)
+    # convert to hours
+    return round(seconds_until_expiry / 60 / 60)
+
+
+def get_file_record(id: str, s3_key: str) -> dict:
+    table = DB_CLIENT.Table(appconfig.files_table_name)
+    response = table.get_item(
+        Key={
+            "file_id": id
+        }
+    )
+    return response["Item"]
+
+
 def add_to_blacklist(ip_address: str, s3_key: str):
-    db_client = boto3.resource('dynamodb')
-    table = db_client.Table(appconfig.blaclist_table_name)
+    table = DB_CLIENT.Table(appconfig.blaclist_table_name)
     table.put_item(Item={
-        'ip_address': ip_address,
-        'created_at': pendulum.now().int_timestamp,
+        "ip_address": ip_address,
+        "created_at":  pendulum.now().int_timestamp,
         "expire_at": get_expiry_date(),
         "s3_key": s3_key
     })
+
+
+def send_email(file_record: dict):
+    link: str = f"{appconfig.frontend_base_domain}/sharing/{file_record['file_id']}"
+    file_name: str = Path(file_record["s3_path"]).stem
+    ttl_in_hours: int = calc_file_ttl_hours(file_record["expire_at"])
+    content = file_recipient_template(
+        file_record["sender"],
+        link,
+        file_name,
+        ttl_in_hours
+    )
+    payload = {
+        "content": content,
+        "recipient_email": file_record["recipient_email"],
+        "email_subject": f"{file_record['sender']} wants to share a file with you",
+        "attachments": [],
+    }
+    LAMBDA_CLIENT.invoke(
+        FunctionName=f"gimmedat-{appconfig.environment}-email-sender",
+        InvocationType="Event",
+        Payload=json.dumps(payload)
+    )

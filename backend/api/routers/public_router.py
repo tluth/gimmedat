@@ -3,15 +3,15 @@ from uuid import uuid4
 
 from fastapi import HTTPException, Request, status
 
-from .config import appconfig
-from .db.files import file_db
-from .trailingslash_router import APIRouter
-from .models import (
+from ..config import appconfig
+from ..db.files import file_db
+from ..trailingslash_router import APIRouter
+from ..models import (
     UploadFileRequest,
     UploadFileResponse,
     GetFileResponse
 )
-from .utils import (
+from ..utils import (
     get_put_presigned_url,
     get_get_presigned_url,
     calc_ttl_seconds,
@@ -45,9 +45,12 @@ def upload_file(
         )
     file_id = uuid4()
     s3_path = f"{file_id}/{data.file_name}"
+    logger.error(data.recipient_email)
     db_record = file_db(
         file_id=str(file_id),
         s3_path=s3_path,
+        recipient_email=data.recipient_email,
+        sender=data.sender
     )
     post_presign = get_put_presigned_url(
         s3_path, data.file_type, data.byte_size)
