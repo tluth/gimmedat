@@ -69,6 +69,5 @@ def lambda_handler(event, context):
     s3_key = unquote_plus(data_response["object_key"])
     file_id = Path(s3_key).parts[0]
     file_record = get_file_record(file_id, s3_key)
-    print(file_record)
     if "recipient_email" in file_record and "sender" in file_record:
         send_email(file_record)
