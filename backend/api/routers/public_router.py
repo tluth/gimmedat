@@ -45,6 +45,7 @@ def upload_file(
         )
     file_id = uuid4()
     s3_path = f"{file_id}/{data.file_name}"
+    logger.error(data.recipient_email)
     db_record = file_db(
         file_id=str(file_id),
         s3_path=s3_path,

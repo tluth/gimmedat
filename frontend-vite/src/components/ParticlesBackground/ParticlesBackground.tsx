@@ -23,9 +23,7 @@ const ParticlesBackground = () => {
   }, []);
 
   const particlesLoaded = (container?: Container | undefined) => {
-    console.log(container);
     return new Promise<void>((resolve) => {
-      console.log("Particles loaded");
       resolve();
     });
   };

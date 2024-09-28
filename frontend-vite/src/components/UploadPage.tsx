@@ -6,6 +6,7 @@ import FileLink from "./FileLink.js";
 import LoadingSpinner from "./LoadingSpinner";
 import { toast } from "sonner";
 import EmailForm from "./EmailForm.js";
+import { send } from "@emailjs/browser";
 
 
 const UploadPage = () => {
@@ -15,6 +16,9 @@ const UploadPage = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isValid, setIsValid] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
+  const [isEmailChecked, setIsChecked] = useState<boolean>(false);
+  const [recipient, setRecipient] = useState<string>("");
+  const [sender, setSender] = useState<string>("");
 
   //event handlers
   const handleFileChange = (files: File[]) => {
@@ -39,8 +43,8 @@ const UploadPage = () => {
       file_name: file?.name,
       byte_size: file?.size,
       file_type: file?.type,
-      recipient_email: "tlutherborrow@gmail.com",
-      sender: "tommmyu"
+      recipient_email: recipient,
+      sender: sender
     };
 
     const xhr = new XMLHttpRequest();
@@ -112,7 +116,16 @@ const UploadPage = () => {
       </div>
       {file && isValid && !success && (
         <div className="flex justify-between">
-        <EmailForm className="left-content"/>
+          <EmailForm
+            className="left-content"
+            isChecked={isEmailChecked}
+            setIsChecked={setIsChecked}
+            recipient={recipient}
+            handleChangeRecipient={setRecipient}
+            sender={sender}
+            handleChangeSender={setSender}
+            handleSubmit={handleSubmit}
+          />
 
         </div>
       )}
