@@ -3,7 +3,7 @@ import TextArt from "./TextArt"
 
 function Header() {
   return (
-    <div className="flex flex-col w-full pt-[5%] text-center">
+    <div className="flex flex-col w-full pt-[2%] text-center">
       <TextArt
         label="gimmedat"
         text={headerText}
