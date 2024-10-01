@@ -67,16 +67,15 @@ const EmailForm = ({
     console.log(values)
   }
 
-  const defaultStyles = `py-5 justify-between text-offWhite overflow-hidden relative`
+  const defaultStyles = `py-1 justify-center sm:justify-between text-offWhite overflow-hidden relative flex w-full flex-col sm:flex-row`
 
   return (
-    <div className={`${defaultStyles} ${className} w-full flex`}>
-      <div className={`transition-border ease-in-out border-2 rounded-lg border-dashed ${
+    <div className={`${defaultStyles} ${className}`}>
+      <div className={`transition-border ease-in-out border-2 rounded border-dashed ${
           isChecked ? "border-main-300" : "border-offWhite"
-        } w-96`}>
+        }`}>
           <Form {...form} >
-            {" "}
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 m-5">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2 sm:space-y-5 m-3 sm:m-5">
               <div className="flex items-center space-x-2 cursor-pointer">
                 <Checkbox id="terms" checked={isChecked} onCheckedChange={() => setIsChecked(!isChecked)} className="cursor-pointer"/>
                 <label
@@ -115,7 +114,7 @@ const EmailForm = ({
             </form>
           </Form>
       </div>
-      <Button type="submit" className="ml-5  h-10 min-w-24 sm:min-w-32 max-w-64" onClick={handleSubmit}>Submit</Button>
+      <Button type="submit" className="ml-0 sm:ml-5 mt-5 sm:mt-0 h-10 min-w-24 sm:min-w-32 max-w-64 rounded" onClick={handleSubmit}>Submit</Button>
     </div>
   )
 }

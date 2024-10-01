@@ -11,8 +11,8 @@ function UploadIcon({ color, altColor }: IconProps) {
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       className="w-40 h-40 mx-auto overflow-hidden"
-      viewBox="0 0 40 40" 
-    //   enable-background="new 0 0 40 40" 
+      viewBox="0 0 40 40"
+    //   enable-background="new 0 0 40 40"
     //   xmlSpace="preserve"
     >
       <g>

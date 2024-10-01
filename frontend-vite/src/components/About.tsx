@@ -1,6 +1,6 @@
 const AboutPage = () => {
   return (
-    <div className="mx-auto lg:max-w-[60%] sm:max-w-[80%] sm:min-w-[50%] max-w-[90%] min-w-[75%] pt-[5%] inline-block">
+    <div className="mx-auto lg:max-w-[60%] sm:max-w-[80%] sm:min-w-[50%] max-w-[90%] min-w-[75%] pt-[2%] inline-block">
       <div
         className={`flex flex-col text-justify text-offWhite rounded-xl
         border-2 border-dotted border-main-200 p-5
@@ -73,8 +73,8 @@ const AboutPage = () => {
           sorts of shady business. We therefore employ various measures
           for routine monitoring and detection of those kinds of misuses which we don't
           agree with (these are automated programmatic processes - a human
-          is not looking at what you've uploaded). If you are flagged for any such 
-          behaviour though, all previous considerations for your privacy and security 
+          is not looking at what you've uploaded). If you are flagged for any such
+          behaviour though, all previous considerations for your privacy and security
           will likely be disregarded.
         </p>
         <p>
@@ -82,9 +82,9 @@ const AboutPage = () => {
           with international embargoes) or content (e.g. no copyright strikes),
           and and have no particular concern whether your use of Gimedat is in
           violation of the laws of your local government. If you wanna share a
-          pirated copy of the latest Marvel blockbuster, or your homemade ANFO 
-          recipe, that's your business, not mine. We probably won't be aware of it, 
-          nor would we necessarily care. 
+          pirated copy of the latest Marvel blockbuster, or your homemade ANFO
+          recipe, that's your business, not mine. We probably won't be aware of it,
+          nor would we necessarily care.
         </p>
         <span className="text-xl font-bold pb-4">However...</span>
         <p>

@@ -3,7 +3,7 @@ import { Music4, RadioTower, FlaskConical } from "lucide-react"
 
 const StuffWeLikePage = () => {
   return (
-    <div className="mx-auto sm:max-w-[80%] sm:min-w-[50%] min-w-[75%] max-w-[90%] pt-[5%] inline-block">
+    <div className="mx-auto sm:max-w-[80%] sm:min-w-[50%] min-w-[75%] max-w-[90%] pt-[2%] inline-block">
       <div
         className={`flex flex-col items-center justify-center text-offWhite rounded-xl
           border-2 border-dotted border-main-200 p-5
