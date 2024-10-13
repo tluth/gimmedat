@@ -26,8 +26,8 @@ type EmailFormProps = {
   setIsChecked: (isChecked: boolean) => void;
   recipient: string | undefined;
   sender: string | undefined;
-  handleChangeRecipient: (value: string) => void;
-  handleChangeSender: (value: string) => void;
+  // handleChangeRecipient: (value: string) => void;
+  // handleChangeSender: (value: string) => void;
   handleSubmit: () => void;
 };
 
@@ -37,8 +37,8 @@ const EmailForm = ({
   setIsChecked,
   recipient,
   sender,
-  handleChangeRecipient,
-  handleChangeSender,
+  // handleChangeRecipient,
+  // handleChangeSender,
   handleSubmit,
 }: EmailFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,15 +49,15 @@ const EmailForm = ({
     },
   });
 
-  // Handle input field changes
-  const updateSender = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
-    handleChangeSender(newValue); // Update local state
-  };
-  const updateRecipient = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
-    handleChangeRecipient(newValue); // Update local state
-  };
+  // // Handle input field changes
+  // const updateSender = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newValue = event.target.value;
+  //   handleChangeSender(newValue); // Update local state
+  // };
+  // const updateRecipient = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newValue = event.target.value;
+  //   handleChangeRecipient(newValue); // Update local state
+  // };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -75,10 +75,11 @@ const EmailForm = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
+          className="w-full"
         >
-          <div className="sm:grid grid-cols-2 w-[100%] ">
+          <div className="sm:grid grid-cols-2 w-full gap-4"> 
             <div
-              className={`transition-border ease-in-out border-2 rounded border-dashed w-[100%] p-4 space-y-2 sm:space-y-5  sm:m-5${
+              className={`transition-border ease-in-out border-2 rounded border-dashed w-full p-4 space-y-2 sm:space-y-5  sm:m-5${
                 isChecked ? "border-main-300" : "border-offWhite"
               }`}
             >
@@ -99,14 +100,13 @@ const EmailForm = ({
               <FormField
                 control={form.control}
                 name="sender"
-                render={() => (
+                render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         placeholder="Sender name or email"
                         disabled={!isChecked}
-                        onChange={updateSender}
-                        value={sender}
+                        {...field}
                       />
                     </FormControl>
                     <FormDescription></FormDescription>
@@ -117,14 +117,13 @@ const EmailForm = ({
               <FormField
                 control={form.control}
                 name="recipientEmail"
-                render={() => (
+                render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <Input
                         placeholder="Recipient email"
                         disabled={!isChecked}
-                        onChange={updateRecipient}
-                        value={recipient}
+                        {...field}
                       />
                     </FormControl>
                     <FormDescription></FormDescription>
