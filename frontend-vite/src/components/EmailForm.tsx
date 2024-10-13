@@ -16,10 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
-  sender: z.union([
-    z.string().min(2, { message: "A Name or email is required" }).max(50),
-    z.string().email(),
-  ]),
+  sender: z.string().min(2, { message: "A Name or email is required" }).max(50),
   recipientEmail: z.string().email(),
 });
 
