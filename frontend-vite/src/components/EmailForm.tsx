@@ -17,17 +17,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
   sender: z.string().min(2, { message: "A Name or email is required" }).max(50),
-  recipientEmail: z.string().email(),
+  recipient: z.string().email(),
 });
 
 type EmailFormProps = {
   className?: string;
   isChecked: boolean;
   setIsChecked: (isChecked: boolean) => void;
-  recipient: string | undefined;
-  sender: string | undefined;
-  // handleChangeRecipient: (value: string) => void;
-  // handleChangeSender: (value: string) => void;
+  // recipient: string | undefined;
+  // sender: string | undefined;
+  handleChangeRecipient: (value: string) => void;
+  handleChangeSender: (value: string) => void;
   handleSubmit: () => void;
 };
 
@@ -35,32 +35,33 @@ const EmailForm = ({
   className,
   isChecked,
   setIsChecked,
-  recipient,
-  sender,
-  // handleChangeRecipient,
-  // handleChangeSender,
+  // recipient,
+  // sender,
+  handleChangeRecipient,
+  handleChangeSender,
   handleSubmit,
 }: EmailFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: isChecked ? zodResolver(formSchema) : undefined,
     defaultValues: {
       sender: "",
-      recipientEmail: "",
+      recipient: "",
     },
   });
 
-  // // Handle input field changes
-  // const updateSender = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const newValue = event.target.value;
-  //   handleChangeSender(newValue); // Update local state
-  // };
-  // const updateRecipient = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const newValue = event.target.value;
-  //   handleChangeRecipient(newValue); // Update local state
-  // };
+  // Handle input field changes
+  const updateSender = (values: z.infer<typeof formSchema>) => {
+    const newValue = values.sender
+    handleChangeSender(newValue); // Update local state
+  };
+  const updateRecipient = (values: z.infer<typeof formSchema>) => {
+    const newValue = values.recipient
+    handleChangeRecipient(newValue); // Update local state
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    updateRecipient(values)
+    updateSender(values)
   }
 
   const defaultStyles = `py-1 justify-center sm:justify-between text-offWhite overflow-hidden relative flex w-full flex-col sm:flex-row`;
@@ -116,7 +117,7 @@ const EmailForm = ({
               />
               <FormField
                 control={form.control}
-                name="recipientEmail"
+                name="recipient"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
