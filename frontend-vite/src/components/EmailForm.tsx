@@ -24,21 +24,13 @@ type EmailFormProps = {
   className?: string;
   isChecked: boolean;
   setIsChecked: (isChecked: boolean) => void;
-  // recipient: string | undefined;
-  // sender: string | undefined;
-  handleChangeRecipient: (value: string) => void;
-  handleChangeSender: (value: string) => void;
-  handleSubmit: () => void;
+  handleSubmit: (values: z.infer<typeof formSchema>) => void;
 };
 
 const EmailForm = ({
   className,
   isChecked,
   setIsChecked,
-  // recipient,
-  // sender,
-  handleChangeRecipient,
-  handleChangeSender,
   handleSubmit,
 }: EmailFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -49,30 +41,16 @@ const EmailForm = ({
     },
   });
 
-  // Handle input field changes
-  const updateSender = (values: z.infer<typeof formSchema>) => {
-    const newValue = values.sender
-    handleChangeSender(newValue); // Update local state
-  };
-  const updateRecipient = (values: z.infer<typeof formSchema>) => {
-    const newValue = values.recipient
-    handleChangeRecipient(newValue); // Update local state
-  };
+
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    updateRecipient(values)
-    updateSender(values)
+    handleSubmit(values)
   }
 
   const defaultStyles = `py-1 justify-center sm:justify-between text-offWhite overflow-hidden relative flex w-full flex-col sm:flex-row`;
 
   return (
     <div className={`${defaultStyles} ${className}`}>
-      {/* <div
-          className={`transition-border ease-in-out border-2 rounded border-dashed ${
-            isChecked ? "border-main-300" : "border-offWhite"
-          }`}
-        > */}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -136,7 +114,6 @@ const EmailForm = ({
             <Button
               type="submit"
               className="ml-0 sm:ml-5 mt-5 sm:mt-0 h-10 min-w-24 sm:min-w-32 max-w-64 w-[100%] rounded col-span-1 justify-self-end"
-              onClick={handleSubmit}
             >
               Submit
             </Button>
@@ -145,7 +122,6 @@ const EmailForm = ({
       </Form>
     </div>
 
-    // </div>
   );
 };
 
