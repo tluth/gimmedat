@@ -15,8 +15,7 @@ const UploadPage = () => {
   const [isValid, setIsValid] = useState<boolean>(false)
   const [success, setSuccess] = useState<boolean>(false)
   const [isEmailChecked, setIsChecked] = useState<boolean>(false)
-  const [recipient, setRecipient] = useState<string>("")
-  const [sender, setSender] = useState<string>("")
+
 
   //event handlers
   const handleFileChange = (files: File[]) => {
@@ -35,14 +34,14 @@ const UploadPage = () => {
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (formData: { sender: string; recipient: string }) => {
     setIsUploading(true)
     const upload_request = {
       file_name: file?.name,
       byte_size: file?.size,
       file_type: file?.type,
-      recipient_email: recipient,
-      sender: sender
+      recipient_email: !formData.recipient?null:formData.recipient, // if a empty string is passed, return null instead of the empty string 
+      sender: !formData.sender?null:formData.sender
     }
 
     const xhr = new XMLHttpRequest()
@@ -118,10 +117,6 @@ const UploadPage = () => {
             className="left-content"
             isChecked={isEmailChecked}
             setIsChecked={setIsChecked}
-            recipient={recipient}
-            handleChangeRecipient={setRecipient}
-            sender={sender}
-            handleChangeSender={setSender}
             handleSubmit={handleSubmit}
           />
         </div>
