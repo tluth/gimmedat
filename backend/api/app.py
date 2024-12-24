@@ -6,7 +6,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from api.routers.public_router import main_router
-from api.routers.auth import auth_router
+from api.routers.authenticated_router import authenticated_router
 
 logging.Logger.root.level = 10
 
@@ -52,6 +52,6 @@ def create_api():
     ###########################################################################
 
     app.include_router(main_router)
-    app.include_router(auth_router)
+    app.include_router(authenticated_router)
 
     return app

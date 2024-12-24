@@ -5,7 +5,7 @@ from fastapi import HTTPException, Request, status
 
 from ..config import appconfig
 from ..models.db.files import file_db
-from ..trailingslash_router import APIRouter
+from .trailingslash_router import APIRouter
 from ..models.files import (
     UploadFileRequest,
     UploadFileResponse,
@@ -45,6 +45,7 @@ def upload_file(
         )
     file_id = uuid4()
     s3_path = f"{file_id}/{data.file_name}"
+    logger.error(data.recipient_email)
     db_record = file_db(
         file_id=str(file_id),
         s3_path=s3_path,

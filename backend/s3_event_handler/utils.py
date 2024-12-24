@@ -1,4 +1,5 @@
 import json
+import logging
 from pathlib import Path
 
 import pendulum
@@ -7,6 +8,16 @@ import boto3
 
 from .config import appconfig
 from .email_template import file_recipient_template
+
+
+# Set up logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.WARNING)  # Ensure all log levels are captured
+handler = logging.StreamHandler()  # AWS Lambda outputs logs to stdout
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 DB_CLIENT = boto3.resource(
     "dynamodb",
@@ -57,12 +68,18 @@ def get_expiry_date() -> int:
     return expiry.int_timestamp
 
 
+def calc_file_ttl_hours(epoch_time: int) -> int:
+    now = pendulum.now().int_timestamp
+    seconds_until_expiry = int(epoch_time) - int(now)
+    # convert to hours
+    return round(seconds_until_expiry / 60 / 60)
+
+
 def get_file_record(id: str, s3_key: str) -> dict:
     table = DB_CLIENT.Table(appconfig.files_table_name)
     response = table.get_item(
         Key={
-            "file_id": id,
-            "s3_path": s3_key
+            "file_id": id
         }
     )
     return response["Item"]
@@ -71,13 +88,8 @@ def get_file_record(id: str, s3_key: str) -> dict:
 def add_to_blacklist(ip_address: str, s3_key: str):
     table = DB_CLIENT.Table(appconfig.blaclist_table_name)
     table.put_item(Item={
-<<<<<<< HEAD
         'ip_address': ip_address,
         'created_at': pendulum.now().int_timestamp,
-=======
-        "ip_address": ip_address,
-        "created_at":  pendulum.now().int_timestamp,
->>>>>>> ses
         "expire_at": get_expiry_date(),
         "s3_key": s3_key
     })
@@ -86,7 +98,7 @@ def add_to_blacklist(ip_address: str, s3_key: str):
 def send_email(file_record: dict):
     link: str = f"{appconfig.frontend_base_domain}/sharing/{file_record['file_id']}"
     file_name: str = Path(file_record["s3_path"]).stem
-    ttl_in_hours: int = format(file_record["expire_at"], ".0f")
+    ttl_in_hours: int = calc_file_ttl_hours(file_record["expire_at"])
     content = file_recipient_template(
         file_record["sender"],
         link,
