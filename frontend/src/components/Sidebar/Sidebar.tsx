@@ -1,9 +1,13 @@
 import { useState } from "react"
-import { Github, CircleHelp, Beer, BookHeart, Send, Home } from "lucide-react"
+import { Github, CircleHelp, Beer, BookHeart, Send, Home, LogIn } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "./Sheet"
 import HamburgerButton from "./HamburgerButton"
 
-const Sidebar = () => {
+type SidebarProps = {
+  handleLogin: () => void
+};
+
+const Sidebar = ({ handleLogin }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleOpenClose = (): void => {
@@ -98,6 +102,17 @@ const Sidebar = () => {
                     <Send className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Contact</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={handleLogin}
+                  className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
+                >
+                  <span className="pl-6">
+                    <LogIn className=" text-main-800 w-9 h-9" />
+                  </span>
+                  <span>Log in</span>
                 </a>
               </li>
             </ul>

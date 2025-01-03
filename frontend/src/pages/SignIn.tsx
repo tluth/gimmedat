@@ -12,6 +12,7 @@ export function SignIn() {
     const executeSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const result = await auth.handleSignIn(username, password)
+        console.log(result)
         if (result.isSignedIn) {
             navigate({ pathname: "/success" })
         } else {

@@ -1,0 +1,112 @@
+{
+  "hash": "c7e1875c",
+  "configHash": "00c8c48a",
+  "lockfileHash": "0340d144",
+  "browserHash": "c98c7218",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/.pnpm/react@18.3.1/node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "bbc93a77",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/.pnpm/react@18.3.1/node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "f9fc3a76",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "92fb0c50",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/.pnpm/react-router-dom@6.23.1_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "c2ff43c1",
+      "needsInterop": false
+    },
+    "sonner": {
+      "src": "../../node_modules/.pnpm/sonner@1.4.41_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/sonner/dist/index.mjs",
+      "file": "sonner.js",
+      "fileHash": "edf807ac",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/.pnpm/lucide-react@0.378.0_react@18.3.1/node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "ccf74536",
+      "needsInterop": false
+    },
+    "@hookform/resolvers/zod": {
+      "src": "../../node_modules/.pnpm/@hookform+resolvers@3.3.4_react-hook-form@7.51.4_react@18.3.1_/node_modules/@hookform/resolvers/zod/dist/zod.mjs",
+      "file": "@hookform_resolvers_zod.js",
+      "fileHash": "03d660cb",
+      "needsInterop": false
+    },
+    "react-hook-form": {
+      "src": "../../node_modules/.pnpm/react-hook-form@7.51.4_react@18.3.1/node_modules/react-hook-form/dist/index.esm.mjs",
+      "file": "react-hook-form.js",
+      "fileHash": "7ca384f2",
+      "needsInterop": false
+    },
+    "zod": {
+      "src": "../../node_modules/.pnpm/zod@3.23.8/node_modules/zod/lib/index.mjs",
+      "file": "zod.js",
+      "fileHash": "c86c05b4",
+      "needsInterop": false
+    },
+    "@emailjs/browser": {
+      "src": "../../node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/index.js",
+      "file": "@emailjs_browser.js",
+      "fileHash": "d7e2d05d",
+      "needsInterop": false
+    },
+    "@radix-ui/react-dialog": {
+      "src": "../../node_modules/.pnpm/@radix-ui+react-dialog@1.0.5_@types+react-dom@18.3.0_@types+react@18.3.2_react-dom@18.3.1_react@18.3.1__react@18.3.1/node_modules/@radix-ui/react-dialog/dist/index.mjs",
+      "file": "@radix-ui_react-dialog.js",
+      "fileHash": "a4c85c38",
+      "needsInterop": false
+    },
+    "class-variance-authority": {
+      "src": "../../node_modules/.pnpm/class-variance-authority@0.7.0/node_modules/class-variance-authority/dist/index.mjs",
+      "file": "class-variance-authority.js",
+      "fileHash": "bc617221",
+      "needsInterop": false
+    },
+    "react-icons/hi2": {
+      "src": "../../node_modules/.pnpm/react-icons@5.2.1_react@18.3.1/node_modules/react-icons/hi2/index.mjs",
+      "file": "react-icons_hi2.js",
+      "fileHash": "5db0f721",
+      "needsInterop": false
+    },
+    "clsx": {
+      "src": "../../node_modules/.pnpm/clsx@2.1.1/node_modules/clsx/dist/clsx.mjs",
+      "file": "clsx.js",
+      "fileHash": "dc9e6d79",
+      "needsInterop": false
+    },
+    "tailwind-merge": {
+      "src": "../../node_modules/.pnpm/tailwind-merge@2.3.0/node_modules/tailwind-merge/dist/bundle-mjs.mjs",
+      "file": "tailwind-merge.js",
+      "fileHash": "7fa3e973",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-C4NW2Y5O": {
+      "file": "chunk-C4NW2Y5O.js"
+    },
+    "chunk-LNY4CR6H": {
+      "file": "chunk-LNY4CR6H.js"
+    },
+    "chunk-OELA7GPI": {
+      "file": "chunk-OELA7GPI.js"
+    },
+    "chunk-G3PMV62Z": {
+      "file": "chunk-G3PMV62Z.js"
+    }
+  }
+}

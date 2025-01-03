@@ -88,8 +88,13 @@ def get_file_record(id: str, s3_key: str) -> dict:
 def add_to_blacklist(ip_address: str, s3_key: str):
     table = DB_CLIENT.Table(appconfig.blaclist_table_name)
     table.put_item(Item={
+<<<<<<< HEAD
         'ip_address': ip_address,
         'created_at': pendulum.now().int_timestamp,
+=======
+        "ip_address": ip_address,
+        "created_at":  pendulum.now().int_timestamp,
+>>>>>>> main
         "expire_at": get_expiry_date(),
         "s3_key": s3_key
     })

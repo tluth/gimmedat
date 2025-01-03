@@ -64,3 +64,5 @@ https://medium.com/@prithvi.atal/securing-fastapi-applications-with-aws-cognito-
 https://medium.com/@gabriel-araujo/exploring-cognito-user-pools-2d8a60467b71
 
 api auth stuff -> https://github.com/markomirosavljev/fastapi-cognito
+
+another cognito react example if all else fails -> https://github.com/kaviyarasumaran/Firebase-authContext/blob/main/AwsAuthContext.js
