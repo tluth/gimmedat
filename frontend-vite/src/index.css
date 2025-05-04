@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 .a-line {
-    @apply underline;
-  }
+  @apply underline;
+}
 
 @layer base {
-    p {
-      @apply pb-3;
-      @apply tracking-wider;
-    }
+  p {
+    @apply pb-3;
+    @apply tracking-wider;
   }
+}

@@ -2,7 +2,7 @@ import Dropzone from "react-dropzone"
 import UploadIcon from "./icons/UploadIcon"
 import { MIN_FILE_SIZE, MAX_FILE_SIZE } from "../constants"
 import { toast } from "sonner"
-import ParticlesBackground from "./ParticlesBackground/ParticlesBackground"
+import DropzoneBackground from "./DropzoneBackground/DropzoneBackground"
 
 type CustomDropzoneProps = {
   onDrop: (acceptedFiles: File[]) => void
@@ -42,11 +42,10 @@ function CustomDropzone({
           <div
             {...getRootProps()}
             className={`pb-0 sm:pb-4 mb-5 flex flex-col text-offWhite cursor-pointer transition-border ease-in-out border-2
-          rounded border-dashed ${
-            isDragActive ? "border-main-300" : "border-offWhite"
-          } overflow-hidden px-3 relative`}
+          rounded border-dashed ${isDragActive ? "border-main-300" : "border-offWhite"
+              } overflow-hidden px-3 relative`}
           >
-            <ParticlesBackground />
+            <DropzoneBackground />
             <div
               id="repulse-div"
               className="m-auto text-center mt-1 sm:mt-2"
@@ -57,7 +56,7 @@ function CustomDropzone({
             >
               <input {...getInputProps()} />
               <p className="text-center overflow-hidden max-h-[120px]">
-                <UploadIcon color="#FAEFDD" altColor="#4d8cff"/>
+                <UploadIcon color="#FAEFDD" altColor="#4d8cff" />
               </p>
               <p>
                 {isDragActive ? "Drop it bra" : "Drag'n'drop or select files"}
@@ -65,15 +64,14 @@ function CustomDropzone({
               <p className="text-center text-xs">{"(Up to 4GB per file)"}</p>
             </div>
             <div
-              className={`${
-                isValid ? "text-main" : "text-imperialRed"
-              } min-h-14 pt-4 break-words`}
+              className={`${isValid ? "text-main" : "text-imperialRed"
+                } min-h-14 pt-4 break-words`}
             >
               {selectedFile && isValid
                 ? selectedFile.name
                 : !isValid && selectedFile
-                ? "Files must be bigger than 1kb and smaller than 4Gb"
-                : null}
+                  ? "Files must be bigger than 1kb and smaller than 4Gb"
+                  : null}
             </div>
           </div>
         )}
