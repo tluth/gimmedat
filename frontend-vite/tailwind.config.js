@@ -2,10 +2,11 @@
 export default {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "index.html",
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
   ],
   prefix: "",
   theme: {
@@ -34,19 +35,18 @@ export default {
         },
         night: {
           light: "#2b2626",
-          DEFAULT: "#121010"
+          DEFAULT: "#121010",
         },
         offWhite: "#FAEFDD",
         imperialRed: {
           400: "#df6d75",
           DEFAULT: "#D64550",
-          600: "#bc2935"
+          600: "#bc2935",
         },
         asparagus: {
           400: "#95bc90",
           DEFAULT: "#659B5E",
-          600: "#5d8f57"
-
+          600: "#5d8f57",
         },
       },
       fontFamily: {
