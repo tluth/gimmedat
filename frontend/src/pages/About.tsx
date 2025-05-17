@@ -21,7 +21,9 @@ const AboutPage = () => {
           up to 4GB in size and receive a download link which will be valid for
           4 days. Sure, WeTransfer would've met those needs and maybe done an
           even better job, but building stuff is also fun, so I decided to build
-          this.
+          this. Ultimately, I plan to develop this into a permanent cloud storage
+          service, but there are only so many hours in a day and motivation is
+          sometimes hard to come by.
         </p>
         <p>
           This is an ongoing work-in-progress, and we're open to contributions
@@ -75,13 +77,16 @@ const AboutPage = () => {
           routine monitoring and detection of those kinds of misuses which we
           don't agree with (these are automated programmatic processes - a human
           is not looking at what you've uploaded). If you are flagged for any
-          such behaviour though, all previous considerations for your privacy
-          and security will likely be disregarded.
+          such behaviour, all previous considerations for your privacy
+          and security will likely be disregarded. While we don't collect or store
+          PII, there is standard logging of all requests for the sake of basic website
+          functionality and security and in the case of these type
+          of violations, the corresponding logs will be collected and stored.
         </p>
         <p>
           We do not actively restrict access based on location (e.g. to comply
           with international embargoes) or content (e.g. no copyright strikes),
-          and and have no particular concern whether your use of Gimedat is in
+          and and have no particular concern whether your use of Gimmedat is in
           violation of the laws of your local government. If you wanna share a
           pirated copy of the latest Marvel blockbuster, or your homemade ANFO
           recipe, that's your business, not mine. We probably won't be aware of
@@ -92,10 +97,11 @@ const AboutPage = () => {
           Gimmedat is 100% against online child sexual abuse and exploitation,
           and we're committed to preventing our services from being used to
           spread child sexual abuse material (CSAM) or other abusive material
-          (e.g. revenge porn). In the case of CSAM detection, our privacy policy
-          goes out the window. Your content will be flagged once uploaded and
-          the information associate with the request will be recorded, stored
-          and shared with whoever we feel appropriate.
+          (e.g. revenge porn, nazi propaganda, etc.). In the case of CSAM detection,
+          our privacy policy goes out the window. Your content will be flagged once
+          uploaded and the information associate with the request will be recorded, stored
+          and shared with whoever we feel appropriate (hopefully someone
+          much smarter than me who can dox you).
         </p>
       </div>
     </div>

@@ -1,12 +1,6 @@
-import { msalInstance, tokenRequest } from '@/auth'
+import { API, COGNITO_CLIENT_ID } from '@/constants'
+import type { CrudTypes, APIError } from '.'
 
-import type { CrudTypes, ODSError, PaginationParams, SearchParams } from '.'
-
-export const getAccessToken = async () => {
-    const token = await msalInstance.acquireTokenSilent(tokenRequest)
-
-    return `${token.tokenType} ${token.accessToken}`
-}
 
 export const getApiBaseUrl = (origin: string, prefix: string) => {
     if (origin.indexOf('localhost') > -1)
@@ -17,12 +11,12 @@ export const getApiBaseUrl = (origin: string, prefix: string) => {
     }
 }
 
-const isODSError = <E>(maybeError: E | ODSError): maybeError is ODSError =>
-    (maybeError as ODSError).status_code !== undefined &&
-    (maybeError as ODSError).detail !== undefined
+const isAPIError = <E>(maybeError: E | APIError): maybeError is APIError =>
+    (maybeError as APIError).status_code !== undefined &&
+    (maybeError as APIError).detail !== undefined
 
-const isValidResponse = <R>(response: R | ODSError): response is R =>
-    !isODSError(response)
+const isValidResponse = <R>(response: R | APIError): response is R =>
+    !isAPIError(response)
 
 export const fetcher = async <R = never, T = never>(
     url: string | URL,
@@ -30,20 +24,25 @@ export const fetcher = async <R = never, T = never>(
     body?: T,
     headers?: Record<string, string>
 ) => {
-    const response: R | ODSError = await fetch(
-        `${getApiBaseUrl(window.location.origin, 'api')}/${url}`,
+    const lastUserKey = `CognitoIdentityServiceProvider.${COGNITO_CLIENT_ID}.LastAuthUser`
+    const lastUser = localStorage.getItem(lastUserKey)
+    const accessTokenKey = `CognitoIdentityServiceProvider.${COGNITO_CLIENT_ID}.${lastUser}.accessToken`
+    const accessToken = localStorage.getItem(accessTokenKey)
+    console.log(accessToken)
+    const response: R | APIError = await fetch(
+        `${API}/${url}`,
         {
             method,
             headers: {
                 'Content-Type': 'application/json',
-                authorization: await getAccessToken(),
+                Authorization: `Bearer ${accessToken}`,
                 ...headers,
             },
             body: body ? JSON.stringify(body) : undefined,
         }
     ).then(r => r.json())
 
-    if (isODSError(response)) {
+    if (isAPIError(response)) {
         throw new Error(response.detail || 'Error occurred')
     } else if (isValidResponse(response)) {
         return response

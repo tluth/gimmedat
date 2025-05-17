@@ -1,12 +1,20 @@
-import PrivateRoute from "@/components/PrivateRoute";
-import { useAuth } from "@/hooks";
+import { useEffect } from "react"
+import { fetcher } from "@/services"
+import PrivateRoute from "@/components/PrivateRoute"
+import { useAuth } from "@/hooks"
 
 export function SuccessPage() {
-    const auth = useAuth();
+    const auth = useAuth()
 
     if (auth.isLoading) {
-        return <div />;
+        return <div />
     }
+
+    useEffect( ()=>{
+      fetcher(
+        "testo",
+        "GET"      )
+    }, [])
 
     return (
         <PrivateRoute>
@@ -20,5 +28,5 @@ export function SuccessPage() {
                 </button>
             </div>
         </PrivateRoute>
-    );
+    )
 }

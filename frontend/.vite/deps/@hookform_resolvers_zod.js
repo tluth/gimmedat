@@ -2,80 +2,73 @@ import {
   appendErrors,
   get,
   set
-} from "./chunk-LNY4CR6H.js";
+} from "./chunk-3D7C4SMY.js";
 import "./chunk-OELA7GPI.js";
 import "./chunk-G3PMV62Z.js";
 
-// node_modules/.pnpm/@hookform+resolvers@3.3.4_react-hook-form@7.51.4_react@18.3.1_/node_modules/@hookform/resolvers/dist/resolvers.mjs
-var t = function(e, t3, i2) {
+// node_modules/.pnpm/@hookform+resolvers@3.9.0_react-hook-form@7.52.1_react@18.3.1_/node_modules/@hookform/resolvers/dist/resolvers.mjs
+var s = (e, s2, o2) => {
   if (e && "reportValidity" in e) {
-    var n3 = get(i2, t3);
-    e.setCustomValidity(n3 && n3.message || ""), e.reportValidity();
+    const r2 = get(o2, s2);
+    e.setCustomValidity(r2 && r2.message || ""), e.reportValidity();
   }
 };
-var i = function(r, e) {
-  var i2 = function(i3) {
-    var n4 = e.fields[i3];
-    n4 && n4.ref && "reportValidity" in n4.ref ? t(n4.ref, i3, r) : n4.refs && n4.refs.forEach(function(e2) {
-      return t(e2, i3, r);
-    });
-  };
-  for (var n3 in e.fields) i2(n3);
+var o = (t2, e) => {
+  for (const o2 in e.fields) {
+    const r2 = e.fields[o2];
+    r2 && r2.ref && "reportValidity" in r2.ref ? s(r2.ref, o2, t2) : r2.refs && r2.refs.forEach((e2) => s(e2, o2, t2));
+  }
 };
-var n = function(t3, n3) {
-  n3.shouldUseNativeValidation && i(t3, n3);
-  var f = {};
-  for (var a in t3) {
-    var s = get(n3.fields, a), u = Object.assign(t3[a] || {}, { ref: s && s.ref });
-    if (o(n3.names || Object.keys(t3), a)) {
-      var c = Object.assign({}, get(f, a));
-      set(c, "root", u), set(f, a, c);
-    } else set(f, a, u);
+var r = (s2, r2) => {
+  r2.shouldUseNativeValidation && o(s2, r2);
+  const f = {};
+  for (const o2 in s2) {
+    const n2 = get(r2.fields, o2), a = Object.assign(s2[o2] || {}, { ref: n2 && n2.ref });
+    if (i(r2.names || Object.keys(s2), o2)) {
+      const s3 = Object.assign({}, get(f, o2));
+      set(s3, "root", a), set(f, o2, s3);
+    } else set(f, o2, a);
   }
   return f;
 };
-var o = function(r, e) {
-  return r.some(function(r2) {
-    return r2.startsWith(e + ".");
-  });
-};
+var i = (t2, e) => t2.some((t3) => t3.startsWith(e + "."));
 
-// node_modules/.pnpm/@hookform+resolvers@3.3.4_react-hook-form@7.51.4_react@18.3.1_/node_modules/@hookform/resolvers/zod/dist/zod.mjs
-var n2 = function(e, o2) {
-  for (var n3 = {}; e.length; ) {
-    var t3 = e[0], s = t3.code, i2 = t3.message, a = t3.path.join(".");
-    if (!n3[a]) if ("unionErrors" in t3) {
-      var u = t3.unionErrors[0].errors[0];
-      n3[a] = { message: u.message, type: u.code };
-    } else n3[a] = { message: i2, type: s };
-    if ("unionErrors" in t3 && t3.unionErrors.forEach(function(r) {
-      return r.errors.forEach(function(r2) {
-        return e.push(r2);
+// node_modules/.pnpm/@hookform+resolvers@3.9.0_react-hook-form@7.52.1_react@18.3.1_/node_modules/@hookform/resolvers/zod/dist/zod.mjs
+var n = function(r2, e) {
+  for (var n2 = {}; r2.length; ) {
+    var t2 = r2[0], s2 = t2.code, i2 = t2.message, a = t2.path.join(".");
+    if (!n2[a]) if ("unionErrors" in t2) {
+      var u = t2.unionErrors[0].errors[0];
+      n2[a] = { message: u.message, type: u.code };
+    } else n2[a] = { message: i2, type: s2 };
+    if ("unionErrors" in t2 && t2.unionErrors.forEach(function(e2) {
+      return e2.errors.forEach(function(e3) {
+        return r2.push(e3);
       });
-    }), o2) {
-      var c = n3[a].types, f = c && c[t3.code];
-      n3[a] = appendErrors(a, o2, n3, s, f ? [].concat(f, t3.message) : t3.message);
+    }), e) {
+      var c = n2[a].types, f = c && c[t2.code];
+      n2[a] = appendErrors(a, e, n2, s2, f ? [].concat(f, t2.message) : t2.message);
     }
-    e.shift();
+    r2.shift();
   }
-  return n3;
+  return n2;
 };
-var t2 = function(r, t3, s) {
-  return void 0 === s && (s = {}), function(i2, a, u) {
+var t = function(o2, t2, s2) {
+  return void 0 === s2 && (s2 = {}), function(i2, a, u) {
     try {
-      return Promise.resolve(function(o2, n3) {
+      return Promise.resolve(function(e, n2) {
         try {
-          var a2 = Promise.resolve(r["sync" === s.mode ? "parse" : "parseAsync"](i2, t3)).then(function(r2) {
-            return u.shouldUseNativeValidation && i({}, u), { errors: {}, values: s.raw ? i2 : r2 };
+          var a2 = Promise.resolve(o2["sync" === s2.mode ? "parse" : "parseAsync"](i2, t2)).then(function(e2) {
+            return u.shouldUseNativeValidation && o({}, u), { errors: {}, values: s2.raw ? i2 : e2 };
           });
         } catch (r2) {
-          return n3(r2);
+          return n2(r2);
         }
-        return a2 && a2.then ? a2.then(void 0, n3) : a2;
+        return a2 && a2.then ? a2.then(void 0, n2) : a2;
       }(0, function(r2) {
         if (function(r3) {
-          return null != r3.errors;
-        }(r2)) return { values: {}, errors: n(n2(r2.errors, !u.shouldUseNativeValidation && "all" === u.criteriaMode), u) };
+          return Array.isArray(null == r3 ? void 0 : r3.errors);
+        }(r2)) return { values: {}, errors: r(n(r2.errors, !u.shouldUseNativeValidation && "all" === u.criteriaMode), u) };
         throw r2;
       }));
     } catch (r2) {
@@ -84,6 +77,6 @@ var t2 = function(r, t3, s) {
   };
 };
 export {
-  t2 as zodResolver
+  t as zodResolver
 };
 //# sourceMappingURL=@hookform_resolvers_zod.js.map

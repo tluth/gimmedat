@@ -5,7 +5,7 @@ import {
   __toESM
 } from "./chunk-G3PMV62Z.js";
 
-// node_modules/.pnpm/react-hook-form@7.51.4_react@18.3.1/node_modules/react-hook-form/dist/index.esm.mjs
+// node_modules/.pnpm/react-hook-form@7.52.1_react@18.3.1/node_modules/react-hook-form/dist/index.esm.mjs
 var import_react = __toESM(require_react(), 1);
 var isCheckBoxInput = (element) => element.type === "checkbox";
 var isDateObject = (value) => value instanceof Date;
@@ -53,6 +53,28 @@ var get = (object, path, defaultValue) => {
   return isUndefined(result) || result === object ? isUndefined(object[path]) ? defaultValue : object[path] : result;
 };
 var isBoolean = (value) => typeof value === "boolean";
+var isKey = (value) => /^\w*$/.test(value);
+var stringToPath = (input) => compact(input.replace(/["|']|\]/g, "").split(/\.|\[/));
+var set = (object, path, value) => {
+  let index = -1;
+  const tempPath = isKey(path) ? [path] : stringToPath(path);
+  const length = tempPath.length;
+  const lastIndex = length - 1;
+  while (++index < length) {
+    const key = tempPath[index];
+    let newValue = value;
+    if (index !== lastIndex) {
+      const objValue = object[key];
+      newValue = isObject(objValue) || Array.isArray(objValue) ? objValue : !isNaN(+tempPath[index + 1]) ? [] : {};
+    }
+    if (key === "__proto__") {
+      return;
+    }
+    object[key] = newValue;
+    object = object[key];
+  }
+  return object;
+};
 var EVENTS = {
   BLUR: "blur",
   FOCUS_OUT: "focusout",
@@ -182,25 +204,6 @@ function useWatch(props) {
   import_react.default.useEffect(() => control._removeUnmounted());
   return value;
 }
-var isKey = (value) => /^\w*$/.test(value);
-var stringToPath = (input) => compact(input.replace(/["|']|\]/g, "").split(/\.|\[/));
-var set = (object, path, value) => {
-  let index = -1;
-  const tempPath = isKey(path) ? [path] : stringToPath(path);
-  const length = tempPath.length;
-  const lastIndex = length - 1;
-  while (++index < length) {
-    const key = tempPath[index];
-    let newValue = value;
-    if (index !== lastIndex) {
-      const objValue = object[key];
-      newValue = isObject(objValue) || Array.isArray(objValue) ? objValue : !isNaN(+tempPath[index + 1]) ? [] : {};
-    }
-    object[key] = newValue;
-    object = object[key];
-  }
-  return object;
-};
 function useController(props) {
   const methods = useFormContext();
   const { name, disabled, control = methods.control, shouldUnregister } = props;
@@ -224,7 +227,7 @@ function useController(props) {
     const _shouldUnregisterField = control._options.shouldUnregister || shouldUnregister;
     const updateMounted = (name2, value2) => {
       const field = get(control._fields, name2);
-      if (field) {
+      if (field && field._f) {
         field._f.mount = value2;
       }
     };
@@ -420,7 +423,7 @@ var iterateFieldsByAction = (fields, action, fieldsNames, abortEarly) => {
   }
 };
 var updateFieldArrayRootError = (errors, error, name) => {
-  const fieldArrayErrors = compact(get(errors, name));
+  const fieldArrayErrors = convertToArrayPayload(get(errors, name));
   set(fieldArrayErrors, "root", error[name]);
   set(errors, name, fieldArrayErrors);
   return errors;
@@ -1186,7 +1189,7 @@ function createFormControl(props = {}) {
     const output = {
       name
     };
-    const disabledField = !!(get(_fields, name) && get(_fields, name)._f.disabled);
+    const disabledField = !!(get(_fields, name) && get(_fields, name)._f && get(_fields, name)._f.disabled);
     if (!isBlurEvent || shouldDirty) {
       if (_proxyFormState.isDirty) {
         isPreviousDirty = _formState.isDirty;
@@ -1462,9 +1465,9 @@ function createFormControl(props = {}) {
   const getFieldState = (name, formState) => ({
     invalid: !!get((formState || _formState).errors, name),
     isDirty: !!get((formState || _formState).dirtyFields, name),
-    isTouched: !!get((formState || _formState).touchedFields, name),
-    isValidating: !!get((formState || _formState).validatingFields, name),
-    error: get((formState || _formState).errors, name)
+    error: get((formState || _formState).errors, name),
+    isValidating: !!get(_formState.validatingFields, name),
+    isTouched: !!get((formState || _formState).touchedFields, name)
   });
   const clearErrors = (name) => {
     name && convertToArrayPayload(name).forEach((inputName) => unset(_formState.errors, inputName));
@@ -1474,7 +1477,10 @@ function createFormControl(props = {}) {
   };
   const setError = (name, error, options) => {
     const ref = (get(_fields, name, { _f: {} })._f || {}).ref;
+    const currentError = get(_formState.errors, name) || {};
+    const { ref: currentRef, message, type, ...restOfErrorTree } = currentError;
     set(_formState.errors, name, {
+      ...restOfErrorTree,
       ...error,
       ref
     });
@@ -1512,7 +1518,7 @@ function createFormControl(props = {}) {
     !options.keepIsValid && _updateValid();
   };
   const _updateDisabledField = ({ disabled, name, field, fields, value }) => {
-    if (isBoolean(disabled)) {
+    if (isBoolean(disabled) && _state.mount || !!disabled) {
       const inputValue = disabled ? void 0 : isUndefined(value) ? getFieldValue(field ? field._f : get(fields, name)._f) : value;
       set(_formValues, name, inputValue);
       updateTouchAndDirty(name, inputValue, false, false, true);
@@ -1593,12 +1599,15 @@ function createFormControl(props = {}) {
     if (isBoolean(disabled)) {
       _subjects.state.next({ disabled });
       iterateFieldsByAction(_fields, (ref, name) => {
-        let requiredDisabledState = disabled;
         const currentField = get(_fields, name);
-        if (currentField && isBoolean(currentField._f.disabled)) {
-          requiredDisabledState || (requiredDisabledState = currentField._f.disabled);
+        if (currentField) {
+          ref.disabled = currentField._f.disabled || disabled;
+          if (Array.isArray(currentField._f.refs)) {
+            currentField._f.refs.forEach((inputRef) => {
+              inputRef.disabled = currentField._f.disabled || disabled;
+            });
+          }
         }
-        ref.disabled = requiredDisabledState;
       }, 0, false);
     }
   };
@@ -1722,7 +1731,7 @@ function createFormControl(props = {}) {
       submitCount: keepStateOptions.keepSubmitCount ? _formState.submitCount : 0,
       isDirty: isEmptyResetValues ? false : keepStateOptions.keepDirty ? _formState.isDirty : !!(keepStateOptions.keepDefaultValues && !deepEqual(formValues, _defaultValues)),
       isSubmitted: keepStateOptions.keepIsSubmitted ? _formState.isSubmitted : false,
-      dirtyFields: isEmptyResetValues ? [] : keepStateOptions.keepDirtyValues ? keepStateOptions.keepDefaultValues && _formValues ? getDirtyFields(_defaultValues, _formValues) : _formState.dirtyFields : keepStateOptions.keepDefaultValues && formValues ? getDirtyFields(_defaultValues, formValues) : {},
+      dirtyFields: isEmptyResetValues ? {} : keepStateOptions.keepDirtyValues ? keepStateOptions.keepDefaultValues && _formValues ? getDirtyFields(_defaultValues, _formValues) : _formState.dirtyFields : keepStateOptions.keepDefaultValues && formValues ? getDirtyFields(_defaultValues, formValues) : keepStateOptions.keepDirty ? _formState.dirtyFields : {},
       touchedFields: keepStateOptions.keepTouched ? _formState.touchedFields : {},
       errors: keepStateOptions.keepErrors ? _formState.errors : {},
       isSubmitSuccessful: keepStateOptions.keepIsSubmitSuccessful ? _formState.isSubmitSuccessful : false,
@@ -1909,11 +1918,11 @@ function useForm(props = {}) {
 
 export {
   get,
+  set,
   useFormContext,
   FormProvider,
   useFormState,
   useWatch,
-  set,
   useController,
   Controller,
   Form,
@@ -1921,4 +1930,4 @@ export {
   useFieldArray,
   useForm
 };
-//# sourceMappingURL=chunk-LNY4CR6H.js.map
+//# sourceMappingURL=chunk-3D7C4SMY.js.map

@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@aws-amplify/auth':
+        specifier: ^6.9.1
+        version: 6.9.1(@aws-amplify/core@6.8.0)
       '@aws-amplify/ui-react':
         specifier: ^6.8.0
         version: 6.8.0(@aws-amplify/core@6.8.0)(@types/react@18.3.2)(aws-amplify@6.11.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(xstate@4.38.3)
@@ -158,6 +161,11 @@ packages:
 
   '@aws-amplify/auth@6.9.0':
     resolution: {integrity: sha512-zJkscexjrANUr8FcC7rGKcZ/XivAE8E8b/0jlNVwz029stTvRV/paFYHIKsw4Lil0A0jsogJX94RthSJVZ3PZg==}
+    peerDependencies:
+      '@aws-amplify/core': ^6.1.0
+
+  '@aws-amplify/auth@6.9.1':
+    resolution: {integrity: sha512-zXwaMxPGFq25XFYBRVGqnGcqf9jZ8S/HRbvw9+sajLtB+LzShiuNrpY25/DKTw37UFCB6k9xZqlCrmbSF299LA==}
     peerDependencies:
       '@aws-amplify/core': ^6.1.0
 
@@ -2918,6 +2926,11 @@ snapshots:
       - '@aws-amplify/core'
 
   '@aws-amplify/auth@6.9.0(@aws-amplify/core@6.8.0)':
+    dependencies:
+      '@aws-amplify/core': 6.8.0
+      tslib: 2.6.2
+
+  '@aws-amplify/auth@6.9.1(@aws-amplify/core@6.8.0)':
     dependencies:
       '@aws-amplify/core': 6.8.0
       tslib: 2.6.2

@@ -1,6 +1,6 @@
 import "./chunk-G3PMV62Z.js";
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/models/EmailJSResponseStatus.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/models/EmailJSResponseStatus.js
 var EmailJSResponseStatus = class {
   constructor(_status = 0, _text = "Network Error") {
     this.status = _status;
@@ -8,7 +8,7 @@ var EmailJSResponseStatus = class {
   }
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/createWebStorage/createWebStorage.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/createWebStorage/createWebStorage.js
 var createWebStorage = () => {
   if (typeof localStorage === "undefined")
     return;
@@ -19,14 +19,14 @@ var createWebStorage = () => {
   };
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/store/store.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/store/store.js
 var store = {
   origin: "https://api.emailjs.com",
   blockHeadless: false,
   storageProvider: createWebStorage()
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/buildOptions/buildOptions.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/buildOptions/buildOptions.js
 var buildOptions = (options) => {
   if (!options)
     return {};
@@ -41,7 +41,7 @@ var buildOptions = (options) => {
   return {};
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/methods/init/init.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/methods/init/init.js
 var init = (options, origin = "https://api.emailjs.com") => {
   if (!options)
     return;
@@ -54,7 +54,7 @@ var init = (options, origin = "https://api.emailjs.com") => {
   store.origin = opts.origin || origin;
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/api/sendPost.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/api/sendPost.js
 var sendPost = async (url, data, headers = {}) => {
   const response = await fetch(store.origin + url, {
     method: "POST",
@@ -69,7 +69,7 @@ var sendPost = async (url, data, headers = {}) => {
   throw responseStatus;
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/validateParams/validateParams.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/validateParams/validateParams.js
 var validateParams = (publicKey, serviceID, templateID) => {
   if (!publicKey || typeof publicKey !== "string") {
     throw "The public key is required. Visit https://dashboard.emailjs.com/admin/account";
@@ -82,24 +82,24 @@ var validateParams = (publicKey, serviceID, templateID) => {
   }
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/validateTemplateParams/validateTemplateParams.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/validateTemplateParams/validateTemplateParams.js
 var validateTemplateParams = (templateParams) => {
   if (templateParams && templateParams.toString() !== "[object Object]") {
     throw "The template params have to be the object. Visit https://www.emailjs.com/docs/sdk/send/";
   }
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/isHeadless/isHeadless.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/isHeadless/isHeadless.js
 var isHeadless = (navigator2) => {
   return navigator2.webdriver || !navigator2.languages || navigator2.languages.length === 0;
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/errors/headlessError/headlessError.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/errors/headlessError/headlessError.js
 var headlessError = () => {
   return new EmailJSResponseStatus(451, "Unavailable For Headless Browser");
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/validateBlockListParams/validateBlockListParams.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/validateBlockListParams/validateBlockListParams.js
 var validateBlockListParams = (list, watchVariable) => {
   if (!Array.isArray(list)) {
     throw "The BlockList list has to be an array";
@@ -109,7 +109,7 @@ var validateBlockListParams = (list, watchVariable) => {
   }
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/isBlockedValueInParams/isBlockedValueInParams.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/isBlockedValueInParams/isBlockedValueInParams.js
 var isBlockListDisabled = (options) => {
   var _a;
   return !((_a = options.list) == null ? void 0 : _a.length) || !options.watchVariable;
@@ -127,22 +127,22 @@ var isBlockedValueInParams = (options, params) => {
   return options.list.includes(value);
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/errors/blockedEmailError/blockedEmailError.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/errors/blockedEmailError/blockedEmailError.js
 var blockedEmailError = () => {
   return new EmailJSResponseStatus(403, "Forbidden");
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/validateLimitRateParams/validateLimitRateParams.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/validateLimitRateParams/validateLimitRateParams.js
 var validateLimitRateParams = (throttle, id) => {
   if (typeof throttle !== "number" || throttle < 0) {
     throw "The LimitRate throttle has to be a positive number";
   }
   if (id && typeof id !== "string") {
-    throw "The LimitRate ID has to be a non-empty string";
+    throw "The LimitRate ID has to be a string";
   }
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/isLimitRateHit/isLimitRateHit.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/isLimitRateHit/isLimitRateHit.js
 var getLeftTime = async (id, throttle, storage) => {
   const lastTime = Number(await storage.get(id) || 0);
   return throttle - Date.now() + lastTime;
@@ -161,17 +161,17 @@ var isLimitRateHit = async (defaultID, options, storage) => {
   return false;
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/errors/limitRateError/limitRateError.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/errors/limitRateError/limitRateError.js
 var limitRateError = () => {
   return new EmailJSResponseStatus(429, "Too Many Requests");
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/methods/send/send.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/methods/send/send.js
 var send = async (serviceID, templateID, templateParams, options) => {
   const opts = buildOptions(options);
   const publicKey = opts.publicKey || store.publicKey;
   const blockHeadless = opts.blockHeadless || store.blockHeadless;
-  const storageProvider = opts.storageProvider || store.storageProvider;
+  const storageProvider = store.storageProvider || opts.storageProvider;
   const blockList = { ...store.blockList, ...opts.blockList };
   const limitRate = { ...store.limitRate, ...opts.limitRate };
   if (blockHeadless && isHeadless(navigator)) {
@@ -186,7 +186,7 @@ var send = async (serviceID, templateID, templateParams, options) => {
     return Promise.reject(limitRateError());
   }
   const params = {
-    lib_version: "4.4.1",
+    lib_version: "4.3.3",
     user_id: publicKey,
     service_id: serviceID,
     template_id: templateID,
@@ -197,14 +197,14 @@ var send = async (serviceID, templateID, templateParams, options) => {
   });
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/utils/validateForm/validateForm.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/utils/validateForm/validateForm.js
 var validateForm = (form) => {
   if (!form || form.nodeName !== "FORM") {
     throw "The 3rd parameter is expected to be the HTML form element or the style selector of the form";
   }
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/methods/sendForm/sendForm.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/methods/sendForm/sendForm.js
 var findHTMLForm = (form) => {
   return typeof form === "string" ? document.querySelector(form) : form;
 };
@@ -228,14 +228,14 @@ var sendForm = async (serviceID, templateID, form, options) => {
   if (await isLimitRateHit(location.pathname, limitRate, storageProvider)) {
     return Promise.reject(limitRateError());
   }
-  formData.append("lib_version", "4.4.1");
+  formData.append("lib_version", "4.3.3");
   formData.append("service_id", serviceID);
   formData.append("template_id", templateID);
   formData.append("user_id", publicKey);
   return sendPost("/api/v1.0/email/send-form", formData);
 };
 
-// node_modules/.pnpm/@emailjs+browser@4.4.1/node_modules/@emailjs/browser/es/index.js
+// node_modules/.pnpm/@emailjs+browser@4.3.3/node_modules/@emailjs/browser/es/index.js
 var es_default = {
   init,
   send,

@@ -1,11 +1,12 @@
-import { Amplify } from "aws-amplify"
-
-import { signIn, signOut, getCurrentUser, SignInOutput } from "aws-amplify/auth";
-
 import React, { createContext, useContext, useEffect, useState } from "react"
+import { Amplify } from "aws-amplify"
+import { signIn, signOut, getCurrentUser, SignInOutput } from "aws-amplify/auth"
+import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito'
+import { defaultStorage } from 'aws-amplify/utils'
 import { AwsConfigAuth } from "@/config/auth"
 
 Amplify.configure(AwsConfigAuth)
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
 
 interface UseAuth {
   isLoading: boolean

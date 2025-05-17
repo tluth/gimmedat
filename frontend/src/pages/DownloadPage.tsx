@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { API } from "../constants"
-import LoadingSpinner from "./LoadingSpinner"
+import LoadingSpinner from "../components/LoadingSpinner"
 
 const DownloadPage = () => {
   const [downloadLink, setDownloadLink] = useState()

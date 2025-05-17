@@ -1,8 +1,8 @@
 import "./chunk-G3PMV62Z.js";
 
-// node_modules/.pnpm/tailwind-merge@2.3.0/node_modules/tailwind-merge/dist/bundle-mjs.mjs
+// node_modules/.pnpm/tailwind-merge@2.4.0/node_modules/tailwind-merge/dist/bundle-mjs.mjs
 var CLASS_PART_SEPARATOR = "-";
-function createClassUtils(config) {
+function createClassGroupUtils(config) {
   const classMap = createClassMap(config);
   const {
     conflictingClassGroups,
@@ -168,12 +168,15 @@ function createLruCache(maxCacheSize) {
   };
 }
 var IMPORTANT_MODIFIER = "!";
-function createSplitModifiers(config) {
-  const separator = config.separator;
+function createParseClassName(config) {
+  const {
+    separator,
+    experimentalParseClassName
+  } = config;
   const isSeparatorSingleCharacter = separator.length === 1;
   const firstSeparatorCharacter = separator[0];
   const separatorLength = separator.length;
-  return function splitModifiers(className) {
+  function parseClassName(className) {
     const modifiers = [];
     let bracketDepth = 0;
     let modifierStart = 0;
@@ -207,7 +210,16 @@ function createSplitModifiers(config) {
       baseClassName,
       maybePostfixModifierPosition
     };
-  };
+  }
+  if (experimentalParseClassName) {
+    return function parseClassNameExperimental(className) {
+      return experimentalParseClassName({
+        className,
+        parseClassName
+      });
+    };
+  }
+  return parseClassName;
 }
 function sortModifiers(modifiers) {
   if (modifiers.length <= 1) {
@@ -230,14 +242,14 @@ function sortModifiers(modifiers) {
 function createConfigUtils(config) {
   return {
     cache: createLruCache(config.cacheSize),
-    splitModifiers: createSplitModifiers(config),
-    ...createClassUtils(config)
+    parseClassName: createParseClassName(config),
+    ...createClassGroupUtils(config)
   };
 }
 var SPLIT_CLASSES_REGEX = /\s+/;
 function mergeClassList(classList, configUtils) {
   const {
-    splitModifiers,
+    parseClassName,
     getClassGroupId,
     getConflictingClassGroupIds
   } = configUtils;
@@ -248,11 +260,11 @@ function mergeClassList(classList, configUtils) {
       hasImportantModifier,
       baseClassName,
       maybePostfixModifierPosition
-    } = splitModifiers(originalClassName);
-    let classGroupId = getClassGroupId(maybePostfixModifierPosition ? baseClassName.substring(0, maybePostfixModifierPosition) : baseClassName);
+    } = parseClassName(originalClassName);
     let hasPostfixModifier = Boolean(maybePostfixModifierPosition);
+    let classGroupId = getClassGroupId(hasPostfixModifier ? baseClassName.substring(0, maybePostfixModifierPosition) : baseClassName);
     if (!classGroupId) {
-      if (!maybePostfixModifierPosition) {
+      if (!hasPostfixModifier) {
         return {
           isTailwindClass: false,
           originalClassName
@@ -2503,12 +2515,14 @@ function mergeConfigs(baseConfig, {
   cacheSize,
   prefix,
   separator,
+  experimentalParseClassName,
   extend = {},
   override = {}
 }) {
   overrideProperty(baseConfig, "cacheSize", cacheSize);
   overrideProperty(baseConfig, "prefix", prefix);
   overrideProperty(baseConfig, "separator", separator);
+  overrideProperty(baseConfig, "experimentalParseClassName", experimentalParseClassName);
   for (const configKey in override) {
     overrideConfigProperties(baseConfig[configKey], override[configKey]);
   }
