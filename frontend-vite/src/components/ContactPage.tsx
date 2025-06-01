@@ -57,12 +57,12 @@ const ContactPage = () => {
         () => {
           setIsLoading(false)
           setIsSuccessful(true)
-          console.log('SUCCESS!');
+          console.log('SUCCESS!')
         },
         (error) => {
           setIsLoading(false)
           setIsError(true)
-          console.log('FAILED...', error.text);
+          console.log('FAILED...', error.text)
         },
       )
   }
