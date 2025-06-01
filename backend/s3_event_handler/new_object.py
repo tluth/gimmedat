@@ -23,8 +23,6 @@ def check_cache_for_duplicate_files(s3_key: str, ip_address: str, filesize: int)
         (Lambda should stay warm and retain cache for approx 15 mins so this is
         a limit of around 1 request every second for 15 mins straight)
     """
-    global NEW_OBJECT_CACHE
-
     new_item = {
         "filename": os.path.basename(s3_key),
         "filesize": filesize
