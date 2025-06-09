@@ -40,7 +40,7 @@ const UploadPage = () => {
       file_name: file?.name,
       byte_size: file?.size,
       file_type: file?.type,
-      recipient_email: !formData.recipient?null:formData.recipient, // if a empty string is passed, return null instead of the empty string 
+      recipient_email: !formData.recipient?null:formData.recipient, // if a empty string is passed, return null instead of the empty string
       sender: !formData.sender?null:formData.sender
     }
 
@@ -111,7 +111,7 @@ const UploadPage = () => {
           setIsValid={setIsValid}
         />
       </div>
-      {file && isValid && !success && (
+      {file && isValid && !success && !isUploading && (
         <div className="flex justify-between">
           <EmailForm
             className="left-content"
