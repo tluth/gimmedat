@@ -5,8 +5,9 @@ import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito'
 import { defaultStorage } from 'aws-amplify/utils'
 import { AwsConfigAuth } from "@/config/auth"
 
+
 Amplify.configure(AwsConfigAuth)
-cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage);
+cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage)
 
 interface UseAuth {
   isLoading: boolean

@@ -2,6 +2,7 @@ from pydantic_settings import BaseSettings
 from pydantic.types import Any
 from . import appconfig
 
+
 class Settings(BaseSettings):
     check_expiration: bool = True
     jwt_header_prefix: str = "Bearer"
@@ -13,5 +14,6 @@ class Settings(BaseSettings):
             "app_client_id": appconfig.cognito_app_client_id
         }
     }
+
 
 authconfig = Settings()

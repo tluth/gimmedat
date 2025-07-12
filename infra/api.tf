@@ -110,7 +110,7 @@ resource "aws_api_gateway_method_settings" "api_gateway_method_settings" {
     # metrics_enabled = true
     # logging_level   = "ERROR"
   }
-  
+
 }
 
 resource "aws_api_gateway_integration" "api_proxy_integration" {
@@ -131,13 +131,13 @@ resource "aws_lambda_permission" "api_lambda_permission" {
   source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*/*"
 }
 
-# Logging 
+# Logging
 resource "aws_cloudwatch_log_group" "api_logs" {
   name              = "/aws/lambda/${aws_lambda_function.api_lambda.function_name}"
   retention_in_days = 14
 }
 
-# Lambda 
+# Lambda
 data "archive_file" "lambda_zip" {
   type        = "zip"
   output_path = "${path.module}/../backend/api_build.zip"
@@ -163,7 +163,7 @@ resource "aws_lambda_function" "api_lambda" {
   }
 }
 
-### DynamoDB & S3 permissions 
+### DynamoDB & S3 permissions
 resource "aws_iam_policy" "extra_perms" {
   name   = "${local.site}-api-permissions"
   policy = data.aws_iam_policy_document.extra_perms.json
@@ -196,7 +196,7 @@ data "aws_iam_policy_document" "extra_perms" {
     resources = [
       aws_dynamodb_table.state_dynamodb_table.arn,
       "${aws_dynamodb_table.state_dynamodb_table.arn}/index/*",
-      aws_dynamodb_table.state_dynamodb_table.stream_arn, 
+      aws_dynamodb_table.state_dynamodb_table.stream_arn,
       ]
   }
 
