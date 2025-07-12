@@ -52,6 +52,10 @@ resource "aws_cognito_user_pool" "main" {
       max_length = 256
     }
   }
+
+  lambda_config {
+    post_confirmation = data.aws_ssm_parameter.post_confirmation_lambda_arn.value
+  }
 }
 
 resource "aws_ssm_parameter" "user_pool_arn" {
