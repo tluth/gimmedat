@@ -1,8 +1,15 @@
-import React from 'react'
-import { withAuthenticator } from '@aws-amplify/ui-react'
+import React from "react";
+import { useAuthenticator } from "@aws-amplify/ui-react";
+import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = withAuthenticator(({ component: Component }: { component: React.ComponentType }) => {
-    return <Component />
-})
+const AuthenticatedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { route } = useAuthenticator((context) => [context.route]);
 
-export default ProtectedRoute
+  if (route !== "authenticated") {
+    return <Navigate to="/" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+export default AuthenticatedRoute;
