@@ -54,7 +54,7 @@ resource "aws_cognito_user_pool" "main" {
   }
 
   lambda_config {
-    post_confirmation = data.aws_ssm_parameter.post_confirmation_lambda_arn.value
+    pre_token_generation = data.aws_ssm_parameter.post_confirmation_lambda_arn.value
   }
 }
 
