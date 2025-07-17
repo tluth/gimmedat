@@ -2,15 +2,6 @@ import { API, COGNITO_CLIENT_ID } from '@/constants'
 import type { CrudTypes, APIError } from '.'
 
 
-export const getApiBaseUrl = (origin: string, prefix: string) => {
-    if (origin.indexOf('localhost') > -1)
-        return `https://${prefix}.dev.designstudio.oasys-software.com`
-    else {
-        const urlParts = origin.split('://')
-        return `${urlParts[0]}://${prefix}.${urlParts[1]}`
-    }
-}
-
 const isAPIError = <E>(maybeError: E | APIError): maybeError is APIError =>
     (maybeError as APIError).status_code !== undefined &&
     (maybeError as APIError).detail !== undefined
@@ -28,7 +19,6 @@ export const fetcher = async <R = never, T = never>(
     const lastUser = localStorage.getItem(lastUserKey)
     const accessTokenKey = `CognitoIdentityServiceProvider.${COGNITO_CLIENT_ID}.${lastUser}.accessToken`
     const accessToken = localStorage.getItem(accessTokenKey)
-    console.log(accessToken)
     const response: R | APIError = await fetch(
         `${API}/${url}`,
         {

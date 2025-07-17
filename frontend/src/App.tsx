@@ -11,6 +11,7 @@ import StuffWeLikePage from "./pages/StuffWeLike/StuffWeLike"
 import LoginModal from "./components/LoginModal/LoginModal"
 import { SuccessPage } from "@/pages"
 import { ProvideAuth } from "@/hooks"
+import DashboardPage from "./pages/DashboardPage"
 
 function App() {
   const [showLogin, setShowLogin] = useState<boolean>(false)
@@ -23,6 +24,7 @@ function App() {
         <BrowserRouter>
           <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
           <Routes>
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/external-links" element={<StuffWeLikePage />} />
             <Route path="/sharing/:fileId" element={<DownloadPage />} />

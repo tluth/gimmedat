@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileBrowser } from '@/components/FileBrowser';
+import { FileBrowser } from '@/components'
 
 const DashboardPage: React.FC = () => {
   return (

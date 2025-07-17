@@ -7,3 +7,11 @@ export type APIError = {
     error_code: string
   }
 }
+
+export type FileItem = {
+  key: string
+  name: string
+  size: string
+  last_modified: string
+  type: string
+}
