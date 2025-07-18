@@ -33,9 +33,9 @@ def presign_expiry_by_size(file_size: int) -> int:
     return max_time_seconds + 2
 
 
-def get_put_presigned_url(path: str, file_type: str, file_size: int) -> dict:
+def get_put_presigned_url(bucket: str, path: str, file_type: str, file_size: int) -> dict:
     return s3_con.generate_presigned_post(
-        appconfig.storage_bucket,
+        bucket,
         path,
         Fields={"content-type": file_type},
         Conditions=[
@@ -43,6 +43,13 @@ def get_put_presigned_url(path: str, file_type: str, file_size: int) -> dict:
             ["content-length-range", file_size, file_size]
         ],
         ExpiresIn=presign_expiry_by_size(file_size),
+    )
+
+
+def get_put_permanent_presigned_url(bucket: str, path: str) -> dict:
+    return s3_con.generate_presigned_post(
+        bucket,
+        path
     )
 
 

@@ -15,5 +15,3 @@ export const AwsConfigAuth = {
     }
   }
 }
-
-console.log(AwsConfigAuth)

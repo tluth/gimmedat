@@ -243,7 +243,9 @@ data "aws_iam_policy_document" "extra_perms" {
     ]
     resources = [
       "${aws_s3_bucket.main_storage.arn}",
-      "${aws_s3_bucket.main_storage.arn}/*"
+      "${aws_s3_bucket.main_storage.arn}/*",
+      data.aws_s3_bucket.permanent_storage.arn,
+      "${data.aws_s3_bucket.permanent_storage.arn}/*"
     ]
   }
 }

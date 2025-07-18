@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '@/hooks/useAuth'
 import { UploadButton } from './UploadButton'
-import { API, COGNITO_CLIENT_ID } from '@/constants'
+import { API } from '@/constants'
 import { FileItem } from '@/services/types'
+import { UploadService } from "@/services/uploadService"
 
 interface FileBrowserProps {
   prefix?: string
@@ -21,10 +22,15 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
       if (!session?.tokens) return
       setLoading(true)
       setError(null)
-      const lastUserKey = `CognitoIdentityServiceProvider.${COGNITO_CLIENT_ID}.LastAuthUser`
-      const lastUser = localStorage.getItem(lastUserKey)
-      const accessTokenKey = `CognitoIdentityServiceProvider.${COGNITO_CLIENT_ID}.${lastUser}.accessToken`
-      const accessToken = localStorage.getItem(accessTokenKey)
+
+      // Get access token from session instead of localStorage
+      const accessToken = session.tokens.accessToken?.toString()
+
+      if (!accessToken) {
+        setError('No access token available')
+        setLoading(false)
+        return
+      }
       try {
         const response = await axios.get(`${API}/files/list`, {
           params: { prefix },
@@ -33,7 +39,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
             Authorization: `Bearer ${accessToken}`,
           },
         })
-        console.log(response)
         setFiles(response.data.files || [])
         setFolders(response.data.folders || [])
       } catch (err) {
@@ -50,7 +55,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
   const handleDownload = async (key: string) => {
     if (!session?.tokens) return
     try {
-      const response = await axios.get('/api/files/download', {
+      const response = await axios.get(`${API}/files/download`, {
         params: { key },
         headers: {
           Authorization: `Bearer ${session.tokens.idToken?.toString()}`,
@@ -63,12 +68,67 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
     }
   }
 
+  // In your FileBrowser.tsx uploadFileToFolder method
+  const uploadFileToFolder = async (file: File, folderPrefix: string) => {
+    if (!session?.tokens) {
+      setError('No authentication session available')
+      return
+    }
+
+    const accessToken = session.tokens.accessToken?.toString()
+
+    if (!accessToken) {
+      setError('No access token available')
+      return
+    }
+
+    console.log('🚀 Starting upload process...')
+    console.log('📝 Upload request data:', {
+      endpoint: `${API}/files/upload`,
+      file_name: file.name,
+      byte_size: file.size,
+      file_type: file.type,
+      folder_prefix: folderPrefix,
+    })
+
+    try {
+      await UploadService.uploadFile({
+        endpoint: `${API}/files/upload`,
+        file,
+        uploadRequest: {
+          file_name: file.name,
+          byte_size: file.size,
+          file_type: file.type,
+          folder_prefix: folderPrefix,
+          recipient_email: null,
+          sender: null
+        },
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        onProgress: (progress) => {
+          console.log(`📊 Upload progress: ${progress}%`)
+        },
+        onSuccess: () => {
+          window.location.reload()
+        },
+        onError: (error) => {
+          console.error("❌ Upload failed:", error)
+          setError(`Upload failed: ${error}`)
+        }
+      })
+    } catch (error) {
+      console.error("💥 Upload error:", error)
+      setError('Upload failed due to network error')
+    }
+  }
+
   if (loading) return <p className="text-offWhite">Loading files...</p>
   if (error) return <p className="text-red-400">Error: {error}</p>
 
   return (
     <div className="bg-night text-offWhite p-6 rounded-lg">
-      <UploadButton currentPrefix={prefix} />
+      <UploadButton currentPrefix={prefix} uploadHandler={uploadFileToFolder} />
 
       <h2 className="text-2xl font-semibold text-main-400 mt-6 mb-4">Folders</h2>
       {folders.length === 0 ? (

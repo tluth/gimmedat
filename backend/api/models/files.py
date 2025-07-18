@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel, AnyUrl, Field, EmailStr
 
@@ -11,13 +11,32 @@ class UploadFileRequest(BaseModel):
     file_type: str
     recipient_email: Optional[EmailStr] = Field(default=None)
     sender: Optional[str] = Field(default=None)
+    folder_prefix: Optional[str] = None
 
 
 class UploadFileResponse(BaseModel):
     presigned_upload_data: dict
-    uuid: str
+    uuid: Optional[str] = None
+
+
+class PermanentUploadFileResponse(BaseModel):
+    presigned_upload_data: dict
 
 
 class GetFileResponse(BaseModel):
     presigned_url: AnyUrl
     ttl: int
+
+
+class FileItem(BaseModel):
+    key: str
+    name: str
+    size: str
+    last_modified: str
+    storage_class: str
+    type: str
+
+
+class FileBrowserResponse(BaseModel):
+    files: List[FileItem]
+    folders: List[str]

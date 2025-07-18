@@ -53,7 +53,7 @@ def upload_file(
         sender=data.sender
     )
     post_presign = get_put_presigned_url(
-        s3_path, data.file_type, data.byte_size)
+        appconfig.storage_bucket, s3_path, data.file_type, data.byte_size)
     db_record.save()
     return UploadFileResponse(
         presigned_upload_data=post_presign,

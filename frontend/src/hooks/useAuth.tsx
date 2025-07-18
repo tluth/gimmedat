@@ -10,11 +10,27 @@ import { AwsConfigAuth } from "@/config/auth"
 Amplify.configure(AwsConfigAuth)
 cognitoUserPoolsTokenProvider.setKeyValueStorage(defaultStorage)
 
-interface AuthSession {
-  tokens?: {
-    idToken?: {
-      toString(): string
-    }
+export interface CognitoTokens {
+  accessToken: {
+    jwtToken: string
+    payload: unknown
+    toString(): string
+  }
+  idToken: {
+    jwtToken: string
+    payload: unknown
+    toString(): string
+  }
+  refreshToken?: {
+    token: string
+  }
+}
+
+export interface AuthSession {
+  tokens: CognitoTokens
+  user?: {
+    username: string
+    attributes: Record<string, unknown>
   }
 }
 
