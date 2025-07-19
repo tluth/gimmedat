@@ -7,6 +7,7 @@ import AboutPage from "./components/About"
 import { Toaster } from "sonner"
 import Sidebar from "./components/Sidebar/Sidebar"
 import StuffWeLikePage from "./components/StuffWeLike/StuffWeLike"
+import VideoPlayer from "./components/VideoPlayer/VideoPlayer"
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/external-links" element={<StuffWeLikePage />} />
           <Route path="/sharing/:fileId" element={<DownloadPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/video" element={<VideoPlayer />} />
           <Route path="/" element={<UploadPage />} />
         </Routes>
       </BrowserRouter>

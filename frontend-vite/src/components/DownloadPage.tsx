@@ -15,6 +15,7 @@ const DownloadPage = () => {
   }, [fileId])
 
   const getPresignedDownloadURL = (fileId: string) => {
+    console.log(fileId)
     const url = `${API}/file/${fileId}`
     return new Promise(function () {
       fetch(url, { method: "GET" })

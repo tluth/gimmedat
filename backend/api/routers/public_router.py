@@ -81,3 +81,13 @@ def get_file(file_id: str) -> GetFileResponse:
         presigned_url=presigned_url,
         ttl=calc_ttl_seconds(file_record.expire_at)
     )
+
+
+@main_router.get("/video/{file_name}")
+def get_video_file(file_name: str) -> GetFileResponse:
+    s3_key = f"test/{file_name}"
+    presigned_url = get_get_presigned_url(s3_key)
+    return GetFileResponse(
+        presigned_url=presigned_url,
+        ttl=100000
+    )
