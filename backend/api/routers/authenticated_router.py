@@ -1,19 +1,21 @@
-from uuid import uuid4
 import logging
-from typing import List, Optional
+from typing import Optional
 
 from fastapi_cognito import CognitoToken
-from fastapi import HTTPException, Request, status, Depends, Query
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import HTTPException, Request, Depends, Query
 from botocore.exceptions import ClientError
 
 from .trailingslash_router import APIRouter
 from api.services.auth_service import cognito_default
 from ..config import appconfig
-from ..models.files import FileBrowserResponse, UploadFileResponse, UploadFileRequest
+from ..models.files import (
+    FileBrowserResponse,
+    UploadFileResponse,
+    UploadFileRequest
+)
 from ..services.s3_services import list_s3_bucket_items
 from ..utils import (
-    get_put_permanent_presigned_url,
+    get_put_presigned_url,
 )
 
 
@@ -82,7 +84,7 @@ def get_upload_url(
 
     logger.info(f"Authenticated upload for user: {auth.username}")
 
-    post_presign = get_put_permanent_presigned_url(
+    post_presign = get_put_presigned_url(
         appconfig.permanent_storage_bucket, s3_path, data.file_type, data.byte_size
     )
 

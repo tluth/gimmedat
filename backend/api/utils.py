@@ -46,13 +46,6 @@ def get_put_presigned_url(bucket: str, path: str, file_type: str, file_size: int
     )
 
 
-def get_put_permanent_presigned_url(bucket: str, path: str) -> dict:
-    return s3_con.generate_presigned_post(
-        bucket,
-        path
-    )
-
-
 def get_get_presigned_url(key: str) -> dict:
     return s3_con.generate_presigned_url(
         "get_object",
