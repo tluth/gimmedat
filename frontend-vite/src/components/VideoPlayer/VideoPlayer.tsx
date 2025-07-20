@@ -12,7 +12,7 @@ const VideoPlayer = () => {
       try {
         setIsLoading(true)
         setError(null)
-        const fileId = "Topographic_Textures_After_Effects_Topographic_Design_Topographic_Map_Background_hd.mp4"
+        const fileId = "SampleVideo_720x480_30mb.mp4"
         const url = `${API}/video/${fileId}`
 
         const response = await fetch(url, { method: "GET" })
@@ -59,9 +59,17 @@ const VideoPlayer = () => {
   }
 
   return (
-    <div className="video-player mx-auto">
+    <div className="video-player w-[70vw] mx-auto">
       {downloadLink ? (
-        <ReactPlayer src={downloadLink} controls={true} width="1080p"/>
+        <div className="relative pt-[56.25%]"> {/* 16:9 Aspect Ratio */}
+          <ReactPlayer
+            src={downloadLink}
+            controls={true}
+            width='100%'
+            height='100%'
+            className="absolute top-0 left-0"
+          />
+        </div>
       ) : (
         <div className="no-video-message">No video available.</div>
       )}
