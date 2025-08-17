@@ -1,4 +1,5 @@
 export const API = import.meta.env.VITE_APP_API_URL || "http://localhost:5000"
+export const POCKETDAT_API = import.meta.env.VITE_APP_POCKETDAT_API_URL || "http://localhost:5000"
 export const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_USER_POOL_WEB_CLIENT_ID
 export const MIN_FILE_SIZE: number = 1024
 export const MAX_FILE_SIZE: number = 1073741824

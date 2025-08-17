@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useAuth } from '@/hooks/useAuth'
 import { UploadButton } from './UploadButton'
-import { API } from '@/constants'
+import { POCKETDAT_API } from '@/constants'
 import { FileItem } from '@/services/types'
 import { UploadService } from "@/services/uploadService"
 
@@ -32,7 +32,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
         return
       }
       try {
-        const response = await axios.get(`${API}/files/list`, {
+        const response = await axios.get(`${POCKETDAT_API}/files/list`, {
           params: { prefix },
           headers: {
             'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
   const handleDownload = async (key: string) => {
     if (!session?.tokens) return
     try {
-      const response = await axios.get(`${API}/files/download`, {
+      const response = await axios.get(`${POCKETDAT_API}/files/download`, {
         params: { key },
         headers: {
           Authorization: `Bearer ${session.tokens.idToken?.toString()}`,
@@ -82,18 +82,9 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
       return
     }
 
-    console.log('🚀 Starting upload process...')
-    console.log('📝 Upload request data:', {
-      endpoint: `${API}/files/upload`,
-      file_name: file.name,
-      byte_size: file.size,
-      file_type: file.type,
-      folder_prefix: folderPrefix,
-    })
-
     try {
       await UploadService.uploadFile({
-        endpoint: `${API}/files/upload`,
+        endpoint: `${POCKETDAT_API}/files/upload`,
         file,
         uploadRequest: {
           file_name: file.name,
@@ -107,18 +98,18 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
           'Authorization': `Bearer ${accessToken}`,
         },
         onProgress: (progress) => {
-          console.log(`📊 Upload progress: ${progress}%`)
+          console.log(`Upload progress: ${progress}%`)
         },
         onSuccess: () => {
           window.location.reload()
         },
         onError: (error) => {
-          console.error("❌ Upload failed:", error)
+          console.error("Upload failed:", error)
           setError(`Upload failed: ${error}`)
         }
       })
     } catch (error) {
-      console.error("💥 Upload error:", error)
+      console.error("Upload error:", error)
       setError('Upload failed due to network error')
     }
   }

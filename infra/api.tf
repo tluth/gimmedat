@@ -99,7 +99,6 @@ resource "aws_api_gateway_method" "api_gateway_root_method" {
   }
 }
 
-
 resource "aws_api_gateway_method_settings" "api_gateway_method_settings" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   stage_name  = aws_api_gateway_stage.api_stage.stage_name

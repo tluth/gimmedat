@@ -76,11 +76,16 @@ def get_upload_url(
 
     # For authenticated uploads, you might want to organize by user
     # Assuming you have a folder_prefix in the request data
+    user_id = auth.username
     folder_prefix = getattr(data, 'folder_prefix', '')
+    # Ensure the s3_path always starts with the user's ID
     if folder_prefix:
-        s3_path = f"{folder_prefix}/{data.file_name}"
+        # Clean folder_prefix to prevent path traversal issues (e.g., "../")
+        # and ensure it's relative to the user's root.
+        clean_folder_prefix = folder_prefix.lstrip('/')
+        s3_path = f"{user_id}/{clean_folder_prefix}/{data.file_name}"
     else:
-        s3_path = f"{auth.username}/{data.file_name}"
+        s3_path = f"{user_id}/{data.file_name}"
 
     logger.info(f"Authenticated upload for user: {auth.username}")
 
