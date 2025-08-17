@@ -58,7 +58,7 @@ jobs:
 
       - name: Build and deploy API
         run: make backend__deploy_api
-      
+
       - name: Build and deploy dynamoDB stream handler
         run: make backend__deploy_trash_collector
 
