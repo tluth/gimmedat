@@ -35,7 +35,7 @@ format:
 
 # API
 build_local: clean
-	mkdir ${API_BUILD_DIR} && pip3 install -r requirements.txt --target=${API_BUILD_DIR} --platform linux_x86_64 --only-binary=:all:
+	mkdir ${API_BUILD_DIR} && pip3 install -r requirements.txt --target=${API_BUILD_DIR}
 	cp -r api ./${API_BUILD_DIR}/api/ && cd ${API_BUILD_DIR} && zip -r ../${API_BUILD_DIR}.zip .
 
 deploy_api: build_local
