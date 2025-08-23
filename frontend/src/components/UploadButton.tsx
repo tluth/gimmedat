@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useAuth } from '@/hooks/useAuth'
 
 interface UploadButtonProps {
   currentPrefix?: string

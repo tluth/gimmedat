@@ -23,7 +23,7 @@ variable "lambda_log_retention" {
 variable "lambda_runtime" {
   type        = string
   description = "The runtime for lambda functions"
-  default     = "python3.9"
+  default     = "python3.12"
 }
 
 variable "lambda_loglevel" {

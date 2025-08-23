@@ -52,7 +52,7 @@ const UploadPage = () => {
           setProgressVal(progress)
         },
         onSuccess: (response) => {
-          setFileId(response.uuid)
+          setFileId(response.uuid as string)
           setIsUploading(false)
           setSuccess(true)
         },

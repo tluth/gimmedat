@@ -70,7 +70,7 @@ const useProvideAuth = (): UseAuth => {
         const user = await getCurrentUser()
         const authSession = await fetchAuthSession()
         setUsername(user.username)
-        setSession(authSession)
+        setSession(authSession as AuthSession)
         setIsAuthenticated(true)
       } catch (error) {
         setUsername("")
@@ -90,7 +90,7 @@ const useProvideAuth = (): UseAuth => {
       const user = await getCurrentUser()
       const authSession = await fetchAuthSession()
       setUsername(user.username)
-      setSession(authSession)
+      setSession(authSession as AuthSession)
     }
     return result
   }

@@ -1,4 +1,4 @@
-# Logging 
+# Logging
 resource "aws_cloudwatch_log_group" "dynamo_stream_logs" {
   name              = "/aws/lambda/${aws_lambda_function.db_stream_handler.function_name}"
   retention_in_days = 14
@@ -17,6 +17,7 @@ resource "aws_lambda_function" "db_stream_handler" {
     function_name = "${local.site}-trash-collection"
     handler                        = "db_stream_handler.trash_collector.handler"
     filename                       = data.archive_file.db_stream_handler.output_path
+    architectures = ["x86_64"]
 }
 
 resource "aws_lambda_event_source_mapping" "expire_item_mapping" {

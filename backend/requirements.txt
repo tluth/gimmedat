@@ -1,8 +1,9 @@
 autopep8
-fastapi
+fastapi==0.115.12
 flake8
-pydantic
+pydantic==2.11.5
 pydantic_settings
+pydantic-core
 uvicorn
 mangum
 pendulum

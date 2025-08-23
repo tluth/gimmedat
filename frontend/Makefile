@@ -21,7 +21,7 @@ build: deps
 	@echo "building site"
 	export NODE_OPTIONS="--max_old_space_size=7168" && pnpm run build
 
-deploy: ## deploy our ui.
+deploy: build
 	@echo "deploying site"
 	aws s3 sync --delete ./dist/ s3://${CONTENTBUCKET}
 

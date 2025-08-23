@@ -152,7 +152,7 @@ resource "aws_lambda_function" "api_lambda" {
   handler                        = "api.run_api.handler"
   runtime                        = var.lambda_runtime
   filename                       = data.archive_file.lambda_zip.output_path
-
+  architectures = ["x86_64"]
   environment {
     variables = {
       "REGION" = local.aws_region

@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+
+node_modules
+.vite
