@@ -26,4 +26,4 @@ dist-ssr
 .env
 
 node_modules
-.vite
+# .vite
