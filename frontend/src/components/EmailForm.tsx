@@ -1,7 +1,7 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "./ui/button";
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { Button } from "./ui/button"
 
 import {
   Form,
@@ -10,22 +10,22 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
 
-import { Checkbox } from "@/components/ui/checkbox";
+import { Checkbox } from "@/components/ui/checkbox"
 
 const formSchema = z.object({
   sender: z.string().min(2, { message: "A Name or email is required" }).max(50),
   recipient: z.string().email(),
-});
+})
 
 type EmailFormProps = {
-  className?: string;
-  isChecked: boolean;
-  setIsChecked: (isChecked: boolean) => void;
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
-};
+  className?: string
+  isChecked: boolean
+  setIsChecked: (isChecked: boolean) => void
+  handleSubmit: (values: z.infer<typeof formSchema>) => void
+}
 
 const EmailForm = ({
   className,
@@ -39,7 +39,7 @@ const EmailForm = ({
       sender: "",
       recipient: "",
     },
-  });
+  })
 
 
 
@@ -47,7 +47,7 @@ const EmailForm = ({
     handleSubmit(values)
   }
 
-  const defaultStyles = `py-1 justify-center sm:justify-between text-offWhite overflow-hidden relative flex w-full flex-col sm:flex-row`;
+  const defaultStyles = `py-1 justify-center sm:justify-between text-offWhite overflow-hidden relative flex w-full flex-col sm:flex-row`
 
   return (
     <div className={`${defaultStyles} ${className}`}>
@@ -56,7 +56,7 @@ const EmailForm = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full"
         >
-          <div className="sm:grid grid-cols-2 w-full gap-4"> 
+          <div className="sm:grid grid-cols-2 w-full gap-4">
             <div
               className={`transition-border ease-in-out border-2 rounded border-dashed w-full p-4 space-y-2 sm:space-y-5  sm:m-5${
                 isChecked ? "border-main-300" : "border-offWhite"
@@ -122,7 +122,7 @@ const EmailForm = ({
       </Form>
     </div>
 
-  );
-};
+  )
+}
 
-export default EmailForm;
+export default EmailForm

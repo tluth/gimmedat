@@ -1,29 +1,29 @@
-import React from "react";
-import { Authenticator } from "@aws-amplify/ui-react";
-import { useAuthenticator } from "@aws-amplify/ui-react";
-import { useNavigate } from "react-router-dom";
+import React from "react"
+import { Authenticator } from "@aws-amplify/ui-react"
+import { useAuthenticator } from "@aws-amplify/ui-react"
+import { useNavigate } from "react-router-dom"
 
 type LoginModalProps = {
-  open: boolean;
-  onClose: () => void;
-};
+  open: boolean
+  onClose: () => void
+}
 
 const AuthSuccessHandler: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { route } = useAuthenticator((context) => [context.route]);
-  const navigate = useNavigate();
+  const { route } = useAuthenticator((context) => [context.route])
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     if (route === "authenticated") {
-      onClose();
-      navigate("/dashboard"); // Change to your protected route
+      onClose()
+      navigate("/dashboard") // Change to your protected route
     }
-  }, [route, onClose, navigate]);
+  }, [route, onClose, navigate])
 
-  return null;
-};
+  return null
+}
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
-  if (!open) return null;
+  if (!open) return null
 
   return (
     <div className="fixed inset-0 bg-night bg-opacity-75 flex items-center justify-center z-50">
@@ -55,7 +55,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginModal;
+export default LoginModal

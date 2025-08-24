@@ -76,6 +76,6 @@ const particlesConfig = {
     },
   },
   detectRetina: true,
-};
+}
 
-export default particlesConfig;
+export default particlesConfig

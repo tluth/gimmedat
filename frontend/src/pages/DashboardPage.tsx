@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { FileBrowser } from '@/components'
 
 const DashboardPage: React.FC = () => {
@@ -7,7 +7,7 @@ const DashboardPage: React.FC = () => {
       <h1 className="text-2xl font-bold mb-4">Your Files</h1>
       <FileBrowser />
     </div>
-  );
-};
+  )
+}
 
-export default DashboardPage;
+export default DashboardPage

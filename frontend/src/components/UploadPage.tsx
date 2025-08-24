@@ -32,7 +32,7 @@ const UploadPage = () => {
     }
   }
 
-  const handleSubmit = async (formData: { sender: string; recipient: string }) => {
+  const handleSubmit = async (formData: { sender: string, recipient: string }) => {
     if (!file) return
 
     setIsUploading(true)

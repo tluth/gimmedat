@@ -5,7 +5,7 @@ import HamburgerButton from "./HamburgerButton"
 
 type SidebarProps = {
   handleLogin: () => void
-};
+}
 
 const Sidebar = ({ handleLogin }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -19,7 +19,7 @@ const Sidebar = ({ handleLogin }: SidebarProps) => {
       <Sheet onOpenChange={handleOpenClose} open={isOpen}>
         {!isOpen ? (
           <SheetTrigger
-            className={`transition-all opacity-75 hover:opacity-100 
+            className={`transition-all opacity-75 hover:opacity-100
             disabled:pointer-events-none data-[state=open]:bg-night mt-3 ml-3 left-0 top-0 align-left`}
           >
             <HamburgerButton handleClick={handleOpenClose} isOpen={isOpen} />
