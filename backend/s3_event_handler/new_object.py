@@ -15,7 +15,11 @@ logger = logging.getLogger(__name__)
 NEW_OBJECT_CACHE: dict[str, list] = {}
 
 
-def check_cache_for_duplicate_files(s3_key: str, ip_address: str, filesize: int) -> dict:
+def check_cache_for_duplicate_files(
+        s3_key: str,
+        ip_address: str,
+        filesize: int
+) -> dict:
     """
         Cache the uploaded file info and add user IP address to
         blacklist table if we receive a file with same name and
@@ -37,7 +41,7 @@ def check_cache_for_duplicate_files(s3_key: str, ip_address: str, filesize: int)
     if NEW_OBJECT_CACHE[ip_address].count(new_item) > 10:
         add_to_blacklist(ip_address, s3_key)
         logger.info(
-            f"IP: {ip_address} blacklisted for repeatedly uploading the same file"
+            f"IP: {ip_address} blacklisted for duplicate uploads"
         )
     # check for too much of the same dickhead
     if len(NEW_OBJECT_CACHE[ip_address]) > 1000:

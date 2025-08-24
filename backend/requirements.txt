@@ -2,6 +2,8 @@ autopep8
 fastapi
 flake8
 pydantic
+pydantic_settings
+pydantic_core
 uvicorn
 mangum
 pendulum
@@ -10,3 +12,4 @@ pynamodb
 environ-config>=23.0.0
 boto3
 email-validator
+fastapi-cognito

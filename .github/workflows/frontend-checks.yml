@@ -40,10 +40,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd frontend-vite
+          cd frontend
           make deps
 
       - name: Run frontend lint
         run: |
-          cd frontend-vite
+          cd frontend
           make lint

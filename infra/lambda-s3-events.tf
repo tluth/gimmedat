@@ -1,4 +1,4 @@
-# Logging 
+# Logging
 resource "aws_cloudwatch_log_group" "s3_event_handler_logs" {
   name              = "/aws/lambda/${aws_lambda_function.s3_event_handler.function_name}"
   retention_in_days = 14
@@ -16,6 +16,7 @@ resource "aws_lambda_function" "s3_event_handler" {
   handler       = "s3_event_handler.new_object.lambda_handler"
   runtime       = var.lambda_runtime
   filename      = data.archive_file.s3_event_handler.output_path
+  architectures = ["x86_64"]
 }
 
 resource "aws_s3_bucket_notification" "lambda_trigger" {
@@ -53,7 +54,7 @@ resource "aws_iam_role" "s3_event_handler_role" {
 EOF
 }
 
-### Additional permissions 
+### Additional permissions
 data "aws_iam_policy_document" "s3_handler_policy" {
   statement {
     sid    = "s3EventLambdaLogAccess"

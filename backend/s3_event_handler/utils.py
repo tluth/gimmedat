@@ -89,7 +89,7 @@ def add_to_blacklist(ip_address: str, s3_key: str):
     table = DB_CLIENT.Table(appconfig.blaclist_table_name)
     table.put_item(Item={
         "ip_address": ip_address,
-        "created_at":  pendulum.now().int_timestamp,
+        "created_at": pendulum.now().int_timestamp,
         "expire_at": get_expiry_date(),
         "s3_key": s3_key
     })

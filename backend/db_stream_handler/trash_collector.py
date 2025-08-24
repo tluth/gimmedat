@@ -3,7 +3,7 @@ import logging
 
 import boto3
 
-from config import appconfig
+from .config import appconfig
 
 logger = logging.getLogger(__name__)
 s3_client = boto3.client('s3')

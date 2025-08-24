@@ -10,7 +10,7 @@ on:
       - "build/**"
       - ".github/**"
       - "infra/**"
-      - "frontend-vite/**"
+      - "frontend/**"
 
   workflow_dispatch:
     inputs:
@@ -38,7 +38,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: "3.10"
+          python-version: "3.12"
           architecture: x64
 
       - name: Set environment
@@ -58,7 +58,7 @@ jobs:
 
       - name: Build and deploy API
         run: make backend__deploy_api
-      
+
       - name: Build and deploy dynamoDB stream handler
         run: make backend__deploy_trash_collector
 

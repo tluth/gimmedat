@@ -54,23 +54,23 @@ resource "aws_s3_bucket_policy" "b" {
 {
     "Version": "2012-10-17",
     "Statement": [
-       {
-           "Sid": "AllowSESPuts",
-           "Effect": "Allow",
-           "Principal": {
-               "Service": "ses.amazonaws.com"
-           },
-           "Action": "s3:PutObject",
-           "Resource": [
-           "${aws_s3_bucket.email_bucket.arn}",
-           "${aws_s3_bucket.email_bucket.arn}/*"
-         ],
-           "Condition": {
-            "StringEquals": {
-                   "aws:Referer": "${data.aws_caller_identity.current.account_id}"
-                }
-           }
-       }
+      {
+          "Sid": "AllowSESPuts",
+          "Effect": "Allow",
+          "Principal": {
+              "Service": "ses.amazonaws.com"
+          },
+          "Action": "s3:PutObject",
+          "Resource": [
+          "${aws_s3_bucket.email_bucket.arn}",
+          "${aws_s3_bucket.email_bucket.arn}/*"
+        ],
+          "Condition": {
+            "ArnLike": {
+              "aws:SourceArn": "arn:aws:ses:${local.aws_region}:${data.aws_caller_identity.current.account_id}:identity/${aws_ses_domain_identity.sesid.domain}"
+            }
+          }
+      }
    ]
 }
 EOF
@@ -110,8 +110,8 @@ resource "aws_ses_receipt_rule" "store" {
 
 
 resource "aws_ses_domain_mail_from" "ses" {
-  domain           = aws_ses_domain_identity.sesid.domain
-  mail_from_domain = "bounce.${aws_ses_domain_identity.sesid.domain}"
+  domain           = aws_ses_email_identity.no_reply_email.email
+  mail_from_domain = "mail.${aws_ses_domain_identity.sesid.domain}"
 }
 
 resource "aws_ses_domain_dkim" "ses" {
@@ -129,9 +129,9 @@ resource "aws_route53_record" "email_dkim_records" {
   ]
 }
 
-resource "aws_route53_record" "bounce_spf" {
+resource "aws_route53_record" "mail_spf" {
   zone_id = data.aws_route53_zone.zone.id
-  name    = "bounce.${aws_ses_domain_identity.sesid.domain}"
+  name    = "mail.${aws_ses_domain_identity.sesid.domain}"
   type    = "TXT"
   ttl     = "300"
   records = [
@@ -139,9 +139,9 @@ resource "aws_route53_record" "bounce_spf" {
   ]
 }
 
-resource "aws_route53_record" "bounce_mx" {
+resource "aws_route53_record" "mail_mx" {
   zone_id = data.aws_route53_zone.zone.id
-  name    = "bounce.${aws_ses_domain_identity.sesid.domain}"
+  name    = "mail.${aws_ses_domain_identity.sesid.domain}"
   type    = "MX"
   ttl     = "300"
   records = [
