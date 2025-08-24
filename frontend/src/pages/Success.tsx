@@ -1,5 +1,5 @@
-import { useEffect } from "react"
-import { fetcher } from "@/services"
+// import { useEffect } from "react"
+// import { fetcher } from "@/services"
 import PrivateRoute from "@/components/PrivateRoute"
 import { useAuth } from "@/hooks"
 
