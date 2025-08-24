@@ -5,7 +5,7 @@ SHELL := /bin/bash
 ENVIRONMENT ?= dev
 PRODUCT = gimmedat
 
-all: help 
+all: help
 
 setup_local_env:
 	. .env
@@ -18,5 +18,4 @@ backend__%:
 
 frontend__%:
 	"${MAKE}" --directory frontend $*
-
 
