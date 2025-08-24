@@ -10,11 +10,11 @@ export function SuccessPage() {
         return <div />
     }
 
-    useEffect( ()=>{
-      fetcher(
-        "testo",
-        "GET"      )
-    }, [])
+    // useEffect( ()=>{
+    //   fetcher(
+    //     "testo",
+    //     "GET"      )
+    // }, [])
 
     return (
         <PrivateRoute>
