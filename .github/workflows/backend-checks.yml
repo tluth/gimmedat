@@ -9,7 +9,7 @@ on:
       - "build/**"
       - ".github/**"
       - "infra/**"
-      - "frontend-vite/**"
+      - "frontend/**"
   pull_request:
   workflow_dispatch:
     inputs:

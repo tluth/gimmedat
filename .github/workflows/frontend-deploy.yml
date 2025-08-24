@@ -72,10 +72,10 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: cd frontend-vite && pnpm install
+        run: cd frontend && pnpm install
 
       - name: Build
-        run: cd frontend-vite && pnpm run build
+        run: cd frontend && pnpm run build
         env:
           ENVIRONMENT: ${{ steps.environment.outputs.DEPLOY_ENVIRONMENT }}
           REACT_APP_API_URL: https://api.gimmedat.bulgingdiscs.fun #temp hardcoded API URL
