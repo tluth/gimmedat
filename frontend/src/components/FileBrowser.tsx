@@ -52,22 +52,24 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
     fetchFiles()
   }, [session, prefix])
 
-    // commenting out because its unused for now (23.08.25)
-  // const handleDownload = async (key: string) => {
-  //   if (!session?.tokens) return
-  //   try {
-  //     const response = await axios.get(`${POCKETDAT_API}/files/download`, {
-  //       params: { key },
-  //       headers: {
-  //         Authorization: `Bearer ${session.tokens.idToken?.toString()}`,
-  //       },
-  //     })
-  //     window.open(response.data, '_blank')
-  //   } catch (err) {
-  //     setError('Failed to generate download URL.')
-  //     console.error(err)
-  //   }
-  // }
+  // commenting out because its unused for now (23.08.25)
+  const handleDownload = async (key: string) => {
+    if (!session?.tokens) return
+    const accessToken = session.tokens.accessToken?.toString()
+    try {
+      const response = await axios.get(`${POCKETDAT_API}/files/download`, {
+        params: { key },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      window.open(response.data?.url, '_blank')
+    } catch (err) {
+      setError('Failed to generate download URL.')
+      console.error(err)
+    }
+  }
 
   // In your FileBrowser.tsx uploadFileToFolder method
   const uploadFileToFolder = async (file: File, folderPrefix: string) => {
@@ -154,7 +156,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
                 {file.name}
               </span>
               <button
-                // onClick={() => handleDownload(file)}
+                onClick={() => handleDownload(file.key)}
                 className="bg-main-700 hover:bg-main-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-150"
               >
                 Download
