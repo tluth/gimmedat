@@ -37,6 +37,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = ({ prefix }) => {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
+            withCredentials: true,
           },
         })
         setFiles(response.data.files || [])
