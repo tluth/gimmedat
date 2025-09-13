@@ -1,9 +1,8 @@
-data "aws_elb_service_account" "default" {
-}
+data "aws_elb_service_account" "default" {}
 
-data "aws_iam_policy_document" "alb_write" {
+data "aws_iam_policy_document" "write" {
   statement {
-    sid = ""
+    sid = "${module.this.id}AllowAllS3Puts"
     principals {
       type        = "AWS"
       identifiers = [join("", data.aws_elb_service_account.default.*.arn)]
@@ -17,7 +16,7 @@ data "aws_iam_policy_document" "alb_write" {
     ]
   }
   statement {
-    sid = ""
+    sid = "${module.this.id}LoggingPutS3Object"
     principals {
       type        = "Service"
       identifiers = ["delivery.logs.amazonaws.com"]
@@ -36,7 +35,7 @@ data "aws_iam_policy_document" "alb_write" {
     }
   }
   statement {
-    sid    = ""
+    sid    = "${module.this.id}LoggingGetBucketACL"
     effect = "Allow"
     principals {
       type        = "Service"
@@ -50,7 +49,6 @@ data "aws_iam_policy_document" "alb_write" {
     ]
   }
 }
-
 
 locals {
   lifecycle_configuration_rule = {
@@ -88,8 +86,6 @@ module "log_storage" {
   source = "cloudposse/s3-log-storage/aws"
   context    = module.this.context
   attributes = ["logs"]
-
-  policy                   = data.aws_iam_policy_document.alb_write.json
   acl                      = "log-delivery-write"
   lifecycle_configuration_rules = [local.lifecycle_configuration_rule]
 }
