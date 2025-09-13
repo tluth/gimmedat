@@ -2,7 +2,7 @@ import Dropzone from "react-dropzone"
 import UploadIcon from "./icons/UploadIcon"
 import { MIN_FILE_SIZE, MAX_FILE_SIZE } from "../constants"
 import { toast } from "sonner"
-import ParticlesBackground from "./ParticlesBackground/ParticlesBackground"
+import DropzoneBackground from "./DropzoneBackground/DropzoneBackground"
 
 type CustomDropzoneProps = {
   onDrop: (acceptedFiles: File[]) => void
@@ -46,7 +46,7 @@ function CustomDropzone({
             isDragActive ? "border-main-300" : "border-offWhite"
           } overflow-hidden px-3 relative`}
           >
-            <ParticlesBackground />
+            <DropzoneBackground />
             <div
               id="repulse-div"
               className="m-auto text-center mt-1 sm:mt-2"

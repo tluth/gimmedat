@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 .a-line {
-    @apply underline;
-  }
+  @apply underline;
+}
 
 @layer base {
-    p {
-      @apply pb-3;
-      @apply tracking-wider;
-    }
+  p {
+    @apply pb-3;
+    @apply tracking-wider;
   }
+}
 
-  /* Style Amplify Authenticator buttons with Tailwind classes */
+/* Style Amplify Authenticator buttons with Tailwind classes */
 .amplify-button {
   @apply bg-main-700 hover:bg-main-800 text-white font-semibold py-2 px-4 rounded my-2 w-full transition-colors duration-150;
 }
