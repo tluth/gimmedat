@@ -42,11 +42,11 @@ const UploadPage = () => {
         endpoint: `${API}/file`,
         file,
         uploadRequest: {
-          file_name: file.name,
-          byte_size: file.size,
-          file_type: file.type,
-          recipient_email: formData.recipient || null,
-          sender: formData.sender || null
+          file_name: file?.name,
+          byte_size: file?.size,
+          file_type: file?.type,
+          recipient_email: !formData.recipient ? null : formData.recipient,
+          sender: !formData.sender ? null : formData.sender
         },
         onProgress: (progress) => {
           setProgressVal(progress)
@@ -83,7 +83,7 @@ const UploadPage = () => {
           setIsValid={setIsValid}
         />
       </div>
-      {file && isValid && !success && (
+      {file && isValid && !success && !isUploading && (
         <div className="flex justify-between">
           <EmailForm
             className="left-content"
