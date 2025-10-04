@@ -21,7 +21,6 @@ export const UploadButton: React.FC<UploadButtonProps> = ({ currentPrefix, uploa
 
   const handleUpload = async () => {
     if (!selectedFile) return
-    console.log("oopospdofispodif")
 
     setUploading(true)
     setUploadError(null)
