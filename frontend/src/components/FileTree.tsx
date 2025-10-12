@@ -15,6 +15,7 @@ interface FileTreeProps {
   onNewFolderNameChange?: (name: string) => void
   creatingFolder?: boolean
   onToggleCreateFolder?: () => void
+  onMoveFile?: (sourceKey: string, destinationKey: string) => Promise<void>
 }
 
 interface TreeNodeComponentProps {
@@ -23,6 +24,7 @@ interface TreeNodeComponentProps {
   selectedNode: TreeNode | null
   onNodeSelect: (node: TreeNode) => void
   onFolderToggle: (path: string) => void
+  onMoveFile?: (sourceKey: string, destinationKey: string) => Promise<void>
 }
 
 const TreeNodeComponent: React.FC<TreeNodeComponentProps> = ({
@@ -30,10 +32,12 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = ({
   depth,
   selectedNode,
   onNodeSelect,
-  onFolderToggle
+  onFolderToggle,
+  onMoveFile
 }) => {
   const isSelected = selectedNode?.path === node.path
   const indentStyle = { paddingLeft: `${depth * 20 + 12}px` }
+  const [isDragOver, setIsDragOver] = React.useState(false)
 
   const handleClick = () => {
     if (node.type === 'folder') {
@@ -49,14 +53,92 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = ({
     }
   }
 
+  // Drag event handlers
+  const handleDragStart = (e: React.DragEvent) => {
+    e.dataTransfer.setData('text/plain', JSON.stringify({
+      type: node.type,
+      path: node.path,
+      name: node.name,
+      fullS3Path: node.fullS3Path
+    }))
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    if (node.type === 'folder') {
+      e.preventDefault()
+      e.dataTransfer.dropEffect = 'move'
+      setIsDragOver(true)
+    }
+  }
+
+  const handleDragLeave = () => {
+    setIsDragOver(false)
+  }
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragOver(false)
+
+    if (node.type !== 'folder' || !onMoveFile) return
+
+    try {
+      const dragData = JSON.parse(e.dataTransfer.getData('text/plain'))
+
+      // Don't allow dropping onto self
+      if (dragData.path === node.path) return
+
+      // Don't allow dropping a folder into its own child
+      if (dragData.type === 'folder' && node.path.startsWith(dragData.path + '/')) return
+
+      // Calculate source path - for folders, ensure it has trailing slash
+      let sourceKey = dragData.path
+      if (dragData.type === 'folder' && !sourceKey.endsWith('/')) {
+        sourceKey += '/'
+      }
+
+      // Calculate destination path
+      let destinationKey
+      if (dragData.type === 'folder') {
+        // For folders, destination should be: target_folder/source_folder_name/
+        const folderName = dragData.name
+        if (node.path) {
+          destinationKey = `${node.path}/${folderName}/`
+        } else {
+          destinationKey = `${folderName}/`
+        }
+      } else {
+        // For files, destination should be: target_folder/filename
+        const fileName = dragData.name
+        if (node.path) {
+          destinationKey = `${node.path}/${fileName}`
+        } else {
+          destinationKey = fileName
+        }
+      }
+
+      console.log('Moving from:', sourceKey, 'to:', destinationKey)
+
+      await onMoveFile(sourceKey, destinationKey)
+    } catch (error) {
+      console.error('Error moving file:', error)
+    }
+  }
+
   return (
     <>
       <div
         className={`flex items-center py-1 px-2 cursor-pointer hover:bg-main-700 hover:bg-opacity-50 transition-colors duration-150 ${
           isSelected ? 'bg-asparagus-600 bg-opacity-30 text-asparagus-200' : 'text-offWhite'
-        }`}
+        } ${isDragOver ? 'bg-asparagus-500 bg-opacity-50 border-2 border-asparagus-400 border-dashed' : ''}`}
         style={indentStyle}
         onClick={handleClick}
+        draggable={true}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        title={node.type === 'folder' ? 'Drag to move • Drop here to move files into this folder' : 'Drag to move this file'}
       >
         {node.type === 'folder' && (
           <button
@@ -94,6 +176,7 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = ({
               selectedNode={selectedNode}
               onNodeSelect={onNodeSelect}
               onFolderToggle={onFolderToggle}
+              onMoveFile={onMoveFile}
             />
           ))}
         </>
@@ -163,10 +246,12 @@ export const FileTree: React.FC<FileTreeProps> = ({
   newFolderName,
   onNewFolderNameChange,
   creatingFolder,
-  onToggleCreateFolder
+  onToggleCreateFolder,
+  onMoveFile
 }) => {
   const [dragOver, setDragOver] = React.useState(false)
   const [uploading, setUploading] = React.useState(false)
+  const [rootDragOver, setRootDragOver] = React.useState(false)
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -287,6 +372,53 @@ export const FileTree: React.FC<FileTreeProps> = ({
     }
   }
 
+  // Root drag and drop handlers for moving files to root
+  const handleRootDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+    setRootDragOver(true)
+  }
+
+  const handleRootDragLeave = () => {
+    setRootDragOver(false)
+  }
+
+  const handleRootDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
+    setRootDragOver(false)
+
+    if (!onMoveFile) return
+
+    try {
+      const dragData = JSON.parse(e.dataTransfer.getData('text/plain'))
+
+      // Don't allow dropping if already in root
+      if (!dragData.path.includes('/')) return
+
+      // Calculate source path - for folders, ensure it has trailing slash
+      let sourceKey = dragData.path
+      if (dragData.type === 'folder' && !sourceKey.endsWith('/')) {
+        sourceKey += '/'
+      }
+
+      // Calculate destination path - moving to root
+      let destinationKey
+      if (dragData.type === 'folder') {
+        // For folders, destination should be: folder_name/
+        destinationKey = `${dragData.name}/`
+      } else {
+        // For files, destination should be: filename
+        destinationKey = dragData.name
+      }
+
+      console.log('Moving to root from:', sourceKey, 'to:', destinationKey)
+
+      await onMoveFile(sourceKey, destinationKey)
+    } catch (error) {
+      console.error('Error moving to root:', error)
+    }
+  }
+
   return (
     <div className="h-full overflow-y-auto">
       <div className="p-4 border-b border-main-700">
@@ -360,11 +492,11 @@ export const FileTree: React.FC<FileTreeProps> = ({
               {showCreateFolder ? 'Cancel' : 'New Folder'}
             </button>
           </div>
-          
+
           {showCreateFolder && (
             <div className="space-y-3">
               <div className="text-xs text-asparagus-400">
-                {selectedNode?.type === 'folder' 
+                {selectedNode?.type === 'folder'
                   ? `Creating in: ${selectedNode.name}`
                   : 'Creating in: Root folder'
                 }
@@ -375,7 +507,7 @@ export const FileTree: React.FC<FileTreeProps> = ({
                   value={newFolderName || ''}
                   onChange={(e) => onNewFolderNameChange?.(e.target.value)}
                   placeholder="Enter folder name"
-                  className="flex-1 px-3 py-2 bg-main-800 border border-main-600 rounded text-offWhite placeholder-asparagus-400 text-sm focus:outline-none focus:border-asparagus-500"
+                  className="flex-1 px-3 py-2 bg-main-700 bg-opacity-50 border border-main-600 rounded text-offWhite placeholder-asparagus-400 text-sm focus:outline-none focus:border-asparagus-500"
                   disabled={creatingFolder}
                   onKeyPress={(e) => {
                     if (e.key === 'Enter' && !creatingFolder && newFolderName?.trim()) {
@@ -396,7 +528,12 @@ export const FileTree: React.FC<FileTreeProps> = ({
         </div>
       )}
 
-      <div className="py-2">
+      <div
+        className={`py-2 ${rootDragOver ? 'bg-asparagus-600 bg-opacity-20' : ''}`}
+        onDragOver={handleRootDragOver}
+        onDragLeave={handleRootDragLeave}
+        onDrop={handleRootDrop}
+      >
         {nodes.length === 0 ? (
           <div className="p-4 text-asparagus-300 italic text-center">
             No files or folders found
@@ -410,6 +547,7 @@ export const FileTree: React.FC<FileTreeProps> = ({
               selectedNode={selectedNode}
               onNodeSelect={onNodeSelect}
               onFolderToggle={onFolderToggle}
+              onMoveFile={onMoveFile}
             />
           ))
         )}

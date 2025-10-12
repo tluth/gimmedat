@@ -41,6 +41,21 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
   const [newFolderName, setNewFolderName] = useState<string>('')
   const [creatingFolder, setCreatingFolder] = useState<boolean>(false)
 
+  // Helper function to extract relative path from full S3 path for backend API calls
+  // The backend infers user ID from auth token, so we only send the relative path
+  const extractRelativePathForBackend = useCallback((fullPath: string): string => {
+    // Remove UUID prefix pattern: 8-4-4-4-12 characters (e.g., "730488e2-d051-703a-e0be-19f7e50a6262/")
+    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\//i
+
+    if (uuidPattern.test(fullPath)) {
+      // Remove the UUID prefix and return the relative path
+      return fullPath.replace(uuidPattern, '')
+    }
+
+    // If no UUID pattern found, return the path as-is
+    return fullPath
+  }, [])
+
   // Build tree structure from files and folders
   const buildTreeFromData = useCallback((files: FileItem[], folders: string[]) => {
     const nodeMap = new Map<string, TreeNode>()
@@ -387,7 +402,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
 
     try {
       const response = await axios.get(`${POCKETDAT_API}/files/download`, {
-        params: { key: filePath },
+        params: { key: extractRelativePathForBackend(filePath) },
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
@@ -419,7 +434,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
     } finally {
       setLoadingContent(false)
     }
-  }, [session])
+  }, [session, extractRelativePathForBackend])
 
   // Handle node selection
   const handleNodeSelect = useCallback((node: TreeNode) => {
@@ -471,7 +486,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
 
     try {
       const response = await axios.get(`${POCKETDAT_API}/files/download`, {
-        params: { key: filePath },
+        params: { key: extractRelativePathForBackend(filePath) },
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
@@ -485,7 +500,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
       console.error('Download failed:', err)
       setError('Failed to download file.')
     }
-  }, [session])
+  }, [session, extractRelativePathForBackend])
 
   // Handle delete
   const handleDelete = useCallback(async (filePath: string) => {
@@ -503,7 +518,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
 
     try {
       await axios.delete(`${POCKETDAT_API}/files/delete`, {
-        params: { key: filePath },
+        params: { key: extractRelativePathForBackend(filePath) },
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
@@ -528,7 +543,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
         return newSet
       })
     }
-  }, [session, fetchData, selectedNode])
+  }, [session, fetchData, selectedNode, extractRelativePathForBackend])
 
   // Validate folder name
   const validateFolderName = (name: string): string | null => {
@@ -587,7 +602,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
       // Determine the folder path based on selected node
       const basePath = selectedNode?.type === 'folder' ? selectedNode.path : ''
       const folderPath = basePath ? `${basePath}/${trimmedName}/` : `${trimmedName}/`
-      
+
       // Create a placeholder file to represent the folder
       // We'll create a .keep file inside the folder
       const placeholderContent = '# This file represents a folder\n'
@@ -616,7 +631,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
             // If creating at root, refresh the entire tree
             fetchData()
           }
-          
+
           setNewFolderName('')
           setShowCreateFolder(false)
           console.log(`Folder ${trimmedName} created successfully`)
@@ -642,6 +657,41 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
       setError(null)
     }
   }, [showCreateFolder])
+
+  // Handle move file
+  const handleMoveFile = useCallback(async (sourceKey: string, destinationKey: string) => {
+    if (!session?.tokens) {
+      setError('No authentication session available')
+      return
+    }
+
+    const accessToken = session.tokens.accessToken?.toString()
+
+    if (!accessToken) {
+      setError('No access token available')
+      return
+    }
+
+    try {
+      await axios.put(`${POCKETDAT_API}/files/move`, {
+        source_key: extractRelativePathForBackend(sourceKey),
+        destination_key: extractRelativePathForBackend(destinationKey)
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+
+      // Refresh the tree after successful move
+      fetchData()
+
+      console.log(`Successfully moved ${sourceKey} to ${destinationKey}`)
+    } catch (error) {
+      console.error('Move failed:', error)
+      setError('Failed to move file. Please try again.')
+    }
+  }, [session, fetchData, extractRelativePathForBackend])
 
   // Handle upload
   const handleUpload = useCallback(async (file: File, folderPrefix: string) => {
@@ -703,7 +753,7 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64 bg-night text-offWhite">
+      <div className="flex items-center justify-center h-64 bg-transparent text-offWhite">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-asparagus-400 mx-auto mb-4"></div>
           <p>Loading files...</p>
@@ -714,16 +764,16 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-64 bg-night text-red-400">
+      <div className="flex items-center justify-center h-64 bg-transparent text-red-400">
         <p>Error: {error}</p>
       </div>
     )
   }
 
   return (
-    <div className="flex h-full bg-night text-offWhite">
+    <div className="flex h-full bg-transparent text-offWhite">
       {/* Left Sidebar - File Tree */}
-      <div className="w-1/3 min-w-80 border-r border-main-700 bg-main-900 bg-opacity-30">
+      <div className="w-1/3 min-w-80 border-r border-main-700 bg-transparent">
         <FileTree
           nodes={tree}
           selectedNode={selectedNode}
@@ -736,11 +786,12 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
           onNewFolderNameChange={setNewFolderName}
           creatingFolder={creatingFolder}
           onToggleCreateFolder={toggleCreateFolder}
+          onMoveFile={handleMoveFile}
         />
       </div>
 
       {/* Right Panel - Content View */}
-      <div className="flex-1 bg-night">
+      <div className="flex-1 bg-transparent">
         {selectedNode ? (
           selectedNode.type === 'file' ? (
             <FilePreview
