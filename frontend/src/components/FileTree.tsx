@@ -9,6 +9,12 @@ interface FileTreeProps {
   onNodeSelect: (node: TreeNode) => void
   onFolderToggle: (path: string) => void
   onUpload?: (file: File, prefix: string) => Promise<void>
+  onCreateFolder?: () => void
+  showCreateFolder?: boolean
+  newFolderName?: string
+  onNewFolderNameChange?: (name: string) => void
+  creatingFolder?: boolean
+  onToggleCreateFolder?: () => void
 }
 
 interface TreeNodeComponentProps {
@@ -151,7 +157,13 @@ export const FileTree: React.FC<FileTreeProps> = ({
   selectedNode,
   onNodeSelect,
   onFolderToggle,
-  onUpload
+  onUpload,
+  onCreateFolder,
+  showCreateFolder,
+  newFolderName,
+  onNewFolderNameChange,
+  creatingFolder,
+  onToggleCreateFolder
 }) => {
   const [dragOver, setDragOver] = React.useState(false)
   const [uploading, setUploading] = React.useState(false)
@@ -333,6 +345,54 @@ export const FileTree: React.FC<FileTreeProps> = ({
               </p>
             )}
           </div>
+        </div>
+      )}
+
+      {/* Create Folder Area */}
+      {onCreateFolder && (
+        <div className="m-4 border-t border-main-700 pt-4">
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-sm font-semibold text-asparagus-400">Create Folder</h3>
+            <button
+              onClick={onToggleCreateFolder}
+              className="text-xs text-asparagus-300 hover:text-asparagus-200 transition-colors duration-150"
+            >
+              {showCreateFolder ? 'Cancel' : 'New Folder'}
+            </button>
+          </div>
+          
+          {showCreateFolder && (
+            <div className="space-y-3">
+              <div className="text-xs text-asparagus-400">
+                {selectedNode?.type === 'folder' 
+                  ? `Creating in: ${selectedNode.name}`
+                  : 'Creating in: Root folder'
+                }
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newFolderName || ''}
+                  onChange={(e) => onNewFolderNameChange?.(e.target.value)}
+                  placeholder="Enter folder name"
+                  className="flex-1 px-3 py-2 bg-main-800 border border-main-600 rounded text-offWhite placeholder-asparagus-400 text-sm focus:outline-none focus:border-asparagus-500"
+                  disabled={creatingFolder}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && !creatingFolder && newFolderName?.trim()) {
+                      onCreateFolder()
+                    }
+                  }}
+                />
+                <button
+                  onClick={onCreateFolder}
+                  disabled={creatingFolder || !newFolderName?.trim()}
+                  className="bg-asparagus-600 hover:bg-asparagus-500 disabled:bg-asparagus-400 disabled:cursor-not-allowed text-white font-semibold py-2 px-3 rounded text-sm transition-colors duration-150"
+                >
+                  {creatingFolder ? 'Creating...' : 'Create'}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

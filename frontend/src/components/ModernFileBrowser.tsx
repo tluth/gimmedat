@@ -37,6 +37,9 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
   const [deletingFiles, setDeletingFiles] = useState<Set<string>>(new Set())
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null)
   const [loadingFolders, setLoadingFolders] = useState<Set<string>>(new Set())
+  const [showCreateFolder, setShowCreateFolder] = useState<boolean>(false)
+  const [newFolderName, setNewFolderName] = useState<string>('')
+  const [creatingFolder, setCreatingFolder] = useState<boolean>(false)
 
   // Build tree structure from files and folders
   const buildTreeFromData = useCallback((files: FileItem[], folders: string[]) => {
@@ -527,6 +530,119 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
     }
   }, [session, fetchData, selectedNode])
 
+  // Validate folder name
+  const validateFolderName = (name: string): string | null => {
+    if (!name.trim()) {
+      return 'Folder name cannot be empty'
+    }
+
+    // Check for invalid characters for S3/file systems
+    const invalidChars = /[<>:"/\\|?*]/
+    const hasControlChars = name.split('').some(char => char.charCodeAt(0) < 32)
+
+    if (invalidChars.test(name) || hasControlChars) {
+      return 'Folder name contains invalid characters'
+    }
+
+    // Check length
+    if (name.length > 255) {
+      return 'Folder name is too long (max 255 characters)'
+    }
+
+    // Check for reserved names
+    const reservedNames = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9']
+    if (reservedNames.includes(name.toUpperCase())) {
+      return 'Folder name is reserved'
+    }
+
+    return null // Valid
+  }
+
+  // Create folder method
+  const handleCreateFolder = useCallback(async () => {
+    if (!session?.tokens) {
+      setError('No authentication session available')
+      return
+    }
+
+    const accessToken = session.tokens.accessToken?.toString()
+
+    if (!accessToken) {
+      setError('No access token available')
+      return
+    }
+
+    const trimmedName = newFolderName.trim()
+    const validationError = validateFolderName(trimmedName)
+
+    if (validationError) {
+      setError(validationError)
+      return
+    }
+
+    setCreatingFolder(true)
+    setError(null)
+
+    try {
+      // Determine the folder path based on selected node
+      const basePath = selectedNode?.type === 'folder' ? selectedNode.path : ''
+      const folderPath = basePath ? `${basePath}/${trimmedName}/` : `${trimmedName}/`
+      
+      // Create a placeholder file to represent the folder
+      // We'll create a .keep file inside the folder
+      const placeholderContent = '# This file represents a folder\n'
+      const placeholderFile = new File([placeholderContent], '.keep', { type: 'text/plain' })
+
+      await UploadService.uploadFile({
+        endpoint: `${POCKETDAT_API}/files/upload`,
+        file: placeholderFile,
+        uploadRequest: {
+          file_name: '.keep',
+          byte_size: placeholderFile.size,
+          file_type: 'text/plain',
+          folder_prefix: folderPath,
+          recipient_email: null,
+          sender: null
+        },
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        onSuccess: () => {
+          // Refresh the tree after successful folder creation
+          if (selectedNode?.type === 'folder') {
+            // If creating inside a folder, refresh that folder's contents
+            fetchFolderContents(selectedNode.path)
+          } else {
+            // If creating at root, refresh the entire tree
+            fetchData()
+          }
+          
+          setNewFolderName('')
+          setShowCreateFolder(false)
+          console.log(`Folder ${trimmedName} created successfully`)
+        },
+        onError: (error) => {
+          console.error('Folder creation failed:', error)
+          setError(`Failed to create folder: ${error}`)
+        }
+      })
+    } catch (error) {
+      console.error('Folder creation error:', error)
+      setError('Failed to create folder due to network error')
+    } finally {
+      setCreatingFolder(false)
+    }
+  }, [session, newFolderName, selectedNode, fetchFolderContents, fetchData])
+
+  // Toggle create folder UI
+  const toggleCreateFolder = useCallback(() => {
+    setShowCreateFolder(prev => !prev)
+    if (showCreateFolder) {
+      setNewFolderName('')
+      setError(null)
+    }
+  }, [showCreateFolder])
+
   // Handle upload
   const handleUpload = useCallback(async (file: File, folderPrefix: string) => {
     if (!session?.tokens) {
@@ -614,6 +730,12 @@ export const ModernFileBrowser: React.FC<ModernFileBrowserProps> = () => {
           onNodeSelect={handleNodeSelect}
           onFolderToggle={handleFolderToggle}
           onUpload={handleUpload}
+          onCreateFolder={handleCreateFolder}
+          showCreateFolder={showCreateFolder}
+          newFolderName={newFolderName}
+          onNewFolderNameChange={setNewFolderName}
+          creatingFolder={creatingFolder}
+          onToggleCreateFolder={toggleCreateFolder}
         />
       </div>
 
