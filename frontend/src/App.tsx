@@ -24,7 +24,7 @@ function App() {
         <BrowserRouter>
           <LoginModal open={showLogin} onClose={() => setShowLogin(false)} />
           <Routes>
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard/*" element={<DashboardPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/external-links" element={<StuffWeLikePage />} />
             <Route path="/sharing/:fileId" element={<DownloadPage />} />

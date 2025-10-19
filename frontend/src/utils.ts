@@ -14,7 +14,6 @@ export const isMobile = (): boolean => {
 const units = ['bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
 
 export const niceBytes = (x: number): string => {
-
   let l = 0, n = x || 0
 
   while(n >= 1024 && ++l){
@@ -22,4 +21,18 @@ export const niceBytes = (x: number): string => {
   }
 
   return(n.toFixed(n < 10 && l > 0 ? 1 : 0) + ' ' + units[l])
+}
+
+export const formatDate = (dateString: string): string => {
+  try {
+    return new Date(dateString).toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  } catch {
+    return dateString
+  }
 }
