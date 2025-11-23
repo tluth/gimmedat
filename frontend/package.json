@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@aws-amplify/auth": "^6.13.3",
-    "@aws-amplify/ui-react": "^6.8.0",
+    "@aws-amplify/ui-react": "^6.13.1",
     "@emailjs/browser": "^4.3.3",
     "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -41,12 +41,12 @@
   "devDependencies": {
     "@eslint/js": "^9.28.0",
     "@tanstack/eslint-plugin-query": "^5.78.0",
-    "@types/node": "^20.12.11",
+    "@types/node": "^22.19.1",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^5.1.1",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -55,6 +55,6 @@
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
-    "vite": "^5.4.20"
+    "vite": "^7.2.4"
   }
 }
