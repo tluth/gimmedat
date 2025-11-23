@@ -54,15 +54,15 @@ resource "aws_api_gateway_deployment" "api_deployment" {
 
 resource "aws_api_gateway_stage" "api_stage" {
   # checkov:skip=CKV2_AWS_29:WAF not needed for non-prod use
-  deployment_id = aws_api_gateway_deployment.api_deployment.id
-  rest_api_id   = aws_api_gateway_rest_api.api.id
-  stage_name    = local.environment
+  deployment_id         = aws_api_gateway_deployment.api_deployment.id
+  rest_api_id           = aws_api_gateway_rest_api.api.id
+  stage_name            = local.environment
   cache_cluster_enabled = false
-  xray_tracing_enabled = false
+  xray_tracing_enabled  = false
 }
 
 resource "aws_api_gateway_usage_plan" "throttle" {
-  name         = "${local.site}-usage-plan"
+  name = "${local.site}-usage-plan"
 
   api_stages {
     api_id = aws_api_gateway_rest_api.api.id
@@ -145,18 +145,18 @@ data "archive_file" "lambda_zip" {
 
 resource "aws_lambda_function" "api_lambda" {
   role                           = aws_iam_role.api_role.arn
-  function_name                  = "${local.site}"
+  function_name                  = local.site
   timeout                        = 300
   memory_size                    = 512
   reserved_concurrent_executions = 50
   handler                        = "api.run_api.handler"
   runtime                        = var.lambda_runtime
   filename                       = data.archive_file.lambda_zip.output_path
-  architectures = ["x86_64"]
+  architectures                  = ["x86_64"]
   environment {
     variables = {
-      "REGION" = local.aws_region
-      "STORAGE_BUCKET" = var.file_storage_bucket
+      "REGION"          = local.aws_region
+      "STORAGE_BUCKET"  = var.file_storage_bucket
       "FILE_SIZE_LIMIT" = var.file_size_limit
     }
   }
@@ -196,7 +196,7 @@ data "aws_iam_policy_document" "extra_perms" {
       aws_dynamodb_table.state_dynamodb_table.arn,
       "${aws_dynamodb_table.state_dynamodb_table.arn}/index/*",
       aws_dynamodb_table.state_dynamodb_table.stream_arn,
-      ]
+    ]
   }
 
   statement {
@@ -218,7 +218,7 @@ data "aws_iam_policy_document" "extra_perms" {
     resources = [
       aws_dynamodb_table.blacklist_table.arn,
       "${aws_dynamodb_table.blacklist_table.arn}/index/*"
-      ]
+    ]
   }
 
   statement {

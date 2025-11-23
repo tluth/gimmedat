@@ -56,12 +56,12 @@ variable "ghaction_role_conditions" {
 }
 
 variable "file_storage_bucket" {
-  type      = string
-  default   = "gimmedat-dev-file-storage"
+  type    = string
+  default = "gimmedat-dev-file-storage"
 }
 
 variable "file_size_limit" {
-  type      = number
-  default   = 4294967296
+  type        = number
+  default     = 4294967296
   description = "4GB file size limit"
 }

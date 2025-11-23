@@ -39,8 +39,8 @@ resource "aws_s3_bucket_cors_configuration" "data_cors_rules" {
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "my_s3_bucket_lifecycle_config" {
-  bucket = aws_s3_bucket.main_storage.id
-  depends_on = [ aws_s3_bucket.main_storage ]
+  bucket     = aws_s3_bucket.main_storage.id
+  depends_on = [aws_s3_bucket.main_storage]
 
   rule {
     id     = "2_day_lifecycle"
