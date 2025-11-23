@@ -11,13 +11,13 @@ data "archive_file" "db_stream_handler" {
 }
 
 resource "aws_lambda_function" "db_stream_handler" {
-    depends_on = [ aws_lambda_function.api_lambda ]
-    role                           = aws_lambda_function.api_lambda.role
-    runtime       = var.lambda_runtime
-    function_name = "${local.site}-trash-collection"
-    handler                        = "db_stream_handler.trash_collector.handler"
-    filename                       = data.archive_file.db_stream_handler.output_path
-    architectures = ["x86_64"]
+  depends_on    = [aws_lambda_function.api_lambda]
+  role          = aws_lambda_function.api_lambda.role
+  runtime       = var.lambda_runtime
+  function_name = "${local.site}-trash-collection"
+  handler       = "db_stream_handler.trash_collector.handler"
+  filename      = data.archive_file.db_stream_handler.output_path
+  architectures = ["x86_64"]
 }
 
 resource "aws_lambda_event_source_mapping" "expire_item_mapping" {

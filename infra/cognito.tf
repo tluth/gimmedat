@@ -27,11 +27,11 @@ resource "aws_cognito_user_pool" "main" {
 
   password_policy {
     temporary_password_validity_days = 7
-    minimum_length    = 8
-    require_lowercase = true
-    require_uppercase = true
-    require_numbers   = true
-    require_symbols   = true
+    minimum_length                   = 8
+    require_lowercase                = true
+    require_uppercase                = true
+    require_numbers                  = true
+    require_symbols                  = true
   }
 
   verification_message_template {
@@ -59,17 +59,17 @@ resource "aws_cognito_user_pool" "main" {
 }
 
 resource "aws_ssm_parameter" "user_pool_arn" {
-  name  = "/gimmedat/cognito/user_pool_arn"
-  description     = "main user pool for gimmedat"
-  type  = "String"
-  value = aws_cognito_user_pool.main.arn
+  name        = "/gimmedat/cognito/user_pool_arn"
+  description = "main user pool for gimmedat"
+  type        = "String"
+  value       = aws_cognito_user_pool.main.arn
 }
 
 resource "aws_ssm_parameter" "user_pool_id" {
-  name  = "/gimmedat/cognito/user_pool_id"
-  description     = "main user pool for gimmedat"
-  type  = "String"
-  value = aws_cognito_user_pool.main.id
+  name        = "/gimmedat/cognito/user_pool_id"
+  description = "main user pool for gimmedat"
+  type        = "String"
+  value       = aws_cognito_user_pool.main.id
 }
 
 resource "aws_cognito_user_pool_client" "client" {

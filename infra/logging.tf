@@ -83,9 +83,9 @@ locals {
 
 
 module "log_storage" {
-  source = "cloudposse/s3-log-storage/aws"
-  context    = module.this.context
-  attributes = ["logs"]
-  acl                      = "log-delivery-write"
+  source                        = "cloudposse/s3-log-storage/aws"
+  context                       = module.this.context
+  attributes                    = ["logs"]
+  acl                           = "log-delivery-write"
   lifecycle_configuration_rules = [local.lifecycle_configuration_rule]
 }
