@@ -9,9 +9,9 @@ data "aws_route53_zone" "zone" {
 }
 
 data "aws_ssm_parameter" "post_confirmation_lambda_arn" {
-  name = "/pocketdat-${local.environment}/lambda/post_confirmation_arn"
+  name = "/pocketdat-prod/lambda/post_confirmation_arn"
 }
 
 data "aws_s3_bucket" "permanent_storage" {
-  bucket = "pocketdat-${local.environment}-file-storage"
+  bucket = "pocketdat-prod-file-storage"
 }

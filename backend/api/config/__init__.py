@@ -17,7 +17,7 @@ class AuthConfig:
     cognito_app_client_id = environ.var(default="24i0v6tkh4258o858fvt7mo0ak")
     cognito_user_pool_id = environ.var(default="eu-central-1_TOWhnk8hl")
     permanent_storage_bucket = environ.var(
-        default="pocketdat-dev-file-storage")
+        default="pocketdat-prod-file-storage")
 
 
 # pull in config
