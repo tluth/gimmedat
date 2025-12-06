@@ -78,7 +78,7 @@ jobs:
         run: cd frontend && pnpm run build
         env:
           ENVIRONMENT: ${{ steps.environment.outputs.DEPLOY_ENVIRONMENT }}
-          VITE_APP_POCKETDAT_API_URL: https://api.pocketdat-dev.bulgingdiscs.fun #temp hardcoded API URL
+          VITE_APP_POCKETDAT_API_URL: https://api.pocketdat-prod.bulgingdiscs.fun #temp hardcoded API URL
           VITE_APP_API_URL: https://api.gimmedat.bulgingdiscs.fun #temp hardcoded API URL
           VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
           VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
