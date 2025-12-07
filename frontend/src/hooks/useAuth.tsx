@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { fetchAuthSession } from "aws-amplify/auth"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { Amplify } from "aws-amplify"
