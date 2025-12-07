@@ -17,10 +17,10 @@ interface FileBrowserProps {
 }
 
 export const FileBrowser: React.FC<FileBrowserProps> = () => {
-  const { session } = useAuth()
+  const { session, isLoading: isAuthLoading, isAuthenticated } = useAuth()
   const [tree, setTree] = useState<TreeNode[]>([])
   const [selectedNode, setSelectedNode] = useState<TreeNode | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [fileContent, setFileContent] = useState<string | null>(null)
   const [loadingContent, setLoadingContent] = useState<boolean>(false)
@@ -55,7 +55,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
             type: 'folder',
             children: [],
             expanded: false,
-            loaded: false, // Mark as not loaded initially
+            loaded: false,
             loading: false
           }
           nodeMap.set(currentPath, node)
@@ -75,7 +75,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     })
 
     files.forEach(file => {
-      // Skip if no file path
       if (!file.key) {
         return
       }
@@ -115,7 +114,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
         }
       })
 
-      // Add the file
       const fileNode: TreeNode = {
         name: fileName,
         path: filePath,
@@ -142,11 +140,9 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     return rootNodes
   }, [])
 
-  // Build direct children for a specific folder
   const buildFolderChildren = useCallback((files: FileItem[], folders: string[], parentFolderPath: string) => {
     const children: TreeNode[] = []
 
-    // Process folders - only direct children
     folders.forEach(folderPath => {
 
       // Check if this folder is a direct child of the parent folder
@@ -154,7 +150,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
 
       if (folderPath.startsWith(expectedPrefix)) {
         const remainingPath = folderPath.substring(expectedPrefix.length)
-        // Remove trailing slashes and check if it's a direct child (no more slashes)
         const cleanPath = remainingPath.replace(/\/+$/, '')
 
         if (cleanPath && !cleanPath.includes('/')) {
@@ -172,15 +167,12 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
       }
     })
 
-    // Process files - only direct children
     files.forEach(file => {
-
       const expectedPrefix = parentFolderPath ? `${parentFolderPath}/` : ''
 
       if (file.key.startsWith(expectedPrefix)) {
         const remainingPath = file.key.substring(expectedPrefix.length)
 
-        // Check if it's a direct child (no more slashes in the remaining path)
         if (remainingPath && !remainingPath.includes('/')) {
           const node: TreeNode = {
             name: remainingPath,
@@ -198,9 +190,10 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     return children
   }, [])
 
-  // Fetch files and folders for the entire tree
   const fetchData = useCallback(async () => {
-    if (!session?.tokens) return
+    if (isAuthLoading || !session?.tokens) {
+      return
+    }
 
     setLoading(true)
     setError(null)
@@ -232,9 +225,8 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     } finally {
       setLoading(false)
     }
-  }, [session, buildTreeFromData])
+  }, [session, buildTreeFromData, isAuthLoading])
 
-  // Fetch contents of a specific folder
   const fetchFolderContents = useCallback(async (folderPath: string) => {
     if (!session?.tokens) return
 
@@ -244,7 +236,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     setLoadingFolders(prev => new Set([...prev, folderPath]))
 
     try {
-      // Call the list endpoint with the folder prefix
       const response = await axios.get(`${POCKETDAT_API}/files/list`, {
         params: { prefix: folderPath },
         headers: {
@@ -256,10 +247,8 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
       const files: FileItem[] = response.data.files || []
       const folders: string[] = response.data.folders || []
 
-      // Build nodes for this folder's contents using the specialized function
       const folderChildren = buildFolderChildren(files, folders, folderPath)
 
-      // Update the tree to add these contents to the correct folder
       setTree(prevTree => {
         const updateNode = (nodes: TreeNode[]): TreeNode[] => {
           return nodes.map(node => {
@@ -329,7 +318,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
               console.error(`Failed to fetch content: ${fullContentResponse.status} ${fullContentResponse.statusText}`)
               console.error(`Response headers:`, Object.fromEntries(fullContentResponse.headers.entries()))
 
-              // If we get 403, it might be an auth issue - provide more helpful error
               if (fullContentResponse.status === 403) {
                 throw new Error(`Access denied (403). This could be due to: 1) Expired signed URL, 2) Incorrect file permissions, 3) CORS issues. Try refreshing the page.`)
               }
@@ -337,7 +325,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
               throw new Error(`HTTP ${fullContentResponse.status}: ${fullContentResponse.statusText}`)
             }
 
-            // Check content length from response headers
             const contentLength = fullContentResponse.headers.get('content-length')
             const fileSize = contentLength ? parseInt(contentLength) : 0
 
@@ -476,8 +463,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
 
       // Refresh the tree after successful delete
       await fetchData()
-
-      // Clear selection if deleted file was selected
       if (selectedNode && selectedNode.path === filePath) {
         setSelectedNode(null)
         setFileContent(null)
@@ -494,13 +479,12 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     }
   }, [session, fetchData, selectedNode])
 
-  // Validate folder name
   const validateFolderName = (name: string): string | null => {
     if (!name.trim()) {
       return 'Folder name cannot be empty'
     }
 
-    // Check for invalid characters for S3/file systems
+    // invalid characters for S3/file systems
     const invalidChars = /[<>:"/\\|?*]/
     const hasControlChars = name.split('').some(char => char.charCodeAt(0) < 32)
 
@@ -508,12 +492,11 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
       return 'Folder name contains invalid characters'
     }
 
-    // Check length
     if (name.length > 255) {
       return 'Folder name is too long (max 255 characters)'
     }
 
-    // Check for reserved names
+    // reserved names
     const reservedNames = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9']
     if (reservedNames.includes(name.toUpperCase())) {
       return 'Folder name is reserved'
@@ -522,20 +505,17 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     return null
   }
 
-  // Create folder method
   const handleCreateFolder = useCallback(async () => {
     if (!session?.tokens) {
       setError('No authentication session available')
       return
     }
-
     const accessToken = session.tokens.accessToken?.toString()
 
     if (!accessToken) {
       setError('No access token available')
       return
     }
-
     const trimmedName = newFolderName.trim()
     const validationError = validateFolderName(trimmedName)
 
@@ -543,12 +523,10 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
       setError(validationError)
       return
     }
-
     setCreatingFolder(true)
     setError(null)
 
     try {
-      // Determine the folder path based on selected node
       const basePath = selectedNode?.type === 'folder' ? selectedNode.path : ''
       const folderPath = basePath ? `${basePath}/${trimmedName}/` : `${trimmedName}/`
 
@@ -574,10 +552,8 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
         onSuccess: () => {
           // Refresh the tree after successful folder creation
           if (selectedNode?.type === 'folder') {
-            // If creating inside a folder, refresh that folder's contents
             fetchFolderContents(selectedNode.path)
           } else {
-            // If creating at root, refresh the entire tree
             fetchData()
           }
 
@@ -669,11 +645,10 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
           console.log(`Upload progress: ${progress}%`)
         },
         onSuccess: () => {
-          // Refresh the specific folder or root after successful upload
           if (folderPrefix) {
             fetchFolderContents(folderPrefix)
           } else {
-            fetchData() // Refresh root
+            fetchData()
           }
         },
         onError: (error) => {
@@ -691,6 +666,17 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     fetchData()
   }, [fetchData])
 
+  if (isAuthLoading) {
+    return (
+      <div className="flex items-center justify-center h-64 bg-transparent text-offWhite">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-asparagus-400 mx-auto mb-4"></div>
+          <p>Authenticating...</p>
+        </div>
+      </div>
+    )
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64 bg-transparent text-offWhite">
@@ -698,6 +684,14 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-asparagus-400 mx-auto mb-4"></div>
           <p>Loading files...</p>
         </div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated || !session) {
+    return (
+      <div className="flex items-center justify-center h-64 bg-transparent text-red-400">
+        <p>Please sign in to view your files.</p>
       </div>
     )
   }
@@ -712,7 +706,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
 
   return (
     <div className="flex h-full bg-transparent text-offWhite overflow-hidden">
-      {/* Left Sidebar - File Tree */}
       <div className="w-1/3 min-w-80 max-w-96 border-r border-main-700 bg-transparent flex-shrink-0">
         <FileTree
           nodes={tree}

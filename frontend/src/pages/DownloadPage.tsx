@@ -67,4 +67,4 @@ const DownloadPage = () => {
   )
 }
 
-export default DownloadPage
+export { DownloadPage }

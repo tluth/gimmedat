@@ -1,6 +1,7 @@
 import { fetchAuthSession } from "aws-amplify/auth"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { Amplify } from "aws-amplify"
+import { Hub } from "aws-amplify/utils"
 import { signIn, signOut, getCurrentUser, SignInOutput } from "aws-amplify/auth"
 import { cognitoUserPoolsTokenProvider } from 'aws-amplify/auth/cognito'
 import { defaultStorage } from 'aws-amplify/utils'
@@ -64,35 +65,70 @@ const useProvideAuth = (): UseAuth => {
   const [username, setUsername] = useState("")
   const [session, setSession] = useState<AuthSession | null>(null)
 
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const user = await getCurrentUser()
-        const authSession = await fetchAuthSession()
-        setUsername(user.username)
-        setSession(authSession as AuthSession)
-        setIsAuthenticated(true)
-      } catch (error) {
-        setUsername("")
-        setSession(null)
-        setIsAuthenticated(false)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    checkAuthStatus()
-  }, [])
-
-  const handleSignIn = async (username: string, password: string) => {
-    const result = await signIn({ username, password })
-    setIsAuthenticated(result.isSignedIn)
-    if (result.isSignedIn) {
+  const checkAuthStatus = async () => {
+    try {
+      setIsLoading(true)
       const user = await getCurrentUser()
       const authSession = await fetchAuthSession()
       setUsername(user.username)
       setSession(authSession as AuthSession)
+      setIsAuthenticated(true)
+    } catch (error) {
+      setUsername("")
+      setSession(null)
+      setIsAuthenticated(false)
+    } finally {
+      setIsLoading(false)
     }
-    return result
+  }
+
+  useEffect(() => {
+    // Initial auth check
+    checkAuthStatus()
+
+    // Listen for auth events from Amplify Hub
+    const hubListener = Hub.listen('auth', ({ payload }) => {
+      switch (payload.event) {
+        case 'signedIn':
+        case 'tokenRefresh':
+          console.log('Auth event: user signed in or token refreshed')
+          checkAuthStatus()
+          break
+        case 'signedOut':
+          console.log('Auth event: user signed out')
+          setUsername("")
+          setSession(null)
+          setIsAuthenticated(false)
+          setIsLoading(false)
+          break
+        case 'signInWithRedirect':
+          console.log('Auth event: sign in with redirect')
+          checkAuthStatus()
+          break
+      }
+    })
+
+    // Cleanup listener on unmount
+    return () => {
+      hubListener()
+    }
+  }, [])
+
+  const handleSignIn = async (username: string, password: string) => {
+    setIsLoading(true)
+    try {
+      const result = await signIn({ username, password })
+      setIsAuthenticated(result.isSignedIn)
+      if (result.isSignedIn) {
+        const user = await getCurrentUser()
+        const authSession = await fetchAuthSession()
+        setUsername(user.username)
+        setSession(authSession as AuthSession)
+      }
+      return result
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleSignOut = async () => {

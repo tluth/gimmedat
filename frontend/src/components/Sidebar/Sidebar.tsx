@@ -1,7 +1,9 @@
 import { useState } from "react"
-import { Github, CircleHelp, Beer, BookHeart, Send, Home, LogIn } from "lucide-react"
+import { Github, CircleHelp, Beer, BookHeart, Send, Home, LogIn, Pocket, LogOut } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
 import { Sheet, SheetContent, SheetTrigger } from "./Sheet"
 import HamburgerButton from "./HamburgerButton"
+import { useAuth } from "@/hooks/useAuth"
 
 type SidebarProps = {
   handleLogin: () => void
@@ -9,9 +11,17 @@ type SidebarProps = {
 
 const Sidebar = ({ handleLogin }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const { isAuthenticated, handleSignOut } = useAuth()
+  const navigate = useNavigate()
 
   const handleOpenClose = (): void => {
     setIsOpen(!isOpen)
+  }
+
+  const handleLogout = async () => {
+    await handleSignOut()
+    setIsOpen(false)
+    navigate("/")
   }
 
   return (
@@ -39,26 +49,28 @@ const Sidebar = ({ handleLogin }: SidebarProps) => {
 
             <ul className="space-y-3 text-m pt-4">
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/"
+                  onClick={() => setIsOpen(false)}
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
                     <Home className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Home</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/about"
+                <Link
+                  to="/about"
+                  onClick={() => setIsOpen(false)}
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
                     <CircleHelp className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>About</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a
@@ -72,15 +84,16 @@ const Sidebar = ({ handleLogin }: SidebarProps) => {
                 </a>
               </li>
               <li>
-                <a
-                  href="/external-links"
+                <Link
+                  to="/external-links"
+                  onClick={() => setIsOpen(false)}
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
                     <BookHeart className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Stuff we like</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a
@@ -94,28 +107,55 @@ const Sidebar = ({ handleLogin }: SidebarProps) => {
                 </a>
               </li>
               <li>
-                <a
-                  href="/contact"
+                <Link
+                  to="/contact"
+                  onClick={() => setIsOpen(false)}
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
                     <Send className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Contact</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  onClick={handleLogin}
-                  className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
-                >
-                  <span className="pl-6">
-                    <LogIn className=" text-main-800 w-9 h-9" />
-                  </span>
-                  <span>Log in</span>
-                </a>
+                {isAuthenticated ? (
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
+                  >
+                    <span className="pl-6">
+                      <Pocket className=" text-main-800 w-9 h-9" />
+                    </span>
+                    <span>Pocketdat</span>
+                  </Link>
+                ) : (
+                  <a
+                    onClick={handleLogin}
+                    className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline cursor-pointer"
+                  >
+                    <span className="pl-6">
+                      <LogIn className=" text-main-800 w-9 h-9" />
+                    </span>
+                    <span>Log in</span>
+                  </a>
+                )}
               </li>
             </ul>
+            {isAuthenticated && (
+              <div className="absolute bottom-4 left-0 right-0 px-2">
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-3 text-night p-2 font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline w-full rounded"
+                >
+                  <span className="pl-6">
+                    <LogOut className="text-main-800 w-9 h-9" />
+                  </span>
+                  <span>Log out</span>
+                </button>
+              </div>
+            )}
           </div>
         </SheetContent>
       </Sheet>
