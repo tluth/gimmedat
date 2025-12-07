@@ -3,6 +3,25 @@ export const POCKETDAT_API = import.meta.env.VITE_APP_POCKETDAT_API_URL || "http
 export const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_USER_POOL_WEB_CLIENT_ID
 export const MIN_FILE_SIZE: number = 1024
 export const MAX_FILE_SIZE: number = 4294967296
+
+// File type extensions
+export const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'bmp', 'ico']
+export const TEXT_EXTENSIONS = [
+  'txt', 'md', 'json', 'js', 'jsx', 'ts', 'tsx', 'py', 'html', 'css', 'scss',
+  'xml', 'csv', 'yaml', 'yml', 'toml', 'ini', 'conf', 'log', 'sql', 'sh',
+  'bat', 'dockerfile', 'gitignore', 'gitattributes', 'env', 'properties',
+  'c', 'cpp', 'h', 'hpp', 'java', 'php', 'rb', 'go', 'rs', 'swift',
+  'kt', 'scala', 'pl', 'r', 'vue', 'svelte', 'astro'
+]
+
+// File system constants
+export const RESERVED_FOLDER_NAMES = [
+  'CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 
+  'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 
+  'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9'
+]
+export const MAX_FOLDER_NAME_LENGTH = 255
+export const TEXT_FILE_PREVIEW_SIZE_LIMIT = 1024 * 1024 // 1MB
 export const headerText = String.raw`
             _____                    _____                    _____                    _____                    _____                    _____                    _____                _____
            /\    \                  /\    \                  /\    \                  /\    \                  /\    \                  /\    \                  /\    \              /\    \

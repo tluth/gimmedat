@@ -2,13 +2,14 @@ import React, { useState, useEffect, useCallback } from 'react'
 import { FileTree } from './FileTree'
 import { FileView } from './FileView'
 import { FilePreview } from './FilePreview'
+import { StatusMessage } from '@/components/StatusMessage'
 import { useAuth } from '@/hooks/useAuth'
 import { POCKETDAT_API } from '@/constants'
 import { FileItem } from '@/services/types'
 import { UploadService } from '@/services/uploadService'
-import axios from 'axios'
+import { PocketdatFileService } from '@/services/pocketdatFileService'
 import { TreeNode } from './types'
-import { isImageFile, isTextFile } from './utils'
+import { validateFolderName } from './utils'
 
 
 
@@ -206,21 +207,11 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     }
 
     try {
-      // Fetch only root level files - no prefix means root level for this user
-      const response = await axios.get(`${POCKETDAT_API}/files/list`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-
-      const files: FileItem[] = response.data.files || []
-      const folders: string[] = response.data.folders || []
+      const { files, folders } = await PocketdatFileService.fetchRootFiles(accessToken)
       const treeNodes = buildTreeFromData(files, folders)
-
       setTree(treeNodes)
     } catch (err) {
-      setError('Failed to fetch files.')
+      setError(err instanceof Error ? err.message : 'Failed to fetch files.')
       console.error('Fetch error:', err)
     } finally {
       setLoading(false)
@@ -236,16 +227,10 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     setLoadingFolders(prev => new Set([...prev, folderPath]))
 
     try {
-      const response = await axios.get(`${POCKETDAT_API}/files/list`, {
-        params: { prefix: folderPath },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-
-      const files: FileItem[] = response.data.files || []
-      const folders: string[] = response.data.folders || []
+      const { files, folders } = await PocketdatFileService.fetchFolderContents(
+        accessToken,
+        folderPath
+      )
 
       const folderChildren = buildFolderChildren(files, folders, folderPath)
 
@@ -271,7 +256,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
 
     } catch (err) {
       console.error('Failed to fetch folder contents:', err)
-      setError('Failed to load folder contents.')
+      setError(err instanceof Error ? err.message : 'Failed to load folder contents.')
     } finally {
       setLoadingFolders(prev => {
         const newSet = new Set(prev)
@@ -287,72 +272,17 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     setLoadingContent(true)
     const accessToken = session.tokens.accessToken?.toString()
 
-    const getTextFileSizeLimit = (): number => {
-      return 1024 * 1024 // 1MB limit for text file previews
-    }
-
     try {
-      const response = await axios.get(`${POCKETDAT_API}/files/download`, {
-        params: { key: filePath },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-
-      if (response.data?.url) {
-        setDownloadUrl(response.data.url)
-
-        // For images, we don't need to fetch content, just use the URL
-        if (isImageFile(fileName)) {
-          setFileContent(null)
-        } else if (isTextFile(fileName)) {
-          try {
-            const fullContentResponse = await fetch(response.data.url, {
-              method: 'GET',
-              mode: 'cors',
-              credentials: 'omit'
-            })
-
-            if (!fullContentResponse.ok) {
-              console.error(`Failed to fetch content: ${fullContentResponse.status} ${fullContentResponse.statusText}`)
-              console.error(`Response headers:`, Object.fromEntries(fullContentResponse.headers.entries()))
-
-              if (fullContentResponse.status === 403) {
-                throw new Error(`Access denied (403). This could be due to: 1) Expired signed URL, 2) Incorrect file permissions, 3) CORS issues. Try refreshing the page.`)
-              }
-
-              throw new Error(`HTTP ${fullContentResponse.status}: ${fullContentResponse.statusText}`)
-            }
-
-            const contentLength = fullContentResponse.headers.get('content-length')
-            const fileSize = contentLength ? parseInt(contentLength) : 0
-
-            if (fileSize > getTextFileSizeLimit()) {
-              console.log(`File too large for preview: ${fileSize} bytes`)
-              setFileContent(`File is too large to preview (${Math.round(fileSize / 1024)} KB). Please download to view.`)
-            } else {
-              const content = await fullContentResponse.text()
-
-              // Additional safety check for content length
-              if (content.length > getTextFileSizeLimit()) {
-                setFileContent(`File is too large to preview (${Math.round(content.length / 1024)} KB). Please download to view.`)
-              } else {
-                setFileContent(content)
-              }
-            }
-          } catch (textError) {
-            console.error('Failed to fetch text content:', textError)
-            setFileContent(`Failed to load file content. ${textError instanceof Error ? textError.message : 'Unknown error'}`)
-          }
-        } else {
-          // For binary files, don't fetch content
-          setFileContent(null)
-        }
-      }
+      const { downloadUrl, content } = await PocketdatFileService.loadFileContent(
+        accessToken!,
+        filePath,
+        fileName
+      )
+      setDownloadUrl(downloadUrl)
+      setFileContent(content)
     } catch (err) {
       console.error('Failed to load file content:', err)
-      setFileContent(null)
+      setFileContent(err instanceof Error ? err.message : 'Failed to load file content')
       setDownloadUrl(null)
     } finally {
       setLoadingContent(false)
@@ -423,20 +353,10 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     if (!accessToken) return
 
     try {
-      const response = await axios.get(`${POCKETDAT_API}/files/download`, {
-        params: { key: filePath },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-
-      if (response.data?.url) {
-        window.open(response.data.url, '_blank')
-      }
+      await PocketdatFileService.downloadFile(accessToken, filePath)
     } catch (err) {
       console.error('Download failed:', err)
-      setError('Failed to download file.')
+      setError(err instanceof Error ? err.message : 'Failed to download file.')
     }
   }, [session])
 
@@ -453,13 +373,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     setDeletingFiles(prev => new Set([...prev, filePath]))
 
     try {
-      await axios.delete(`${POCKETDAT_API}/files/delete`, {
-        params: { key: filePath },
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      await PocketdatFileService.deleteFile(accessToken, filePath)
 
       // Refresh the tree after successful delete
       await fetchData()
@@ -469,7 +383,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
       }
     } catch (err) {
       console.error('Delete failed:', err)
-      setError('Failed to delete file.')
+      setError(err instanceof Error ? err.message : 'Failed to delete file.')
     } finally {
       setDeletingFiles(prev => {
         const newSet = new Set(prev)
@@ -478,32 +392,6 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
       })
     }
   }, [session, fetchData, selectedNode])
-
-  const validateFolderName = (name: string): string | null => {
-    if (!name.trim()) {
-      return 'Folder name cannot be empty'
-    }
-
-    // invalid characters for S3/file systems
-    const invalidChars = /[<>:"/\\|?*]/
-    const hasControlChars = name.split('').some(char => char.charCodeAt(0) < 32)
-
-    if (invalidChars.test(name) || hasControlChars) {
-      return 'Folder name contains invalid characters'
-    }
-
-    if (name.length > 255) {
-      return 'Folder name is too long (max 255 characters)'
-    }
-
-    // reserved names
-    const reservedNames = ['CON', 'PRN', 'AUX', 'NUL', 'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9', 'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9']
-    if (reservedNames.includes(name.toUpperCase())) {
-      return 'Folder name is reserved'
-    }
-
-    return null
-  }
 
   const handleCreateFolder = useCallback(async () => {
     if (!session?.tokens) {
@@ -595,21 +483,13 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     }
 
     try {
-      await axios.put(`${POCKETDAT_API}/files/move`, {
-        source_key: sourceKey,
-        destination_key: destinationKey
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      await PocketdatFileService.moveFile(accessToken, sourceKey, destinationKey)
 
       // Refresh the tree after successful move
       fetchData()
     } catch (error) {
       console.error('Move failed:', error)
-      setError('Failed to move file. Please try again.')
+      setError(error instanceof Error ? error.message : 'Failed to move file. Please try again.')
     }
   }, [session, fetchData])
 
@@ -667,41 +547,19 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
   }, [fetchData])
 
   if (isAuthLoading) {
-    return (
-      <div className="flex items-center justify-center h-64 bg-transparent text-offWhite">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-asparagus-400 mx-auto mb-4"></div>
-          <p>Authenticating...</p>
-        </div>
-      </div>
-    )
+    return <StatusMessage type="loading" message="Authenticating..." showSpinner />
   }
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64 bg-transparent text-offWhite">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-asparagus-400 mx-auto mb-4"></div>
-          <p>Loading files...</p>
-        </div>
-      </div>
-    )
+    return <StatusMessage type="loading" message="Loading files..." showSpinner />
   }
 
   if (!isAuthenticated || !session) {
-    return (
-      <div className="flex items-center justify-center h-64 bg-transparent text-red-400">
-        <p>Please sign in to view your files.</p>
-      </div>
-    )
+    return <StatusMessage type="error" message="Please sign in to view your files." />
   }
 
   if (error) {
-    return (
-      <div className="flex items-center justify-center h-64 bg-transparent text-red-400">
-        <p>Error: {error}</p>
-      </div>
-    )
+    return <StatusMessage type="error" message={`Error: ${error}`} />
   }
 
   return (

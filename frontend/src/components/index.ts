@@ -1,5 +1,5 @@
 export * from './FileBrowser/FileBrowser'
-export * from './FileBrowser/FileBrowser'
 export * from './FileBrowser/FileTree'
 export * from './FileBrowser/FileView'
 export * from './FileBrowser/FilePreview'
+export * from './StatusMessage'
