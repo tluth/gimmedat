@@ -17,10 +17,10 @@ interface FileBrowserProps {
 }
 
 export const FileBrowser: React.FC<FileBrowserProps> = () => {
-  const { session } = useAuth()
+  const { session, isLoading: isAuthLoading, isAuthenticated } = useAuth()
   const [tree, setTree] = useState<TreeNode[]>([])
   const [selectedNode, setSelectedNode] = useState<TreeNode | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [fileContent, setFileContent] = useState<string | null>(null)
   const [loadingContent, setLoadingContent] = useState<boolean>(false)
@@ -200,7 +200,10 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
 
   // Fetch files and folders for the entire tree
   const fetchData = useCallback(async () => {
-    if (!session?.tokens) return
+    // Don't fetch if auth is still loading or if we don't have a session
+    if (isAuthLoading || !session?.tokens) {
+      return
+    }
 
     setLoading(true)
     setError(null)
@@ -232,7 +235,7 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     } finally {
       setLoading(false)
     }
-  }, [session, buildTreeFromData])
+  }, [session, buildTreeFromData, isAuthLoading])
 
   // Fetch contents of a specific folder
   const fetchFolderContents = useCallback(async (folderPath: string) => {
@@ -691,6 +694,19 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
     fetchData()
   }, [fetchData])
 
+  // Show loading state if auth is still initializing
+  if (isAuthLoading) {
+    return (
+      <div className="flex items-center justify-center h-64 bg-transparent text-offWhite">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-asparagus-400 mx-auto mb-4"></div>
+          <p>Authenticating...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show loading state if we're fetching data
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64 bg-transparent text-offWhite">
@@ -698,6 +714,15 @@ export const FileBrowser: React.FC<FileBrowserProps> = () => {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-asparagus-400 mx-auto mb-4"></div>
           <p>Loading files...</p>
         </div>
+      </div>
+    )
+  }
+
+  // Show error if not authenticated after auth loading completes
+  if (!isAuthenticated || !session) {
+    return (
+      <div className="flex items-center justify-center h-64 bg-transparent text-red-400">
+        <p>Please sign in to view your files.</p>
       </div>
     )
   }

@@ -1,2 +1,5 @@
-export * from "./Success"
-export * from "./AuthenticatedRoute"
+export * from "./DownloadPage"
+export * from "./DashboardPage"
+export * from "./ContactPage"
+export * from "./About"
+export * from "./StuffWeLike/StuffWeLike"

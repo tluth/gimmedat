@@ -141,9 +141,9 @@ const ContactPage = () => {
         </div>
       </form>
     </Form>
-    </div>
+      </div>
     </div>
   )
 }
 
-export default ContactPage
+export { ContactPage }

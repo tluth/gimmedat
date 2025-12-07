@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Github, CircleHelp, Beer, BookHeart, Send, Home, LogIn } from "lucide-react"
+import { Link } from "react-router-dom"
 import { Sheet, SheetContent, SheetTrigger } from "./Sheet"
 import HamburgerButton from "./HamburgerButton"
 
@@ -39,26 +40,28 @@ const Sidebar = ({ handleLogin }: SidebarProps) => {
 
             <ul className="space-y-3 text-m pt-4">
               <li>
-                <a
-                  href="/"
+                <Link
+                  to="/"
+                  onClick={() => setIsOpen(false)}
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
                     <Home className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Home</span>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="/about"
+                <Link
+                  to="/about"
+                  onClick={() => setIsOpen(false)}
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
                     <CircleHelp className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>About</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a
@@ -72,15 +75,16 @@ const Sidebar = ({ handleLogin }: SidebarProps) => {
                 </a>
               </li>
               <li>
-                <a
-                  href="/external-links"
+                <Link
+                  to="/external-links"
+                  onClick={() => setIsOpen(false)}
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
                     <BookHeart className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Stuff we like</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a
@@ -94,15 +98,16 @@ const Sidebar = ({ handleLogin }: SidebarProps) => {
                 </a>
               </li>
               <li>
-                <a
-                  href="/contact"
+                <Link
+                  to="/contact"
+                  onClick={() => setIsOpen(false)}
                   className="flex items-center space-x-3 text-night p-2  font-medium hover:bg-main-400/30 focus:bg-main-600/40 focus:shadow-outline"
                 >
                   <span className="pl-6">
                     <Send className=" text-main-800 w-9 h-9" />
                   </span>
                   <span>Contact</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a

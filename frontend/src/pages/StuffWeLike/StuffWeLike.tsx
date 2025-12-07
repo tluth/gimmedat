@@ -64,4 +64,4 @@ const StuffWeLikePage = () => {
   )
 }
 
-export default StuffWeLikePage
+export { StuffWeLikePage }
