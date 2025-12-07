@@ -37,7 +37,6 @@ const TreeNodeComponent: React.FC<TreeNodeComponentProps> = ({
     }
   }
 
-  // Drag event handlers
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData('text/plain', JSON.stringify({
       type: node.type,

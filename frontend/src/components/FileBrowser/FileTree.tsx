@@ -4,7 +4,6 @@ import { toast } from 'sonner'
 import { MIN_FILE_SIZE, MAX_FILE_SIZE } from '../../constants'
 import TreeNodeComponent from './TreeNode'
 
-
 interface FileTreeProps {
   nodes: TreeNode[]
   selectedNode: TreeNode | null
@@ -19,7 +18,6 @@ interface FileTreeProps {
   onToggleCreateFolder?: () => void
   onMoveFile?: (sourceKey: string, destinationKey: string) => Promise<void>
 }
-
 
 export const FileTree: React.FC<FileTreeProps> = ({
   nodes,
@@ -104,7 +102,6 @@ export const FileTree: React.FC<FileTreeProps> = ({
     setUploading(true)
 
     try {
-      // Upload to the currently selected folder or root
       // For folders, use the relative path (e.g., "folder1", "folder1/subfolder")
       // For root, use empty string
       const currentPath = selectedNode?.type === 'folder' ? selectedNode.path : ''
@@ -156,7 +153,6 @@ export const FileTree: React.FC<FileTreeProps> = ({
     }
   }
 
-  // Root drag and drop handlers for moving files to root
   const handleRootDragOver = (e: React.DragEvent) => {
     e.preventDefault()
     e.dataTransfer.dropEffect = 'move'
@@ -179,13 +175,11 @@ export const FileTree: React.FC<FileTreeProps> = ({
       // Don't allow dropping if already in root
       if (!dragData.path.includes('/')) return
 
-      // Calculate source path - for folders, ensure it has trailing slash
       let sourceKey = dragData.path
       if (dragData.type === 'folder' && !sourceKey.endsWith('/')) {
         sourceKey += '/'
       }
 
-      // Calculate destination path - moving to root
       let destinationKey
       if (dragData.type === 'folder') {
         // For folders, destination should be: folder_name/
@@ -214,7 +208,6 @@ export const FileTree: React.FC<FileTreeProps> = ({
         )}
       </div>
 
-      {/* Upload Area */}
       {onUpload && (
         <div
           className={`m-4 p-4 border-2 border-dashed rounded-lg transition-colors duration-200 cursor-pointer ${
@@ -264,7 +257,6 @@ export const FileTree: React.FC<FileTreeProps> = ({
         </div>
       )}
 
-      {/* Create Folder Area */}
       {onCreateFolder && (
         <div className="m-4 border-t border-main-700 pt-4">
           <div className="flex justify-between items-center mb-3">

@@ -12,7 +12,6 @@ interface FileViewProps {
   deletingFiles: Set<string>
 }
 
-// Find all children of a folder recursively
 const findFolderContents = (folderPath: string, tree: TreeNode[]): TreeNode[] => {
   const findInNodes = (nodes: TreeNode[]): TreeNode[] => {
     for (const node of nodes) {
