@@ -1,3 +1,5 @@
+import { IMAGE_EXTENSIONS, TEXT_EXTENSIONS, RESERVED_FOLDER_NAMES, MAX_FOLDER_NAME_LENGTH } from '@/constants'
+
 export const getFileIcon = (fileName: string): string => {
   const extension = fileName.split('.').pop()?.toLowerCase()
 
@@ -49,22 +51,13 @@ export const getFileIcon = (fileName: string): string => {
 }
 
 export const isTextFile = (fileName: string): boolean => {
-  const textExtensions = [
-    'txt', 'md', 'json', 'js', 'jsx', 'ts', 'tsx', 'py', 'html', 'css', 'scss',
-    'xml', 'csv', 'yaml', 'yml', 'toml', 'ini', 'conf', 'log', 'sql', 'sh',
-    'bat', 'dockerfile', 'gitignore', 'gitattributes', 'env', 'properties',
-    'c', 'cpp', 'h', 'hpp', 'java', 'php', 'rb', 'go', 'rs', 'swift',
-    'kt', 'scala', 'pl', 'r', 'vue', 'svelte', 'astro'
-  ]
-
   const extension = fileName.split('.').pop()?.toLowerCase()
-  return textExtensions.includes(extension || '') || !extension // files without extension are often text
+  return TEXT_EXTENSIONS.includes(extension || '') || !extension // files without extension are often text
 }
 
 export const isImageFile = (fileName: string): boolean => {
-  const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp', 'bmp', 'ico']
   const extension = fileName.split('.').pop()?.toLowerCase()
-  return imageExtensions.includes(extension || '')
+  return IMAGE_EXTENSIONS.includes(extension || '')
 }
 
 export const getLanguageFromExtension = (fileName: string): string => {
@@ -148,4 +141,34 @@ export const getLanguageFromExtension = (fileName: string): string => {
     default:
       return 'text'
   }
+}
+
+/**
+ * Validates a folder name for file system compatibility
+ * @param name - The folder name to validate
+ * @returns Error message if invalid, null if valid
+ */
+export const validateFolderName = (name: string): string | null => {
+  if (!name.trim()) {
+    return 'Folder name cannot be empty'
+  }
+
+  // Check for invalid characters (for S3/file systems)
+  const invalidChars = /[<>:"/\\|?*]/
+  const hasControlChars = name.split('').some(char => char.charCodeAt(0) < 32)
+
+  if (invalidChars.test(name) || hasControlChars) {
+    return 'Folder name contains invalid characters'
+  }
+
+  if (name.length > MAX_FOLDER_NAME_LENGTH) {
+    return `Folder name is too long (max ${MAX_FOLDER_NAME_LENGTH} characters)`
+  }
+
+  // Check for reserved names (Windows compatibility)
+  if (RESERVED_FOLDER_NAMES.includes(name.toUpperCase())) {
+    return 'Folder name is reserved'
+  }
+
+  return null
 }
