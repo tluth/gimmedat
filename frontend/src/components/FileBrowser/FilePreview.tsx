@@ -62,11 +62,12 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
     if (isImageFile(node.name)) {
       if (downloadUrl) {
         return (
-          <div className="flex-1 flex items-center justify-center p-4">
+          <div className="flex-1 overflow-auto flex items-center justify-center p-4 min-h-0">
             <img
               src={downloadUrl}
               alt={node.name}
-              className="max-w-full max-h-full object-contain rounded-lg shadow-lg"
+              className="max-w-full max-h-full object-contain rounded-lg shadow-lg m-4"
+              style={{ maxHeight: 'calc(100vh - 16rem)' }}
               onError={(e) => {
                 console.error('Failed to load image:', e)
                 // Replace with error message
