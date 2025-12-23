@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { TreeNode } from './types'
 import { formatDate, niceBytes } from '@/utils'
 import { getFileIcon, getLanguageFromExtension, isImageFile, isTextFile } from './utils'
@@ -33,6 +33,14 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
   downloadUrl
 }) => {
   const codeRef = useRef<HTMLElement>(null)
+  const [imageLoaded, setImageLoaded] = useState(false)
+  const [imageError, setImageError] = useState(false)
+
+  // Reset image loading state when node or downloadUrl changes
+  useEffect(() => {
+    setImageLoaded(false)
+    setImageError(false)
+  }, [node.path, downloadUrl])
 
   // Apply syntax highlighting after content changes
   useEffect(() => {
@@ -62,14 +70,32 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
     if (isImageFile(node.name)) {
       if (downloadUrl) {
         return (
-          <div className="flex-1 overflow-auto flex items-center justify-center p-4 min-h-0">
+          <div className="flex-1 overflow-auto flex items-center justify-center p-4 min-h-0 relative">
+            {/* Loading skeleton - shown while image is loading */}
+            {!imageLoaded && !imageError && (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="animate-pulse">
+                    <div className="w-64 h-64 bg-main-700 rounded-lg mx-auto mb-4"></div>
+                  </div>
+                  <p className="text-asparagus-300">Loading image...</p>
+                </div>
+              </div>
+            )}
+
+            {/* Actual image with fade-in effect */}
             <img
               src={downloadUrl}
               alt={node.name}
-              className="max-w-full max-h-full object-contain rounded-lg shadow-lg m-4"
+              className={`max-w-full max-h-full object-contain rounded-lg shadow-lg m-4 transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
               style={{ maxHeight: 'calc(100vh - 16rem)' }}
+              loading="lazy"
+              decoding="async"
               onError={(e) => {
                 console.error('Failed to load image:', e)
+                setImageError(true)
+                setImageLoaded(true)
                 // Replace with error message
                 const container = e.currentTarget.parentElement
                 if (container) {
@@ -84,6 +110,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
               }}
               onLoad={() => {
                 console.log(`Successfully loaded image: ${node.name}`)
+                setImageLoaded(true)
               }}
             />
           </div>
