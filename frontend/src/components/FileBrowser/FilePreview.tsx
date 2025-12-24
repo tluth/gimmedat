@@ -71,13 +71,11 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
       if (downloadUrl) {
         return (
           <div className="flex-1 overflow-auto flex items-center justify-center p-4 min-h-0 relative">
-            {/* Loading skeleton - shown while image is loading */}
+            {/* Loading spinner - shown while image is loading */}
             {!imageLoaded && !imageError && (
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="animate-pulse">
-                    <div className="w-64 h-64 bg-main-700 rounded-lg mx-auto mb-4"></div>
-                  </div>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-asparagus-400 mx-auto mb-4"></div>
                   <p className="text-asparagus-300">Loading image...</p>
                 </div>
               </div>
@@ -87,7 +85,7 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
             <img
               src={downloadUrl}
               alt={node.name}
-              className={`max-w-full max-h-full object-contain rounded-lg shadow-lg m-4 transition-opacity duration-300 ${imageLoaded ? 'opacity-100' : 'opacity-0'
+              className={`max-w-full max-h-full object-contain rounded-lg shadow-lg m-4 transition-opacity duration-500 ${imageLoaded ? 'opacity-100' : 'opacity-0'
                 }`}
               style={{ maxHeight: 'calc(100vh - 16rem)' }}
               loading="lazy"
