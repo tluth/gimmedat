@@ -33,14 +33,19 @@ export const FilePreview: React.FC<FilePreviewProps> = ({
   downloadUrl
 }) => {
   const codeRef = useRef<HTMLElement>(null)
+  // Use a key that changes when node.path or downloadUrl changes to reset state
+  const resetKey = `${node.path}-${downloadUrl}`
   const [imageLoaded, setImageLoaded] = useState(false)
   const [imageError, setImageError] = useState(false)
 
   // Reset image loading state when node or downloadUrl changes
   useEffect(() => {
-    setImageLoaded(false)
-    setImageError(false)
-  }, [node.path, downloadUrl])
+    // Reset state when dependencies change
+    return () => {
+      setImageLoaded(false)
+      setImageError(false)
+    }
+  }, [resetKey])
 
   // Apply syntax highlighting after content changes
   useEffect(() => {

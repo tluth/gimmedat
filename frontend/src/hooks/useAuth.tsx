@@ -74,7 +74,7 @@ const useProvideAuth = (): UseAuth => {
       setUsername(user.username)
       setSession(authSession as AuthSession)
       setIsAuthenticated(true)
-    } catch (error) {
+    } catch {
       setUsername("")
       setSession(null)
       setIsAuthenticated(false)
@@ -139,7 +139,7 @@ const useProvideAuth = (): UseAuth => {
       setSession(null)
       setIsAuthenticated(false)
       return { success: true, message: "" }
-    } catch (error) {
+    } catch {
       return {
         success: false,
         message: "LOGOUT FAIL",

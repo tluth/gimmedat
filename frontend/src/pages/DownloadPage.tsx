@@ -10,9 +10,6 @@ const DownloadPage = () => {
 
   const params = useParams()
   const fileId = params.fileId
-  useEffect(() => {
-    getPresignedDownloadURL(fileId as string)
-  }, [fileId])
 
   const getPresignedDownloadURL = (fileId: string) => {
     const url = `${API}/file/${fileId}`
@@ -31,6 +28,10 @@ const DownloadPage = () => {
         })
     })
   }
+  
+  useEffect(() => {
+    getPresignedDownloadURL(fileId as string)
+  }, [fileId, getPresignedDownloadURL])
 
   return (
     <div className="mx-auto sm:max-w-[80%] sm:min-w-[50%] min-w-[75%] pt-[2%] inline-block">
