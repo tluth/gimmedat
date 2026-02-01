@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useParams } from "react-router-dom"
 import { API } from "../constants"
 import LoadingSpinner from "../components/LoadingSpinner"
@@ -10,11 +10,8 @@ const DownloadPage = () => {
 
   const params = useParams()
   const fileId = params.fileId
-  useEffect(() => {
-    getPresignedDownloadURL(fileId as string)
-  }, [fileId])
 
-  const getPresignedDownloadURL = (fileId: string) => {
+  const getPresignedDownloadURL = useCallback((fileId: string) => {
     const url = `${API}/file/${fileId}`
     return new Promise(function () {
       fetch(url, { method: "GET" })
@@ -30,7 +27,11 @@ const DownloadPage = () => {
           setTtl(json.ttl)
         })
     })
-  }
+  }, [])
+
+  useEffect(() => {
+    getPresignedDownloadURL(fileId as string)
+  }, [fileId, getPresignedDownloadURL])
 
   return (
     <div className="mx-auto sm:max-w-[80%] sm:min-w-[50%] min-w-[75%] pt-[2%] inline-block">

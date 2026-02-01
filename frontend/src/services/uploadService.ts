@@ -74,7 +74,7 @@ export class UploadService {
                   reject(new Error(error))
                 },
               })
-            } catch (parseError) {
+            } catch {
               const errorMsg = "Failed to parse response"
               onError?.(errorMsg)
               reject(new Error(errorMsg))
