@@ -1,29 +1,35 @@
-const {
+import {
     defineConfig,
     globalIgnores,
-} = require("eslint/config");
+} from "eslint/config"
 
-const globals = require("globals");
+import globals from "globals"
 
-const {
+import {
     fixupConfigRules,
-} = require("@eslint/compat");
+} from "@eslint/compat"
 
-const tsParser = require("@typescript-eslint/parser");
-const reactRefresh = require("eslint-plugin-react-refresh");
-const js = require("@eslint/js");
+import tsParser from "@typescript-eslint/parser"
+import reactRefresh from "eslint-plugin-react-refresh"
+import js from "@eslint/js"
 
-const {
+import {
     FlatCompat,
-} = require("@eslint/eslintrc");
+} from "@eslint/eslintrc"
+
+import { fileURLToPath } from "url"
+import { dirname } from "path"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 const compat = new FlatCompat({
     baseDirectory: __dirname,
     recommendedConfig: js.configs.recommended,
     allConfig: js.configs.all
-});
+})
 
-module.exports = defineConfig([{
+export default defineConfig([{
     languageOptions: {
         globals: {
             ...globals.browser,
@@ -49,4 +55,4 @@ module.exports = defineConfig([{
             allowConstantExport: true,
         }],
     },
-}, globalIgnores(["**/dist", "**/.eslintrc.cjs"])]);
+}, globalIgnores(["**/dist", "**/.eslintrc.cjs"])])

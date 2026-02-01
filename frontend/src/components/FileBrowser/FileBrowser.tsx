@@ -11,11 +11,8 @@ import { PocketdatFileService } from '@/services/pocketdatFileService'
 import { TreeNode } from './types'
 import { validateFolderName } from './utils'
 
-
-
-interface FileBrowserProps {
-  // No props yet
-}
+// Currently no props, but keeping type for future extensibility
+type FileBrowserProps = Record<string, never>
 
 export const FileBrowser: React.FC<FileBrowserProps> = () => {
   const { session, isLoading: isAuthLoading, isAuthenticated } = useAuth()

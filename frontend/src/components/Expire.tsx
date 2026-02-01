@@ -22,13 +22,10 @@ const Expire = ({ trigger, delay, isVisible, children }: ExpireProps) => {
     }
   }, [delay, trigger])
 
-  useEffect(() => {
-    if (trigger === "programmatical") {
-      setVisible(isVisible!)
-    }
-  }, [isVisible, trigger])
+  // For programmatical trigger, use the prop directly instead of syncing to state
+  const shouldBeVisible = trigger === "programmatical" ? isVisible : visible
 
-  return visible ? <React.Fragment>{children}</React.Fragment> : null
+  return shouldBeVisible ? <React.Fragment>{children}</React.Fragment> : null
 }
 
 export default Expire
