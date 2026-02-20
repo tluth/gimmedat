@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@aws-amplify/auth':
-        specifier: ^6.13.3
-        version: 6.13.3(@aws-amplify/core@6.12.3)
+        specifier: ^6.19.1
+        version: 6.19.1(@aws-amplify/core@6.12.3)
       '@aws-amplify/ui-react':
         specifier: ^6.15.0
         version: 6.15.0(@aws-amplify/core@6.12.3)(@types/react-dom@18.3.0)(@types/react@18.3.2)(aws-amplify@6.15.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(xstate@4.38.3)
@@ -173,6 +173,15 @@ packages:
     resolution: {integrity: sha512-8kdLcZ+/k6E9H7+JS7mgLVuhbizngyDTBE653Ftqtl/7WSwO0/VS8J1O6/pcqG7vYC6v5i9QsIQqBQmV9oaBpQ==}
     peerDependencies:
       '@aws-amplify/core': ^6.1.0
+
+  '@aws-amplify/auth@6.19.1':
+    resolution: {integrity: sha512-N6bqBUEly/xUiho0X5oGhLEDlQTWsj1i0FquDYsyuav5e9HHQBLNgG1zmpq28lyxtDaUREi/IDx+CD10EpcPcQ==}
+    peerDependencies:
+      '@aws-amplify/core': ^6.1.0
+      '@aws-amplify/react-native': ^1.1.10
+    peerDependenciesMeta:
+      '@aws-amplify/react-native':
+        optional: true
 
   '@aws-amplify/core@6.12.3':
     resolution: {integrity: sha512-n5cFIANzlFMNZoe6F386UVhmxg65QK6XvcKERow2KeJHnVKPvXKJ1uZeJeaInxtI+xw3qbbBP60NYWUny+nWnQ==}
@@ -3293,6 +3302,13 @@ snapshots:
       tslib: 2.6.2
 
   '@aws-amplify/auth@6.13.3(@aws-amplify/core@6.12.3)':
+    dependencies:
+      '@aws-amplify/core': 6.12.3
+      '@aws-crypto/sha256-js': 5.2.0
+      '@smithy/types': 3.7.2
+      tslib: 2.6.2
+
+  '@aws-amplify/auth@6.19.1(@aws-amplify/core@6.12.3)':
     dependencies:
       '@aws-amplify/core': 6.12.3
       '@aws-crypto/sha256-js': 5.2.0
