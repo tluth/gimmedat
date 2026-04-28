@@ -66,24 +66,24 @@ const useProvideAuth = (): UseAuth => {
   const [username, setUsername] = useState("")
   const [session, setSession] = useState<AuthSession | null>(null)
 
-  const checkAuthStatus = async () => {
-    try {
-      setIsLoading(true)
-      const user = await getCurrentUser()
-      const authSession = await fetchAuthSession()
-      setUsername(user.username)
-      setSession(authSession as AuthSession)
-      setIsAuthenticated(true)
-    } catch {
-      setUsername("")
-      setSession(null)
-      setIsAuthenticated(false)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        setIsLoading(true)
+        const user = await getCurrentUser()
+        const authSession = await fetchAuthSession()
+        setUsername(user.username)
+        setSession(authSession as AuthSession)
+        setIsAuthenticated(true)
+      } catch {
+        setUsername("")
+        setSession(null)
+        setIsAuthenticated(false)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
     // Initial auth check
     checkAuthStatus()
 
