@@ -110,7 +110,7 @@ const ContactPage = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="ro_crum@gmail.com" {...field} name="email"/>
+                <Input type="email" placeholder="ro_crum@gmail.com" {...field} name="email"/>
               </FormControl>
               <FormMessage />
             </FormItem>

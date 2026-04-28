@@ -100,6 +100,7 @@ const EmailForm = ({
                   <FormItem>
                     <FormControl>
                       <Input
+                        type="email"
                         placeholder="Recipient email"
                         disabled={!isChecked}
                         {...field}
