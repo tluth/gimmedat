@@ -15,7 +15,7 @@ importers:
         specifier: ^6.15.0
         version: 6.15.0(@aws-amplify/core@6.16.1)(@types/react-dom@18.3.0)(@types/react@18.3.2)(aws-amplify@6.16.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(xstate@4.38.3)
       '@emailjs/browser':
-        specifier: ^4.3.3
+        specifier: ^4.4.1
         version: 4.4.1
       '@eslint/compat':
         specifier: ^2.0.2
@@ -75,7 +75,7 @@ importers:
         specifier: ^7.51.4
         version: 7.51.4(react@18.3.1)
       react-icons:
-        specifier: ^5.2.0
+        specifier: ^5.2.1
         version: 5.2.1(react@18.3.1)
       react-router-dom:
         specifier: ^6.30.3
@@ -94,19 +94,19 @@ importers:
         version: 3.25.76
     devDependencies:
       '@eslint/js':
-        specifier: ^9.28.0
+        specifier: ^9.38.0
         version: 9.38.0
       '@tanstack/eslint-plugin-query':
-        specifier: ^5.78.0
+        specifier: ^5.91.2
         version: 5.91.2(eslint@9.39.2(jiti@1.21.7))(typescript@5.4.5)
       '@types/node':
         specifier: ^22.19.1
         version: 22.19.1
       '@types/react':
-        specifier: ^18.2.66
+        specifier: ^18.3.2
         version: 18.3.2
       '@types/react-dom':
-        specifier: ^18.2.22
+        specifier: ^18.3.0
         version: 18.3.0
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.54.0
@@ -127,10 +127,10 @@ importers:
         specifier: ^7.0.1
         version: 7.0.1(eslint@9.39.2(jiti@1.21.7))
       eslint-plugin-react-refresh:
-        specifier: ^0.4.6
+        specifier: ^0.4.7
         version: 0.4.7(eslint@9.39.2(jiti@1.21.7))
       globals:
-        specifier: ^16.2.0
+        specifier: ^16.4.0
         version: 16.4.0
       postcss:
         specifier: ^8.4.38
@@ -139,7 +139,7 @@ importers:
         specifier: ^3.4.19
         version: 3.4.19
       typescript:
-        specifier: ^5.2.2
+        specifier: ^5.4.5
         version: 5.4.5
       vite:
         specifier: ^7.3.2
@@ -2283,9 +2283,9 @@ packages:
     resolution: {integrity: sha512-/imKNG4EbWNrVjoNC/1H5/9GFy+tqjGBHCaSsN+P2RnPqjsLmv6UD3Ej+Kj8nBWaRAwyk7kK5ZUc+OEatnTR3A==}
     hasBin: true
 
-  js-cookie@3.0.5:
-    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
-    engines: {node: '>=14'}
+  js-cookie@3.0.7:
+    resolution: {integrity: sha512-z/wZZgDrkNV1eA0ULjM/F9/50Ya8fbzgKneSpoPsXSGd0KnpdtHfOZWK+GcwLk+EZbS4F9RBhU+K2RgzuDaItw==}
+    engines: {node: '>=20'}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -3075,7 +3075,7 @@ snapshots:
       '@aws-sdk/types': 3.973.1
       '@smithy/util-hex-encoding': 2.0.0
       '@types/uuid': 9.0.8
-      js-cookie: 3.0.5
+      js-cookie: 3.0.7
       rxjs: 7.8.2
       tslib: 2.6.2
       uuid: 11.1.0
@@ -5664,7 +5664,7 @@ snapshots:
 
   jiti@1.21.7: {}
 
-  js-cookie@3.0.5: {}
+  js-cookie@3.0.7: {}
 
   js-tokens@4.0.0: {}
 
